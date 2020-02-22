@@ -1,0 +1,23 @@
+{
+  "name": "pant",
+  "version": "0.0.1",
+  "description": "Mobile UI Components built on Preact",
+  "keywords": [
+    "preact",
+    "ui"
+  ],
+  "author": "Gary Wang",
+  "license": "MIT",
+  "homepage": "https://github.com/webyom/pant",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webyom/pant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webyom/pant/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
