@@ -1,6 +1,6 @@
 {
   "name": "pant",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Mobile UI Components built on Preact",
   "keywords": [
     "preact",
@@ -16,8 +16,43 @@
   "bugs": {
     "url": "https://github.com/webyom/pant/issues"
   },
-  "main": "index.js",
+  "main": "dist/lib/index.js",
+  "module": "dist/es/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:lib": "tsc -d -m commonjs --outDir dist/lib",
+    "build:es": "tsc -d -m esNext --outDir dist/es",
+    "build": "rm -rf dist && npm run build:lib && npm run build:es && gulp scss",
+    "tsc-check": "tsc --outDir .tsc-check/",
+    "eslint": "eslint src/*.ts src/**/*.ts",
+    "eslint:fix": "eslint src/*.ts src/**/*.ts --fix",
+    "stylelint": "stylelint src/**/*.scss",
+    "stylelint:fix": "stylelint src/**/*.scss --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint && npm run stylelint && npm run tsc-check"
+    }
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.17.0",
+    "gulp": "^4.0.2",
+    "husky": "^3.0.9",
+    "preact": "^10.3.2",
+    "prettier": "^1.19.1",
+    "require-all": "^2.0.0",
+    "run-sequence": "^1.1.5",
+    "stylelint": "^12.0.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-scss": "^3.13.0",
+    "typescript": "^3.6.4"
+  },
+  "peerDependencies": {
+    "preact": ">=10.2.1"
   }
 }

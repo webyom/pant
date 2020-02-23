@@ -1,0 +1,114 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "globals": {},
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "import",
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "no-console": 2,
+    // Variables
+    "no-unused-vars": 0,
+    // Stylistic Issues
+    "consistent-this": [
+      2,
+      "self"
+    ],
+    "lines-between-class-members": [
+      2,
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "padding-line-between-statements": [
+      2,
+      {
+        "blankLine": "always",
+        "prev": [
+          "export",
+          "class",
+          "block-like"
+        ],
+        "next": [
+          "export",
+          "class",
+          "block-like"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": [
+          "import",
+          "cjs-import"
+        ],
+        "next": "*"
+      },
+      {
+        "blankLine": "never",
+        "prev": [
+          "import",
+          "cjs-import"
+        ],
+        "next": [
+          "import",
+          "cjs-import"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "export",
+          "cjs-export"
+        ]
+      }
+    ],
+    "prefer-const": [
+      2,
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+      }
+    ],
+    "spaced-comment": [
+      2,
+      "always",
+      {
+        "exceptions": [
+          "-+"
+        ]
+      }
+    ],
+    // Import
+    "import/no-duplicates": 2,
+    "import/no-unresolved": 0,
+    // React
+    "react/jsx-uses-vars": 2,
+    // Typescript
+    "@typescript-eslint/camelcase": [
+      2,
+      {
+        "properties": "never"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-var-requires": 0,
+    // Prettier
+    "prettier/prettier": "error"
+  }
+}
