@@ -1,1 +1,1 @@
-export { Loading } from './loading';
+export default 'DO IMPORT COMPONENT FROM ITS SUB FOLDER';
