@@ -1,3 +1,4 @@
-/dist/
+/lib/
+/es/
 /*.json
 /*.js

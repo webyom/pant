@@ -1,6 +1,7 @@
 /.vscode/
 /.tsc-check/
-/dist/
+/lib/
+/es/
 /yarn.lock
 *~
 

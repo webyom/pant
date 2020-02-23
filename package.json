@@ -16,12 +16,12 @@
   "bugs": {
     "url": "https://github.com/webyom/pant/issues"
   },
-  "main": "dist/lib/index.js",
-  "module": "dist/es/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
-    "build:lib": "tsc -d -m commonjs --outDir dist/lib",
-    "build:es": "tsc -d -m esNext --outDir dist/es",
-    "build": "rm -rf dist && npm run build:lib && npm run build:es && gulp scss",
+    "build:lib": "tsc -d -m commonjs --outDir lib",
+    "build:es": "tsc -d -m esNext --outDir es",
+    "build": "rm -rf lib es && npm run build:lib && npm run build:es && gulp scss",
     "tsc-check": "tsc --outDir .tsc-check/",
     "eslint": "eslint src/*.ts src/**/*.ts",
     "eslint:fix": "eslint src/*.ts src/**/*.ts --fix",
