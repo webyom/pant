@@ -1,10 +1,5 @@
 /.tsc-check/
 /.vscode/
-/.build-cache/
-/build/
-/www/build/
-/config/
-/gulp/
 /src/
 /types/
 *.map

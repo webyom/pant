@@ -1,12 +1,8 @@
 /.vscode/
 /.tsc-check/
-/.build-cache/
-/build/
-/www/build/
 /lib/
 /es/
 /yarn.lock
-/config/local.json
 *~
 
 

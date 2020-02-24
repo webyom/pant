@@ -1,8 +1,0 @@
-{
-  "viewportWidth": 375,
-  "serverPort": 5000,
-  "debugPort": 9229,
-  "runtime": {
-    "cdnBase": ""
-  }
-}

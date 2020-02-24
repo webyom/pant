@@ -1,12 +1,8 @@
-const gulp = require('gulp'),
-  requireAll = require('require-all');
+const gulp = require('gulp');
 
-require('@mlz/webui-gulp')
-  .use(gulp)
-  .loadTasks();
-
-requireAll({
-  dirname: __dirname + '/gulp',
-  filter: /(.*)\.js$/,
-  recursive: true
+gulp.task('scss', function() {
+  return gulp
+    .src('src/**/*.scss')
+    .pipe(gulp.dest('es'))
+    .pipe(gulp.dest('lib'));
 });
