@@ -21,7 +21,7 @@
   "scripts": {
     "build:lib": "tsc -d -m commonjs --outDir lib",
     "build:es": "tsc -d -m esNext --outDir es",
-    "build": "rm -rf lib es && npm run build:lib && npm run build:es && gulp scss",
+    "build": "rm -rf lib es && npm run build:lib && npm run build:es && gulp lib:scss",
     "tsc-check": "tsc --outDir .tsc-check/",
     "eslint": "eslint src/*.ts src/**/*.ts",
     "eslint:fix": "eslint src/*.ts src/**/*.ts --fix",
@@ -34,6 +34,7 @@
     }
   },
   "devDependencies": {
+    "@mlz/webui-gulp": "0.44.0",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
     "eslint": "^6.5.1",
@@ -41,7 +42,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.17.0",
-    "gulp": "^4.0.2",
+    "gulp": "^3.9.0",
     "husky": "^3.0.9",
     "preact": "^10.3.2",
     "prettier": "^1.19.1",
