@@ -25,8 +25,8 @@
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
     "tsc-check": "tsc --outDir .tsc-check/",
-    "eslint": "eslint src/*.ts src/**/*.ts",
-    "eslint:fix": "eslint src/*.ts src/**/*.ts --fix",
+    "eslint": "eslint --ext ts,tsx src",
+    "eslint:fix": "eslint --ext ts,tsx src --fix",
     "stylelint": "stylelint src/**/*.scss",
     "stylelint:fix": "stylelint src/**/*.scss --fix"
   },
@@ -57,5 +57,8 @@
   },
   "peerDependencies": {
     "preact": ">=10.2.1"
+  },
+  "dependencies": {
+    "clsx": "^1.1.0"
   }
 }

@@ -39,19 +39,6 @@
       {
         "blankLine": "always",
         "prev": [
-          "export",
-          "class",
-          "block-like"
-        ],
-        "next": [
-          "export",
-          "class",
-          "block-like"
-        ]
-      },
-      {
-        "blankLine": "always",
-        "prev": [
           "import",
           "cjs-import"
         ],
@@ -66,14 +53,6 @@
         "next": [
           "import",
           "cjs-import"
-        ]
-      },
-      {
-        "blankLine": "always",
-        "prev": "*",
-        "next": [
-          "export",
-          "cjs-export"
         ]
       }
     ],

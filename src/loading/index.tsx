@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import clsx from 'clsx';
 import { addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
 import './index.scss';
@@ -11,7 +12,8 @@ export type LoadingProps = {
   size?: string | number;
   vertical?: boolean;
   textSize?: string | number;
-  children?: preact.JSX.Element | string;
+  className?: string;
+  children?: string;
 };
 
 const bem = createBEM('pant-loading');
@@ -58,7 +60,7 @@ export function Loading(props: LoadingProps): preact.JSX.Element {
   }
 
   return (
-    <div className={bem([type, { vertical: props.vertical }])}>
+    <div className={clsx(bem([type, { vertical: props.vertical }]), props.className)}>
       <span className={bem('spinner', type)} style={style}>
         <LoadingIcon {...props} />
       </span>
