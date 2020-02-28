@@ -1,10 +1,11 @@
 {
   "name": "pant",
   "version": "0.0.2",
-  "description": "Mobile UI Components built on Preact",
+  "description": "Mobile UI Components built on Preact, Ported from Vant",
   "keywords": [
     "preact",
-    "ui"
+    "ui",
+    "vant"
   ],
   "author": "Gary Wang",
   "license": "MIT",

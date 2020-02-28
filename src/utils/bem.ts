@@ -7,9 +7,9 @@
  * b(['disabled', 'primary']) // 'button button--disabled button--primary'
  */
 
-export type Mod = string | { [key: string]: any };
+export type BemMod = string | Record<string, any>;
 
-export type Mods = Mod | Mod[];
+export type BemMods = BemMod | BemMod[];
 
 const ELEMENT = '__';
 const MODS = '--';
@@ -18,7 +18,7 @@ function join(name: string, el?: string, symbol?: string): string {
   return el ? name + symbol + el : name;
 }
 
-function prefix(name: string, mods: Mods): string {
+function prefix(name: string, mods: BemMods): string {
   if (typeof mods === 'string') {
     return join(name, mods, MODS);
   }
@@ -40,7 +40,7 @@ function prefix(name: string, mods: Mods): string {
 }
 
 export function createBEM(name: string) {
-  return function(el?: Mods, mods?: Mods): string {
+  return function(el?: BemMods, mods?: BemMods): string {
     let res: string;
     if (typeof el === 'string') {
       res = join(name, el, ELEMENT);
