@@ -1,6 +1,6 @@
 @import '../styles/var.scss';
 
-.van-button {
+.pant-button {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
@@ -75,19 +75,19 @@
   &--plain {
     background-color: $button-plain-background-color;
 
-    &.van-button--primary {
+    &.pant-button--primary {
       color: $button-primary-background-color;
     }
 
-    &.van-button--info {
+    &.pant-button--info {
       color: $button-info-background-color;
     }
 
-    &.van-button--danger {
+    &.pant-button--danger {
       color: $button-danger-background-color;
     }
 
-    &.van-button--warning {
+    &.pant-button--warning {
       color: $button-warning-background-color;
     }
   }
@@ -124,7 +124,7 @@
     font-size: $button-mini-font-size;
     line-height: $button-mini-line-height;
 
-    & + .van-button--mini {
+    & + .pant-button--mini {
       margin-left: $padding-base;
     }
   }
@@ -173,11 +173,11 @@
       border-radius: $button-border-radius * 2;
     }
 
-    &.van-button--round::after {
+    &.pant-button--round::after {
       border-radius: $button-round-border-radius;
     }
 
-    &.van-button--square::after {
+    &.pant-button--square::after {
       border-radius: 0;
     }
   }

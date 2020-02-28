@@ -5,7 +5,7 @@ import { createBEM } from '../utils/bem';
 import { Info } from '../info';
 import './index.scss';
 
-const bem = createBEM('pant-img');
+const bem = createBEM('pant-icon');
 
 export type IconProps = {
   dot?: boolean;

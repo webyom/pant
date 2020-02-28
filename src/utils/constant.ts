@@ -5,7 +5,7 @@ export const GREEN = '#07c160';
 export const WHITE = '#fff';
 
 // border
-export const BORDER = 'van-hairline';
+export const BORDER = 'pant-hairline';
 export const BORDER_TOP = `${BORDER}--top`;
 export const BORDER_LEFT = `${BORDER}--left`;
 export const BORDER_RIGHT = `${BORDER}--right`;

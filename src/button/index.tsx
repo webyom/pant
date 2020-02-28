@@ -13,6 +13,7 @@ export type ButtonSize = 'large' | 'normal' | 'small' | 'mini';
 export type ButtonProps = {
   type: ButtonType;
   size: ButtonSize;
+  url?: string;
   text?: string;
   icon?: string;
   color?: string;
@@ -34,7 +35,7 @@ export type ButtonProps = {
 const bem = createBEM('pant-button');
 
 export function Button(props: ButtonProps): preact.JSX.Element {
-  const { icon, type, color, plain, disabled, loading, hairline, loadingText } = props;
+  const { url, icon, type, color, plain, disabled, loading, hairline, loadingText } = props;
 
   const style: Record<string, string | number> = {};
 
@@ -102,9 +103,23 @@ export function Button(props: ButtonProps): preact.JSX.Element {
     return content;
   }
 
-  return (
-    <button style={style} className={clsx(classes)} type={props.nativeType} disabled={disabled} onClick={onClick}>
-      {Content()}
-    </button>
-  );
+  if (url) {
+    return (
+      <a href={url} style={style} className={clsx(classes)} disabled={disabled}>
+        {Content()}
+      </a>
+    );
+  } else {
+    return (
+      <button style={style} className={clsx(classes)} type={props.nativeType} disabled={disabled} onClick={onClick}>
+        {Content()}
+      </button>
+    );
+  }
 }
+
+Button.defaultProps = {
+  type: 'default',
+  size: 'normal',
+  loadingSize: '20px',
+};
