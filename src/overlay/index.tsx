@@ -4,8 +4,6 @@ import { createBEM } from '../utils/bem';
 import { preventDefault } from '../utils/event';
 import './index.scss';
 
-const bem = createBEM('pant-overlay');
-
 export type OverlayProps = {
   show?: boolean;
   zIndex?: number | string;
@@ -15,6 +13,8 @@ export type OverlayProps = {
   children?: preact.JSX.Element;
   onClick?(event: Event): void;
 };
+
+const bem = createBEM('pant-overlay');
 
 function preventTouchMove(event: TouchEvent): void {
   preventDefault(event, true);
