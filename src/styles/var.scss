@@ -110,3 +110,7 @@ $info-background-color: $red;
 $info-dot-color: $red;
 $info-dot-size: 8px;
 $info-font-family: PingFang SC, Helvetica Neue, Arial, sans-serif;
+
+// Overlay
+$overlay-z-index: 1;
+$overlay-background-color: rgba(0, 0, 0, 0.7);
