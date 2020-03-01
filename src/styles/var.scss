@@ -111,6 +111,21 @@ $info-dot-color: $red;
 $info-dot-size: 8px;
 $info-font-family: PingFang SC, Helvetica Neue, Arial, sans-serif;
 
+// Tag
+$tag-padding: 0.2em 0.5em;
+$tag-font-size: $font-size-xs;
+$tag-medium-font-size: $font-size-sm;
+$tag-large-font-size: $font-size-md;
+$tag-text-color: $white;
+$tag-border-radius: 0.2em;
+$tag-round-border-radius: $border-radius-max;
+$tag-danger-color: $red;
+$tag-primary-color: $blue;
+$tag-success-color: $green;
+$tag-warning-color: $orange;
+$tag-default-color: $gray-6;
+$tag-plain-background-color: $white;
+
 // Toast
 $toast-max-width: 70%;
 $toast-font-size: $font-size-md;
