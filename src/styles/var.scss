@@ -92,6 +92,24 @@ $button-round-border-radius: $border-radius-max;
 $button-plain-background-color: $white;
 $button-disabled-opacity: $disabled-opacity;
 
+// Card
+$card-padding: $padding-xs $padding-md;
+$card-font-size: $font-size-sm;
+$card-text-color: $text-color;
+$card-background-color: $background-color-light;
+$card-thumb-size: 88px;
+$card-thumb-border-radius: $border-radius-lg;
+$card-title-line-height: 16px;
+$card-desc-color: $gray-7;
+$card-desc-line-height: 20px;
+$card-price-color: $gray-8;
+$card-origin-price-color: $gray-6;
+$card-num-color: $gray-6;
+$card-origin-price-font-size: $font-size-xs;
+$card-price-font-size: $font-size-sm;
+$card-price-integer-font-size: $font-size-lg;
+$card-price-font-family: $price-integer-font-family;
+
 // Image
 $image-placeholder-text-color: $gray-6;
 $image-placeholder-font-size: $font-size-md;

@@ -15,8 +15,8 @@ export type ImgProps = {
   lazyLoad?: boolean;
   showError?: boolean;
   showLoading?: boolean;
-  errorComponent?: string | preact.VNode;
-  loadingComponent?: string | preact.VNode;
+  errorNode?: string | preact.VNode;
+  loadingNode?: string | preact.VNode;
   errorIcon?: string;
   loadingIcon?: string;
   onClick?(event: Event): void;
@@ -72,7 +72,7 @@ export class Img extends preact.Component<ImgProps, ImgState> {
     if (this.state.loading && props.showLoading) {
       return (
         <div class={bem('loading')}>
-          {props.loadingComponent || <Icon name={props.loadingIcon} className={bem('loading-icon')} />}
+          {props.loadingNode || <Icon name={props.loadingIcon} className={bem('loading-icon')} />}
         </div>
       );
     }
@@ -80,7 +80,7 @@ export class Img extends preact.Component<ImgProps, ImgState> {
     if (this.state.error && props.showError) {
       return (
         <div class={bem('error')}>
-          {props.errorComponent || <Icon name={props.errorIcon} className={bem('error-icon')} />}
+          {props.errorNode || <Icon name={props.errorIcon} className={bem('error-icon')} />}
         </div>
       );
     }
