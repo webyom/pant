@@ -7,7 +7,7 @@ export type RowProps = {
   align?: string;
   justify?: string;
   gutter?: number | string;
-  children?: preact.VNode[];
+  children?: preact.VNode | preact.VNode[];
   onClick?(event: Event): void;
 };
 
@@ -18,7 +18,9 @@ export function Row(props: RowProps): preact.JSX.Element {
   const flex = props.type === 'flex';
   const margin = `-${Number(props.gutter) / 2}px`;
   const style = props.gutter ? { marginLeft: margin, marginRight: margin } : {};
-  const childrenWithProps = props.children.map(child => preact.cloneElement(child, { gutter: props.gutter }));
+  const childrenWithProps = []
+    .concat(props.children)
+    .map(child => preact.cloneElement(child, { gutter: props.gutter }));
 
   return (
     <div
