@@ -15,8 +15,8 @@ export type ImgProps = {
   lazyLoad?: boolean;
   showError?: boolean;
   showLoading?: boolean;
-  errorComponent?: preact.JSX.Element;
-  loadingComponent?: preact.JSX.Element;
+  errorComponent?: string | preact.VNode;
+  loadingComponent?: string | preact.VNode;
   errorIcon?: string;
   loadingIcon?: string;
   onClick?(event: Event): void;
@@ -60,7 +60,7 @@ export class Img extends preact.Component<ImgProps, ImgState> {
       <img
         src={props.src}
         onLoad={(): void => this.setState({ loading: false })}
-        onError={(): void => this.setState({ error: true })}
+        onError={(): void => this.setState({ loading: false, error: true })}
         {...imgData}
       />
     );
@@ -117,7 +117,6 @@ export class Img extends preact.Component<ImgProps, ImgState> {
 }
 
 Img.defaultProps = {
-  alt: '',
   round: false,
   showError: true,
   showLoading: true,
