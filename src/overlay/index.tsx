@@ -10,7 +10,7 @@ export type OverlayProps = {
   duration?: number;
   className?: any;
   customStyle?: object;
-  children?: preact.JSX.Element;
+  children?: preact.VNode | preact.VNode[];
   onClick?(event: Event): void;
 };
 

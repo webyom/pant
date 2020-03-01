@@ -56,13 +56,6 @@ $border-radius-md: 4px;
 $border-radius-lg: 8px;
 $border-radius-max: 999px;
 
-// Loading
-$loading-text-color: $gray-6;
-$loading-text-font-size: $font-size-md;
-$loading-spinner-color: $gray-5;
-$loading-spinner-size: 30px;
-$loading-spinner-animation-duration: 0.8s;
-
 // Button
 $button-mini-height: 22px;
 $button-mini-min-width: 50px;
@@ -99,6 +92,13 @@ $button-round-border-radius: $border-radius-max;
 $button-plain-background-color: $white;
 $button-disabled-opacity: $disabled-opacity;
 
+// Image
+$image-placeholder-text-color: $gray-6;
+$image-placeholder-font-size: $font-size-md;
+$image-placeholder-background-color: $background-color;
+$image-loading-icon-size: 22px;
+$image-error-icon-size: 22px;
+
 // Info
 $info-size: 16px;
 $info-color: $white;
@@ -110,6 +110,13 @@ $info-background-color: $red;
 $info-dot-color: $red;
 $info-dot-size: 8px;
 $info-font-family: PingFang SC, Helvetica Neue, Arial, sans-serif;
+
+// Loading
+$loading-text-color: $gray-6;
+$loading-text-font-size: $font-size-md;
+$loading-spinner-color: $gray-5;
+$loading-spinner-size: 30px;
+$loading-spinner-animation-duration: 0.8s;
 
 // Tag
 $tag-padding: 0.2em 0.5em;
