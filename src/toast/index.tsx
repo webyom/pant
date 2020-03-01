@@ -16,7 +16,13 @@ export type ToastReturn = {
 
 export { Toast };
 
-export function toast(opt: ToastOptions): ToastReturn {
+export function toast(options: string | ToastOptions): ToastReturn {
+  let opt: ToastOptions;
+  if (typeof options === 'string') {
+    opt = { message: options };
+  } else {
+    opt = options;
+  }
   let container = document.createElement('div');
   container.className = 'pant-toast-container';
   const onClick = function(event: Event): void {

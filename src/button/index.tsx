@@ -28,6 +28,7 @@ export type ButtonProps = {
   loadingSize: string;
   loadingType?: LoadingType;
   loadingText?: string;
+  className?: string;
   children?: string;
   onClick?(event: Event): void;
 };
@@ -76,6 +77,7 @@ export function Button(props: ButtonProps): preact.JSX.Element {
       },
     ]),
     { [BORDER_SURROUND]: hairline },
+    props.className,
   ];
 
   function Content(): preact.JSX.Element[] {
