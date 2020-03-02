@@ -21,8 +21,9 @@ export type CheckboxProps = {
 
 const bem = createBEM('pant-checkbox');
 
-export function Checkbox(props: CheckboxProps): preact.JSX.Element {
-  function iconStyle(): Record<string, string> {
+export class Checkbox extends preact.Component<CheckboxProps> {
+  iconStyle(): Record<string, string> {
+    const props = this.props;
     const checkedColor = props.checkedColor;
 
     if (checkedColor && props.checked && !props.disabled) {
@@ -33,7 +34,8 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
     }
   }
 
-  function genIcon(): preact.JSX.Element {
+  genIcon(): preact.JSX.Element {
+    const props = this.props;
     const { checked, iconSize } = props;
 
     return (
@@ -41,18 +43,22 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
         class={bem('icon', [props.shape, { disabled: props.disabled, checked }])}
         style={{ fontSize: addUnit(iconSize) }}
       >
-        {props.iconNode || <Icon name="success" style={iconStyle()} />}
+        {props.iconNode || <Icon name="success" style={this.iconStyle()} />}
       </div>
     );
   }
 
-  function genLabel(): preact.JSX.Element {
+  genLabel(): preact.JSX.Element {
+    const props = this.props;
+
     if (props.children) {
       return <span class={bem('label', [props.labelPosition, { disabled: props.disabled }])}>{props.children}</span>;
     }
   }
 
-  function tabindex(): number {
+  tabindex(): number {
+    const props = this.props;
+
     if (props.disabled || (props.role === 'radio' && !props.checked)) {
       return -1;
     }
@@ -60,35 +66,38 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
     return 0;
   }
 
-  function onClick(): void {
+  onClick(): void {
     //
   }
 
-  const Children = [genIcon()];
+  render(): preact.JSX.Element {
+    const props = this.props;
+    const Children = [this.genIcon()];
 
-  if (props.labelPosition === 'left') {
-    Children.unshift(genLabel());
-  } else {
-    Children.push(genLabel());
+    if (props.labelPosition === 'left') {
+      Children.unshift(this.genLabel());
+    } else {
+      Children.push(this.genLabel());
+    }
+
+    return (
+      <div
+        role={props.role}
+        class={bem([
+          {
+            disabled: props.disabled,
+            'label-disabled': props.labelDisabled,
+          },
+          props.direction,
+        ])}
+        tabIndex={this.tabindex()}
+        aria-checked={String(props.checked)}
+        onClick={this.onClick.bind(this)}
+      >
+        {Children}
+      </div>
+    );
   }
-
-  return (
-    <div
-      role={props.role}
-      class={bem([
-        {
-          disabled: props.disabled,
-          'label-disabled': props.labelDisabled,
-        },
-        props.direction,
-      ])}
-      tabIndex={tabindex()}
-      aria-checked={String(props.checked)}
-      onClick={onClick}
-    >
-      {Children}
-    </div>
-  );
 }
 
 Checkbox.defaultProps = {
