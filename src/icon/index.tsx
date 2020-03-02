@@ -5,8 +5,6 @@ import { createBEM } from '../utils/bem';
 import { Info } from '../info';
 import './index.scss';
 
-const bem = createBEM('pant-icon');
-
 export type IconProps = {
   name: string;
   dot?: boolean;
@@ -18,6 +16,8 @@ export type IconProps = {
   style?: Record<string, string>;
   onClick?(event: Event): void;
 };
+
+const bem = createBEM('pant-icon');
 
 function isImage(name?: string): boolean {
   return name ? name.indexOf('/') !== -1 : false;

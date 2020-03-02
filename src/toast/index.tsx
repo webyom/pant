@@ -2,6 +2,8 @@ import * as preact from 'preact';
 import { Toast, ToastProps } from './toast';
 import './index.scss';
 
+export { Toast };
+
 export type ToastOptions = ToastProps & {
   duration?: number;
   closeOnClick?: boolean;
@@ -13,8 +15,6 @@ export type ToastReturn = {
   clear(): void;
   setMessage(message: string): void;
 };
-
-export { Toast };
 
 export function toast(options: string | ToastOptions): ToastReturn {
   let opt: ToastOptions;
