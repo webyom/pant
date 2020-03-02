@@ -1,11 +1,14 @@
 import * as preact from 'preact';
-import { createBEM } from '../utils/bem';
-import './index.scss';
+import { Checkbox, CheckboxProps } from '../checkbox';
 
-export type RadioProps = {};
-
-const bem = createBEM('pant-radio');
+export type RadioProps = {} & CheckboxProps;
 
 export function Radio(props: RadioProps): preact.JSX.Element {
-  return <div className={bem()} {...props}></div>;
+  return <Checkbox {...props} />;
 }
+
+Radio.defaultProps = {
+  checked: false,
+  disabled: false,
+  role: 'radio',
+};

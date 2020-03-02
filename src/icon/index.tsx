@@ -8,13 +8,14 @@ import './index.scss';
 const bem = createBEM('pant-icon');
 
 export type IconProps = {
+  name: string;
   dot?: boolean;
-  name?: string;
   size?: string | number;
   color?: string;
   info?: string | number;
   className?: string;
-  classPrefix: string;
+  classPrefix?: string;
+  style?: Record<string, string>;
   onClick?(event: Event): void;
 };
 
@@ -32,6 +33,7 @@ export function Icon(props: IconProps): preact.JSX.Element {
       style={{
         color: props.color,
         fontSize: addUnit(props.size),
+        ...props.style,
       }}
       onClick={props.onClick}
     >

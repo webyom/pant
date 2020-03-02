@@ -1,6 +1,6 @@
 @import '../styles/var.scss';
 
-.pant-radio {
+.pant-checkbox {
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -22,7 +22,7 @@
   &__icon {
     flex: none;
     height: 1em;
-    font-size: $radio-size;
+    font-size: $checkbox-size;
     line-height: 1em;
     cursor: pointer;
 
@@ -35,8 +35,8 @@
       font-size: 0.8em;
       line-height: inherit;
       text-align: center;
-      border: 1px solid $radio-border-color;
-      transition-duration: $radio-transition-duration;
+      border: 1px solid $checkbox-border-color;
+      transition-duration: $checkbox-transition-duration;
       transition-property: color, border-color, background-color;
     }
 
@@ -49,8 +49,8 @@
     &--checked {
       .pant-icon {
         color: $white;
-        background-color: $radio-checked-icon-color;
-        border-color: $radio-checked-icon-color;
+        background-color: $checkbox-checked-icon-color;
+        border-color: $checkbox-checked-icon-color;
       }
     }
 
@@ -58,23 +58,30 @@
       cursor: not-allowed;
 
       .pant-icon {
-        background-color: $radio-disabled-background-color;
-        border-color: $radio-disabled-icon-color;
+        background-color: $checkbox-disabled-background-color;
+        border-color: $checkbox-disabled-icon-color;
+      }
+    }
+
+    &--disabled#{&}--checked {
+      .pant-icon {
+        color: $checkbox-disabled-icon-color;
       }
     }
   }
 
   &__label {
-    margin-left: $radio-label-margin;
-    color: $radio-label-color;
-    line-height: $radio-size;
+    margin-left: $checkbox-label-margin;
+    color: $checkbox-label-color;
+    line-height: $checkbox-size;
 
     &--left {
-      margin: 0 $radio-label-margin 0 0;
+      margin: 0 $checkbox-label-margin 0 0;
     }
 
     &--disabled {
-      color: $radio-disabled-label-color;
+      color: $checkbox-disabled-label-color;
     }
   }
 }
+
