@@ -147,6 +147,13 @@ $radio-disabled-icon-color: $gray-5;
 $radio-disabled-label-color: $gray-5;
 $radio-disabled-background-color: $border-color;
 
+// Skeleton
+$skeleton-row-height: 16px;
+$skeleton-row-background-color: $active-color;
+$skeleton-row-margin-top: $padding-sm;
+$skeleton-avatar-background-color: $active-color;
+$skeleton-animation-duration: 1.2s;
+
 // SubmitBar
 $submit-bar-height: 50px;
 $submit-bar-z-index: 100;
