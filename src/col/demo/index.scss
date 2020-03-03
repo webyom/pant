@@ -1,0 +1,23 @@
+@import '../../styles/var.scss';
+
+.demo-layout {
+  padding: $padding-md;
+  > section {
+    margin-bottom: $padding-xl;
+    .pant-row {
+      margin-bottom: $padding-xs;
+    }
+    .pant-col {
+      color: white;
+      text-align: center;
+      line-height: 30px;
+      background-clip: content-box;
+      &:nth-child(odd) {
+        background-color: $blue;
+      }
+      &:nth-child(even) {
+        background-color: lighten($blue, 15%);
+      }
+    }
+  }
+}

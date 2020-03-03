@@ -1,0 +1,9 @@
+@import '../../styles/var.scss';
+
+.demo-tag {
+  padding: $padding-md;
+  .pant-tag {
+    margin-right: $padding-xs;
+    margin-bottom: $padding-md;
+  }
+}

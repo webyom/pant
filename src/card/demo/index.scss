@@ -1,0 +1,11 @@
+@import '../../styles/var.scss';
+
+.demo-card {
+  padding: $padding-md 0;
+  > section {
+    margin-bottom: $padding-xl;
+    > h2 {
+      padding: 0 $padding-md;
+    }
+  }
+}

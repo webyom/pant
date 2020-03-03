@@ -1,0 +1,16 @@
+@import '../../styles/var.scss';
+
+.demo-submit-bar {
+  padding: $padding-md 0;
+  background-color: $gray-1;
+  min-height: calc(100vh - 56px);
+  > section {
+    margin-bottom: $padding-xl;
+    > h2 {
+      padding: 0 $padding-md;
+    }
+    .pant-submit-bar {
+      position: relative;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@import '../../styles/var.scss';
+
+.demo-loading {
+  padding: $padding-md;
+  .pant-loading {
+    display: inline-block;
+    margin: $padding-md;
+  }
+  .pant-loading--vertical {
+    display: inline-flex;
+  }
+}

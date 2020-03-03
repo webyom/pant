@@ -1,0 +1,20 @@
+@import '../../styles/var.scss';
+
+.demo-overlay {
+  padding: $padding-md;
+  .pant-button {
+    margin-right: $padding-md;
+    margin-bottom: $padding-md;
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .block {
+    width: 120px;
+    height: 120px;
+    background-color: #fff;
+  }
+}

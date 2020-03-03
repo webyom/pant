@@ -1,0 +1,31 @@
+@import '../../styles/var.scss';
+
+.demo-skeleton {
+  padding: $padding-md;
+  > section {
+    margin-bottom: $padding-xl;
+    .content {
+      display: flex;
+      padding: 0 $padding-md;
+      > img {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        margin-right: 16px;
+      }
+      > div {
+        padding-top: 6px;
+        > h3 {
+          margin: 0;
+          font-size: 18px;
+          line-height: 20px;
+        }
+        > p {
+          margin: 13px 0 0;
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

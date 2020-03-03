@@ -1,0 +1,16 @@
+@import '../../styles/var.scss';
+
+.demo-img {
+  padding: $padding-md;
+  > section {
+    margin-bottom: $padding-lg * 2;
+    .pant-row {
+      margin-bottom: $padding-lg;
+    }
+    .text {
+      margin-top: $padding-base;
+      color: $gray-7;
+      text-align: center;
+    }
+  }
+}

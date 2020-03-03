@@ -1,0 +1,15 @@
+@import '../../styles/var.scss';
+
+.demo-checkbox {
+  padding: $padding-md;
+  > section {
+    margin-bottom: $padding-xl;
+    .pant-checkbox {
+      font-size: $font-size-lg;
+      margin-bottom: $padding-xs;
+      img {
+        height: 20px;
+      }
+    }
+  }
+}
