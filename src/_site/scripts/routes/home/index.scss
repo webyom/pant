@@ -17,6 +17,14 @@
       margin-left: $padding-md;
       vertical-align: middle;
     }
+    > .github {
+      vertical-align: middle;
+      margin-left: $padding-md;
+      > img {
+        width: $font-size-lg * 1.4;
+        height: $font-size-lg * 1.4;
+      }
+    }
   }
   > h2 {
     color: $gray-6;

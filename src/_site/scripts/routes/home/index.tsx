@@ -2,6 +2,7 @@ import * as preact from 'preact';
 import { Link } from 'preact-router/match';
 import { createBEM } from '../../../../utils/bem';
 import logoImg from '../../../assets/logo.png';
+import githubLogo from '../../../assets/github.svg';
 import './index.scss';
 
 const bem = createBEM('demo-home');
@@ -28,6 +29,9 @@ export class HomeRouteComponent extends preact.Component {
         <h1>
           <img src={logoImg} />
           <span>Pant</span>
+          <a class="github" href="https://github.com/webyom/pant">
+            <img src={githubLogo} />
+          </a>
         </h1>
         <h2>
           Mobile UI Components built on Preact
