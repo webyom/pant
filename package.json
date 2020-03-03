@@ -24,15 +24,14 @@
     "build:es": "tsc -d -m esNext --outDir es",
     "build:clean": "rm -rf lib/_site es/_site",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
+    "start": "webpack-dev-server",
+    "deploy": "NODE_ENV=production webpack && gh-pages -d dist",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
     "tsc-check": "tsc --outDir .tsc-check/",
     "eslint": "eslint --ext ts,tsx src",
     "eslint:fix": "eslint --ext ts,tsx src --fix",
     "stylelint": "stylelint src/**/*.scss",
-    "stylelint:fix": "stylelint src/**/*.scss --fix",
-    "site:start": "webpack-dev-server",
-    "site:build": "webpack",
-    "site:deploy": "NODE_ENV=production webpack && gh-pages -d dist"
+    "stylelint:fix": "stylelint src/**/*.scss --fix"
   },
   "husky": {
     "hooks": {
