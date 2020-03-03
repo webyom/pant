@@ -1,0 +1,5 @@
+@import './mixins/clearfix.scss';
+
+.pant-clearfix {
+  @include clearfix();
+}
