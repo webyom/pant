@@ -1,0 +1,93 @@
+import * as preact from 'preact';
+import { Link } from 'preact-router/match';
+import { createBEM } from '../../../../utils/bem';
+import logoImg from '../../../assets/logo.png';
+import './index.scss';
+
+const bem = createBEM('demo-home');
+
+function Arrow(): preact.JSX.Element {
+  return (
+    <svg viewBox="0 0 1024 1024" class="demo-home-nav__icon">
+      <path
+        fill="#B6C3D2"
+        d="M601.1 556.5L333.8 289.3c-24.5-24.5-24.5-64.6 0-89.1s64.6-24.5 89.1 0l267.3 267.3c24.5 24.5 24.5 64.6 0 89.1-24.5 24.4-64.6 24.4-89.1-.1z"
+      ></path>
+      <path
+        fill="#B6C3D2"
+        d="M690.2 556.5L422.9 823.8c-24.5 24.5-64.6 24.5-89.1 0s-24.5-64.6 0-89.1l267.3-267.3c24.5-24.5 64.6-24.5 89.1 0 24.5 24.6 24.5 64.6 0 89.1z"
+      ></path>
+    </svg>
+  );
+}
+
+export class HomeRouteComponent extends preact.Component {
+  render(): preact.JSX.Element {
+    return (
+      <div className={bem()}>
+        <h1>
+          <img src={logoImg} />
+          <span>Pant</span>
+        </h1>
+        <h2>
+          Mobile UI Components built on Preact
+          <br />
+          Ported from <a href="https://github.com/youzan/vant">Vant</a>
+        </h2>
+
+        <section>
+          <h3>Basic Components</h3>
+          <Link href="/button/">
+            Button <Arrow />
+          </Link>
+          <Link href="/img/">
+            Image <Arrow />
+          </Link>
+          <Link href="/layout/">
+            Layout <Arrow />
+          </Link>
+        </section>
+
+        <section>
+          <h3>Form Components</h3>
+          <Link href="/checkbox/">
+            Checkbox <Arrow />
+          </Link>
+        </section>
+
+        <section>
+          <h3>Action Components</h3>
+          <Link href="/loading/">
+            Loading <Arrow />
+          </Link>
+          <Link href="/overlay/">
+            Overlay <Arrow />
+          </Link>
+          <Link href="/toast/">
+            Toast <Arrow />
+          </Link>
+        </section>
+
+        <section>
+          <h3>Display Components</h3>
+          <Link href="/skeleton/">
+            Skeleton <Arrow />
+          </Link>
+          <Link href="/tag/">
+            Tag <Arrow />
+          </Link>
+        </section>
+
+        <section>
+          <h3>Business Components</h3>
+          <Link href="/card/">
+            Card <Arrow />
+          </Link>
+          <Link href="/submit-bar/">
+            SubmitBar <Arrow />
+          </Link>
+        </section>
+      </div>
+    );
+  }
+}

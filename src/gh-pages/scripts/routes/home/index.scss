@@ -1,0 +1,60 @@
+@import '../../../../styles/var.scss';
+
+.demo-home {
+  padding: $padding-lg;
+  > h1 {
+    font-size: $font-size-lg * 2;
+    line-height: 1;
+    padding-left: $padding-md;
+    margin-bottom: $padding-md;
+    margin-top: $padding-md;
+    > img {
+      width: $font-size-lg * 2;
+      height: $font-size-lg * 2;
+      vertical-align: middle;
+    }
+    > span {
+      margin-left: $padding-md;
+      vertical-align: middle;
+    }
+  }
+  > h2 {
+    color: $gray-6;
+    font-size: $font-size-md;
+    font-weight: normal;
+    padding-left: $padding-md;
+    margin-bottom: $padding-base * 10;
+  }
+  > section {
+    > h3 {
+      color: $gray-6;
+      font-size: $font-size-md;
+      font-weight: normal;
+      margin: $padding-lg 0 $padding-xs $padding-md;
+    }
+    > a {
+      position: relative;
+      display: flex;
+      margin: 0 0 $padding-base * 3;
+      padding-left: $padding-base * 5;
+      color: $gray-8;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-md;
+      line-height: $padding-base * 10;
+      background: $gray-1;
+      border-radius: $padding-base * 10;
+      transition: background 0.3s;
+      &:hover {
+        background: $gray-2;
+      }
+      > svg {
+        position: absolute;
+        top: 50%;
+        right: $padding-md;
+        width: $padding-md;
+        height: $padding-md;
+        margin-top: -2 * $padding-base;
+      }
+    }
+  }
+}
