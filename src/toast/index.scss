@@ -1,6 +1,7 @@
 @import '../styles/var.scss';
 
 .pant-toast {
+  z-index: $toast-z-index;
   position: fixed;
   top: 50%;
   left: 50%;
