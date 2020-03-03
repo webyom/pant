@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 function getPublicPath() {
-  return process.env.NODE_ENV === 'production' ? 'https://webyom.github.io/pant-demo/' : '/';
+  return process.env.NODE_ENV === 'production' ? 'https://webyom.github.io/pant/' : '/';
 }
 
 module.exports = {
