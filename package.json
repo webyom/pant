@@ -22,7 +22,7 @@
   "scripts": {
     "build:lib": "tsc -d -m commonjs --outDir lib",
     "build:es": "tsc -d -m esNext --outDir es",
-    "build:clean": "rm -rf lib/gh-pages es/gh-pages",
+    "build:clean": "rm -rf lib/_site es/_site",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
     "tsc-check": "tsc --outDir .tsc-check/",
