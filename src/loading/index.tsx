@@ -9,9 +9,9 @@ export type LoadingType = 'circular' | 'spinner';
 export type LoadingProps = {
   type: LoadingType;
   color?: string;
-  size?: string | number;
+  size?: number | string;
   vertical?: boolean;
-  textSize?: string | number;
+  textSize?: number | string;
   className?: string;
   children?: string;
 };

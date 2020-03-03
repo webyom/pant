@@ -1,3 +1,5 @@
+import { pantConfig } from '../';
+
 export function isDef(val: any): boolean {
   return val !== undefined && val !== null;
 }
@@ -13,11 +15,19 @@ export function isNaN(val: number): val is typeof NaN {
   return val !== val;
 }
 
-export function addUnit(value?: string | number): string | undefined {
+export function addUnit(value?: number | string): string | undefined {
   if (!isDef(value)) {
     return undefined;
   }
-
-  value = String(value);
-  return isNumeric(value) ? `${value}px` : value;
+  const viewportWidth = pantConfig('viewportWidth');
+  value = value + '';
+  if (isNumeric(value)) {
+    if (viewportWidth > 0) {
+      return (+value * 100) / viewportWidth + 'vw';
+    } else {
+      return value + 'px';
+    }
+  } else {
+    return value;
+  }
 }

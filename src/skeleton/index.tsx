@@ -9,7 +9,7 @@ export type SkeletonProps = {
   avatar?: boolean;
   loading?: boolean;
   animate?: boolean;
-  avatarSize?: string;
+  avatarSize?: number | string;
   avatarShape?: 'square' | 'round';
   titleWidth?: number | string;
   rowWidth?: number | string | (number | string)[];

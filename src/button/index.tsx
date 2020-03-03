@@ -25,7 +25,7 @@ export type ButtonProps = {
   hairline?: boolean;
   disabled?: boolean;
   nativeType?: string;
-  loadingSize: string;
+  loadingSize: number | string;
   loadingType?: LoadingType;
   loadingText?: string;
   className?: string;

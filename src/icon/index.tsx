@@ -8,9 +8,9 @@ import './index.scss';
 export type IconProps = {
   name: string;
   dot?: boolean;
-  size?: string | number;
+  size?: number | string;
   color?: string;
-  info?: string | number;
+  info?: number | string;
   className?: string;
   classPrefix?: string;
   style?: Record<string, string>;
