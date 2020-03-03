@@ -5,6 +5,7 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type CheckboxProps = {
+  name?: string;
   value?: any;
   checked?: boolean;
   disabled?: boolean;
@@ -17,13 +18,13 @@ export type CheckboxProps = {
   direction?: 'horizontal' | 'vertical';
   iconNode?: preact.VNode;
   children?: string;
+  onClick?(event: Event, props: CheckboxProps): void;
 };
 
 const bem = createBEM('pant-checkbox');
 
-export class Checkbox extends preact.Component<CheckboxProps> {
-  iconStyle(): Record<string, string> {
-    const props = this.props;
+export function Checkbox(props: CheckboxProps): preact.JSX.Element {
+  function iconStyle(): Record<string, string> {
     const checkedColor = props.checkedColor;
 
     if (checkedColor && props.checked && !props.disabled) {
@@ -34,8 +35,7 @@ export class Checkbox extends preact.Component<CheckboxProps> {
     }
   }
 
-  genIcon(): preact.JSX.Element {
-    const props = this.props;
+  function genIcon(): preact.JSX.Element {
     const { checked, iconSize } = props;
 
     return (
@@ -43,22 +43,18 @@ export class Checkbox extends preact.Component<CheckboxProps> {
         class={bem('icon', [props.shape, { disabled: props.disabled, checked }])}
         style={{ fontSize: addUnit(iconSize) }}
       >
-        {props.iconNode || <Icon name="success" style={this.iconStyle()} />}
+        {props.iconNode || <Icon name="success" style={iconStyle()} />}
       </div>
     );
   }
 
-  genLabel(): preact.JSX.Element {
-    const props = this.props;
-
+  function genLabel(): preact.JSX.Element {
     if (props.children) {
       return <span class={bem('label', [props.labelPosition, { disabled: props.disabled }])}>{props.children}</span>;
     }
   }
 
-  tabindex(): number {
-    const props = this.props;
-
+  function tabindex(): number {
     if (props.disabled || (props.role === 'radio' && !props.checked)) {
       return -1;
     }
@@ -66,38 +62,38 @@ export class Checkbox extends preact.Component<CheckboxProps> {
     return 0;
   }
 
-  onClick(): void {
-    //
-  }
-
-  render(): preact.JSX.Element {
-    const props = this.props;
-    const Children = [this.genIcon()];
-
-    if (props.labelPosition === 'left') {
-      Children.unshift(this.genLabel());
-    } else {
-      Children.push(this.genLabel());
+  function onClick(event: Event): void {
+    if (props.disabled) {
+      return;
     }
-
-    return (
-      <div
-        role={props.role}
-        class={bem([
-          {
-            disabled: props.disabled,
-            'label-disabled': props.labelDisabled,
-          },
-          props.direction,
-        ])}
-        tabIndex={this.tabindex()}
-        aria-checked={String(props.checked)}
-        onClick={this.onClick.bind(this)}
-      >
-        {Children}
-      </div>
-    );
+    props.onClick && props.onClick(event, props);
   }
+
+  const Children = [genIcon()];
+
+  if (props.labelPosition === 'left') {
+    Children.unshift(genLabel());
+  } else {
+    Children.push(genLabel());
+  }
+
+  return (
+    <div
+      role={props.role}
+      class={bem([
+        {
+          disabled: props.disabled,
+          'label-disabled': props.labelDisabled,
+        },
+        props.direction,
+      ])}
+      tabIndex={tabindex()}
+      aria-checked={String(props.checked)}
+      onClick={onClick}
+    >
+      {Children}
+    </div>
+  );
 }
 
 Checkbox.defaultProps = {
