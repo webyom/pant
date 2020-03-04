@@ -43,11 +43,25 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
   }
 
   toggleAll(on?: boolean): void {
-    let newValue: string[] = [];
+    const oldValue = this.state.value;
+    const { options } = this.props;
+    let newValue: string[];
     if (on) {
-      newValue = this.props.options.map((option): string => {
+      newValue = options.map((option): string => {
         return this.normalizeOption(option).value;
       });
+      if (
+        newValue.every(function(value): boolean {
+          return oldValue.includes(value);
+        })
+      ) {
+        return;
+      }
+    } else {
+      if (!oldValue.length) {
+        return;
+      }
+      newValue = [];
     }
     this.setNewValue(newValue);
   }
