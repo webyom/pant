@@ -1,5 +1,7 @@
 import * as preact from 'preact';
+import { toast } from '../../toast';
 import { Checkbox, CheckboxProps } from '../../checkbox';
+import { CheckboxGroup } from '../../checkbox-group';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import './index.scss';
@@ -94,6 +96,48 @@ export class CheckboxRouteComponent extends preact.Component<any, CheckboxRouteC
             >
               Checkbox
             </Checkbox>
+          </section>
+
+          <section>
+            <h2>Checkbox Group</h2>
+            <CheckboxGroup
+              options={['Checkbox a', 'Checkbox b']}
+              defaultValue={['Checkbox a']}
+              onChange={(value): void => {
+                toast(value.join(', ') || 'Empty');
+              }}
+            />
+          </section>
+
+          <section>
+            <h2>Horizontal</h2>
+            <CheckboxGroup
+              options={['Checkbox a', 'Checkbox b']}
+              defaultValue={['Checkbox a']}
+              direction="horizontal"
+            />
+          </section>
+
+          <section>
+            <h2>Checkbox Group Disabled</h2>
+            <CheckboxGroup
+              options={[
+                { label: 'Checkbox a', value: 'a' },
+                { label: 'Checkbox b', value: 'b', disabled: true },
+              ]}
+              defaultValue={['b']}
+            />
+          </section>
+
+          <section>
+            <h2>Maximum amount of checked options</h2>
+            <CheckboxGroup
+              options={['Checkbox a', 'Checkbox b', 'Checkbox c']}
+              max="2"
+              onMaxLimit={(props): void => {
+                toast(`Max Limit ${props.max}`);
+              }}
+            />
           </section>
         </div>
       </preact.Fragment>

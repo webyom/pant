@@ -6,7 +6,7 @@ import './index.scss';
 
 export type CheckboxProps = {
   name?: string;
-  value?: any;
+  value?: string;
   checked?: boolean;
   disabled?: boolean;
   iconSize?: number | string;

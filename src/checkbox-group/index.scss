@@ -1,0 +1,8 @@
+@import '../styles/var.scss';
+
+.pant-checkbox-group {
+  &--horizontal {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

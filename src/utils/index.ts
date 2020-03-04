@@ -31,3 +31,15 @@ export function addUnit(value?: number | string): string | undefined {
     return value;
   }
 }
+
+export function omit(obj: Record<string, any>, keys: string[]): Record<string, any> {
+  const res: Record<string, any> = {};
+  Object.keys(obj)
+    .filter(function(key: string): boolean {
+      return !keys.includes(key);
+    })
+    .forEach(function(key): void {
+      res[key] = obj[key];
+    });
+  return res;
+}
