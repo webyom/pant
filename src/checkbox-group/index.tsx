@@ -74,7 +74,7 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
 
   private onClick(_: Event, checkboxProps: CheckboxProps): void {
     const props = this.props;
-    const { max, onChange, onMaxLimit } = props;
+    const { max, onMaxLimit } = props;
     const oldValue = this.state.value;
     let newValue: string[];
 
