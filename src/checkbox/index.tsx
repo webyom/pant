@@ -78,6 +78,9 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
     if (props.labelDisabled && (event.target as HTMLElement).className.indexOf('checkbox__label') >= 0) {
       return;
     }
+    if (props.role == 'radio' && props.checked) {
+      return;
+    }
     props.onClick && props.onClick(event, props);
   }
 
