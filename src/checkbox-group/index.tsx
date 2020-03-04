@@ -38,13 +38,6 @@ type CheckboxGroupState = {
 
 const bem = createBEM('pant-checkbox-group');
 
-function normalizeOption(option: CheckboxGroupOption): Exclude<CheckboxGroupOption, string> {
-  if (typeof option === 'string') {
-    return { label: option, value: option };
-  }
-  return option;
-}
-
 export class CheckboxGroup extends preact.Component<CheckboxGroupProps, CheckboxGroupState> {
   state = {
     value: this.props.defaultValue,
@@ -54,7 +47,32 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     return this.state.value;
   }
 
-  onClick(_: Event, checkboxProps: CheckboxProps): void {
+  toggleAll(on?: boolean): void {
+    let newValue: string[] = [];
+    if (on) {
+      newValue = this.props.options.map((option): string => {
+        return this.normalizeOption(option).value;
+      });
+    }
+    this.setNewValue(newValue);
+  }
+
+  private setNewValue(value: string[]): void {
+    const props = this.props;
+    const { onChange } = props;
+    this.setState({ value }, function(): void {
+      onChange && onChange(value, props);
+    });
+  }
+
+  private normalizeOption(option: CheckboxGroupOption): Exclude<CheckboxGroupOption, string> {
+    if (typeof option === 'string') {
+      return { label: option, value: option };
+    }
+    return option;
+  }
+
+  private onClick(_: Event, checkboxProps: CheckboxProps): void {
     const props = this.props;
     const { max, onChange, onMaxLimit } = props;
     const oldValue = this.state.value;
@@ -72,12 +90,10 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
       newValue = [checkboxProps.value].concat(oldValue);
     }
 
-    this.setState({ value: newValue }, function(): void {
-      onChange && onChange(newValue, props);
-    });
+    this.setNewValue(newValue);
   }
 
-  genOptions(): preact.JSX.Element[] {
+  private genOptions(): preact.JSX.Element[] {
     const props = this.props;
     const { options } = props;
     const stateValue = this.state.value;
@@ -85,7 +101,7 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     return options.map(
       (option): preact.JSX.Element => {
         const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onChange']);
-        option = normalizeOption(option);
+        option = this.normalizeOption(option);
         return (
           <Checkbox
             {...passProps}

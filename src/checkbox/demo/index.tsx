@@ -1,5 +1,8 @@
 import * as preact from 'preact';
 import { toast } from '../../toast';
+import { Row } from '../../row';
+import { Col } from '../../col';
+import { Button } from '../../button';
 import { Checkbox, CheckboxProps } from '../../checkbox';
 import { CheckboxGroup } from '../../checkbox-group';
 import { createBEM } from '../../utils/bem';
@@ -35,6 +38,7 @@ export class CheckboxRouteComponent extends preact.Component<any, CheckboxRouteC
 
   render(): preact.JSX.Element {
     const state = this.state;
+    let ref: CheckboxGroup;
 
     return (
       <preact.Fragment>
@@ -138,6 +142,29 @@ export class CheckboxRouteComponent extends preact.Component<any, CheckboxRouteC
                 toast(`Max Limit ${props.max}`);
               }}
             />
+          </section>
+
+          <section>
+            <h2>Toggle All</h2>
+            <CheckboxGroup
+              ref={(el): void => (ref = el)}
+              options={['Checkbox a', 'Checkbox b', 'Checkbox c']}
+              onChange={(value): void => {
+                toast(value.join(', ') || 'Empty');
+              }}
+            />
+            <Row gutter="16">
+              <Col>
+                <Button type="primary" onClick={(): void => ref.toggleAll(true)}>
+                  Check All
+                </Button>
+              </Col>
+              <Col>
+                <Button type="info" onClick={(): void => ref.toggleAll()}>
+                  Inverse
+                </Button>
+              </Col>
+            </Row>
           </section>
         </div>
       </preact.Fragment>
