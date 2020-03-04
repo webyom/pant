@@ -1,5 +1,5 @@
 import * as preact from 'preact';
-import { Checkbox, CheckboxProps } from '../checkbox';
+import { Checkbox, CheckboxProps, CheckboxRole } from '../checkbox';
 import { omit } from '../utils';
 import { createBEM } from '../utils/bem';
 import './index.scss';
@@ -15,7 +15,7 @@ export type CheckboxGroupOption =
 
 export type CheckboxGroupOptions = CheckboxGroupOption[];
 
-export type CheckboxGroupProps = {
+export type CheckboxGroupBaseProps = {
   name?: string;
   disabled?: boolean;
   iconSize?: number | string;
@@ -26,10 +26,14 @@ export type CheckboxGroupProps = {
   direction?: 'horizontal' | 'vertical';
   iconNode?: preact.VNode;
   options?: CheckboxGroupOptions;
-  defaultValue?: string[];
-  max?: number | string;
   onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
+};
+
+export type CheckboxGroupProps = CheckboxGroupBaseProps & {
+  role?: CheckboxRole;
+  defaultValue?: string[];
+  max?: number | string;
   onMaxLimit?(props: CheckboxGroupProps): void;
 };
 

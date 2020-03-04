@@ -9,6 +9,7 @@ import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
+import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { SubmitBarRouteComponent } from '../../submit-bar/demo';
 import { TagRouteComponent } from '../../tag/demo';
@@ -27,6 +28,7 @@ export class RootComponent extends preact.Component {
         <LayoutRouteComponent path="/layout/" />
         <LoadingRouteComponent path="/loading/" />
         <OverlayRouteComponent path="/overlay/" />
+        <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
         <SubmitBarRouteComponent path="/submit-bar/" />
         <TagRouteComponent path="/tag/" />

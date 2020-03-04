@@ -4,6 +4,8 @@ import { addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
+export type CheckboxRole = 'checkbox' | 'radio';
+
 export type CheckboxProps = {
   name?: string;
   value?: string;
@@ -13,7 +15,7 @@ export type CheckboxProps = {
   checkedColor?: string;
   labelPosition?: 'left' | 'right';
   labelDisabled?: boolean;
-  role?: 'checkbox' | 'radio';
+  role?: CheckboxRole;
   shape?: 'square' | 'round';
   direction?: 'horizontal' | 'vertical';
   iconNode?: preact.VNode;
