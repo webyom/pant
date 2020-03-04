@@ -64,7 +64,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   };
   document.body.appendChild(container);
   preact.render(
-    <Transition type="fade" stage="enter">
+    <Transition type="fade" stage="enter" onAfterEnter={opt.onOpened}>
       <div>
         <Toast {...opt} onClick={onClick} />
       </div>
@@ -74,6 +74,5 @@ export function toast(options: string | ToastOptions): ToastReturn {
   if (opt.duration !== 0) {
     setTimeout(res.clear, opt.duration > 0 ? opt.duration : opt.loading ? 60 * 1000 : 2000);
   }
-  opt.onOpened && opt.onOpened();
   return res;
 }
