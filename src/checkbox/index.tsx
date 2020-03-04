@@ -6,19 +6,24 @@ import './index.scss';
 
 export type CheckboxRole = 'checkbox' | 'radio';
 
-export type CheckboxProps = {
+export type CheckboxBaseProps = {
   name?: string;
-  value?: string;
-  checked?: boolean;
   disabled?: boolean;
   iconSize?: number | string;
   checkedColor?: string;
   labelPosition?: 'left' | 'right';
   labelDisabled?: boolean;
-  role?: CheckboxRole;
   shape?: 'square' | 'round';
   direction?: 'horizontal' | 'vertical';
   iconNode?: preact.VNode;
+  activeIconNode?: preact.VNode;
+  inactiveIconNode?: preact.VNode;
+};
+
+export type CheckboxProps = CheckboxBaseProps & {
+  value?: string;
+  checked?: boolean;
+  role?: CheckboxRole;
   children?: string;
   onClick?(event: Event, props: CheckboxProps): void;
 };
@@ -45,7 +50,9 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
         class={bem('icon', [props.shape, { disabled: props.disabled, checked }])}
         style={{ fontSize: addUnit(iconSize) }}
       >
-        {props.iconNode || <Icon name="success" style={iconStyle()} />}
+        {(checked && props.activeIconNode) || (!checked && props.inactiveIconNode) || props.iconNode || (
+          <Icon name="success" style={iconStyle()} />
+        )}
       </div>
     );
   }
@@ -66,6 +73,9 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
 
   function onClick(event: Event): void {
     if (props.disabled) {
+      return;
+    }
+    if (props.labelDisabled && (event.target as HTMLElement).className.indexOf('checkbox__label') >= 0) {
       return;
     }
     props.onClick && props.onClick(event, props);

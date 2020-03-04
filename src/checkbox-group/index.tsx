@@ -1,6 +1,6 @@
 import * as preact from 'preact';
-import { Checkbox, CheckboxProps, CheckboxRole } from '../checkbox';
-import { omit } from '../utils';
+import { Checkbox, CheckboxBaseProps, CheckboxProps, CheckboxRole } from '../checkbox';
+import { omit, isDef } from '../utils';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
@@ -10,21 +10,11 @@ export type CheckboxGroupOption =
       label: string;
       value: string;
       disabled?: boolean;
-      iconNode?: preact.VNode;
     };
 
 export type CheckboxGroupOptions = CheckboxGroupOption[];
 
-export type CheckboxGroupBaseProps = {
-  name?: string;
-  disabled?: boolean;
-  iconSize?: number | string;
-  checkedColor?: string;
-  labelPosition?: 'left' | 'right';
-  labelDisabled?: boolean;
-  shape?: 'square' | 'round';
-  direction?: 'horizontal' | 'vertical';
-  iconNode?: preact.VNode;
+export type CheckboxGroupBaseProps = CheckboxBaseProps & {
   options?: CheckboxGroupOptions;
   onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
@@ -117,8 +107,10 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
           <Checkbox
             {...passProps}
             value={option.value}
-            iconNode={option.iconNode}
-            disabled={option.disabled}
+            iconNode={props.iconNode}
+            activeIconNode={props.activeIconNode}
+            inactiveIconNode={props.inactiveIconNode}
+            disabled={isDef(option.disabled) ? option.disabled : props.disabled}
             checked={stateValue.includes(option.value)}
             onClick={this.onClick.bind(this)}
           >

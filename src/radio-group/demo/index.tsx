@@ -23,6 +23,55 @@ export class RadioRouteComponent extends preact.Component {
               }}
             />
           </section>
+
+          <section>
+            <h2>Hrizontal</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" direction="horizontal" />
+          </section>
+
+          <section>
+            <h2>Disabled</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" disabled />
+          </section>
+
+          <section>
+            <h2>Custom Shape</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" shape="square" />
+          </section>
+
+          <section>
+            <h2>Custom Color</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" checkedColor="#07c160" />
+          </section>
+
+          <section>
+            <h2>Custom Icon Size</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" iconSize="24px" />
+          </section>
+
+          <section>
+            <h2>Custom Icon</h2>
+            <RadioGroup
+              activeIconNode={<img src="https://img.yzcdn.cn/vant/user-active.png" />}
+              inactiveIconNode={<img src="https://img.yzcdn.cn/vant/user-inactive.png" />}
+              options={[
+                {
+                  label: 'Radio a',
+                  value: 'a',
+                },
+                {
+                  label: 'Radio b',
+                  value: 'b',
+                },
+              ]}
+              defaultValue="a"
+            />
+          </section>
+
+          <section>
+            <h2>Custom Label Click</h2>
+            <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" labelDisabled />
+          </section>
         </div>
       </preact.Fragment>
     );
