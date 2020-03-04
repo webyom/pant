@@ -68,62 +68,52 @@
   }
 }
 
-@keyframes pant-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .pant-fade {
   &-enter-active {
-    animation: $animation-duration-base pant-fade-in;
+    animation: pant-fade-in;
   }
 
   &-leave-active {
-    animation: $animation-duration-base pant-fade-out;
+    animation: pant-fade-out;
   }
 }
 
 .pant-slide-up {
   &-enter-active {
-    animation: pant-slide-up-enter $animation-duration-base both ease;
+    animation: pant-slide-up-enter both ease;
   }
 
   &-leave-active {
-    animation: pant-slide-up-leave $animation-duration-base both ease;
+    animation: pant-slide-up-leave both ease;
   }
 }
 
 .pant-slide-down {
   &-enter-active {
-    animation: pant-slide-down-enter $animation-duration-base both ease;
+    animation: pant-slide-down-enter both ease;
   }
 
   &-leave-active {
-    animation: pant-slide-down-leave $animation-duration-base both ease;
+    animation: pant-slide-down-leave both ease;
   }
 }
 
 .pant-slide-left {
   &-enter-active {
-    animation: pant-slide-left-enter $animation-duration-base both ease;
+    animation: pant-slide-left-enter both ease;
   }
 
   &-leave-active {
-    animation: pant-slide-left-leave $animation-duration-base both ease;
+    animation: pant-slide-left-leave both ease;
   }
 }
 
 .pant-slide-right {
   &-enter-active {
-    animation: pant-slide-right-enter $animation-duration-base both ease;
+    animation: pant-slide-right-enter both ease;
   }
 
   &-leave-active {
-    animation: pant-slide-right-leave $animation-duration-base both ease;
+    animation: pant-slide-right-leave both ease;
   }
 }

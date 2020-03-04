@@ -4,6 +4,7 @@ import './index.scss';
 export type TransitionProps = {
   type: 'fade' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
   stage: 'enter' | 'leave';
+  duration?: number | string;
   children: preact.VNode;
   onAfterEnter?(): void;
   onAfterLeave?(): void;
@@ -14,7 +15,14 @@ type TransitionState = {
   active: boolean;
 };
 
+const animationEndEventName =
+  window.onanimationend === undefined && (window as any).onwebkitanimationend !== undefined
+    ? 'webkitAnimationEnd'
+    : 'animationend';
+
 export class Transition extends preact.Component<TransitionProps, TransitionState> {
+  bindedOnAnimationEnd = this.onAnimationEnd.bind(this);
+  childrenRef: preact.VNode = null;
   state = {
     prevProps: this.props,
     active: this.props.stage === 'enter',
@@ -31,6 +39,7 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
   }
 
   private onAnimationEnd(): void {
+    (this.childrenRef as any).removeEventListener(animationEndEventName, this.bindedOnAnimationEnd);
     this.setState({ active: false }, (): void => {
       const { stage, onAfterEnter, onAfterLeave } = this.props;
       if (stage === 'enter') {
@@ -41,8 +50,16 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
     });
   }
 
+  componentDidMount(): void {
+    (this.childrenRef as any).addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+  }
+
+  componentDidUpdate(): void {
+    (this.childrenRef as any).addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+  }
+
   render(): preact.JSX.Element {
-    const { type, stage, children } = this.props;
+    const { type, stage, duration, children } = this.props;
     const active = this.state.active;
     const transitionClassName = active ? `pant-${type}-${stage}-active` : '';
     const childrenClassName = children.props.className;
@@ -55,19 +72,28 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
 
     let style;
     if (stage === 'leave' && !active) {
-      if (typeof childrenStyle === 'string') {
-        style = 'display: none; ' + childrenStyle;
-      } else {
-        style = { ...childrenStyle, display: 'none' };
-      }
+      style = { ...childrenStyle, display: 'none' };
     } else {
       style = childrenStyle;
+    }
+    if (active) {
+      style = { ...style, animationDuration: `${duration}ms`, WebkitAnimationDuration: `${duration}ms` };
     }
 
     return (
       <preact.Fragment>
-        {preact.cloneElement(children, { className, style, onAnimationEnd: this.onAnimationEnd.bind(this) })}
+        {preact.cloneElement(children, {
+          className,
+          style,
+          ref: (el: preact.VNode) => {
+            this.childrenRef = el;
+          },
+        })}
       </preact.Fragment>
     );
   }
 }
+
+Transition.defaultProps = {
+  duration: '300',
+};

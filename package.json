@@ -1,6 +1,6 @@
 {
   "name": "pant",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Mobile UI Components built on Preact, Ported from Vant",
   "keywords": [
     "preact",
@@ -24,6 +24,7 @@
     "build:es": "tsc -d -m esNext --outDir es --sourceMap false --inlineSources false",
     "build:clean": "rm -rf lib/_site es/_site",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
+    "release": "npm run build && npm publish",
     "start": "webpack-dev-server",
     "deploy": "NODE_ENV=production webpack && gh-pages -d dist",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
