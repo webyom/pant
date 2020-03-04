@@ -28,6 +28,7 @@ export type CheckboxGroupProps = {
   options?: CheckboxGroupOptions;
   defaultValue?: string[];
   max?: number | string;
+  onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
   onMaxLimit?(props: CheckboxGroupProps): void;
 };
@@ -72,9 +73,9 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     return option;
   }
 
-  private onClick(_: Event, checkboxProps: CheckboxProps): void {
+  private onClick(event: Event, checkboxProps: CheckboxProps): void {
     const props = this.props;
-    const { max, onMaxLimit } = props;
+    const { max, onMaxLimit, onClick } = props;
     const oldValue = this.state.value;
     let newValue: string[];
 
@@ -84,13 +85,19 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
       });
     } else {
       if (max > 0 && +max === oldValue.length) {
-        onMaxLimit && onMaxLimit(props);
-        return;
+        if (max > 1) {
+          onMaxLimit && onMaxLimit(props);
+          onClick && onClick(event, checkboxProps);
+          return;
+        }
+        newValue = [checkboxProps.value];
+      } else {
+        newValue = [checkboxProps.value].concat(oldValue);
       }
-      newValue = [checkboxProps.value].concat(oldValue);
     }
 
     this.setNewValue(newValue);
+    onClick && onClick(event, checkboxProps);
   }
 
   private genOptions(): preact.JSX.Element[] {
@@ -100,7 +107,7 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
 
     return options.map(
       (option): preact.JSX.Element => {
-        const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onChange']);
+        const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onClick', 'onChange', 'onMaxLimit']);
         option = this.normalizeOption(option);
         return (
           <Checkbox
