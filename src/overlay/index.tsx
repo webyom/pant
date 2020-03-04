@@ -1,5 +1,6 @@
 import * as preact from 'preact';
 import clsx from 'clsx';
+import { Transition } from '../transition';
 import { createBEM } from '../utils/bem';
 import { preventDefault } from '../utils/event';
 import './index.scss';
@@ -24,7 +25,6 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
   const style: Record<string, any> = {
     ...props.customStyle,
     zIndex: props.zIndex,
-    display: props.show ? 'block' : 'none',
   };
 
   if (props.duration > 0) {
@@ -32,8 +32,15 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
   }
 
   return (
-    <div style={style} className={clsx(bem(), props.className)} onTouchMove={preventTouchMove} onClick={props.onClick}>
-      {props.children}
-    </div>
+    <Transition type="fade" stage={props.show ? 'enter' : 'leave'}>
+      <div
+        style={style}
+        className={clsx(bem(), props.className)}
+        onTouchMove={preventTouchMove}
+        onClick={props.onClick}
+      >
+        {props.children}
+      </div>
+    </Transition>
   );
 }

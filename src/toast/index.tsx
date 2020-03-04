@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import { Transition } from '../transition';
 import { Toast, ToastProps } from './toast';
 import './index.scss';
 
@@ -37,10 +38,22 @@ export function toast(options: string | ToastOptions): ToastReturn {
       if (!container) {
         return;
       }
-      preact.render(null, container);
-      document.body.removeChild(container);
-      container = null;
-      opt.onClosed && opt.onClosed();
+      preact.render(
+        <Transition
+          type="fade"
+          stage="leave"
+          onAfterLeave={function(): void {
+            document.body.removeChild(container);
+            container = null;
+            opt.onClosed && opt.onClosed();
+          }}
+        >
+          <div>
+            <Toast {...opt} onClick={onClick} />
+          </div>
+        </Transition>,
+        container,
+      );
     },
     setMessage(message: string): void {
       if (!container) {
@@ -50,7 +63,14 @@ export function toast(options: string | ToastOptions): ToastReturn {
     },
   };
   document.body.appendChild(container);
-  preact.render(<Toast {...opt} onClick={onClick} />, container);
+  preact.render(
+    <Transition type="fade" stage="enter">
+      <div>
+        <Toast {...opt} onClick={onClick} />
+      </div>
+    </Transition>,
+    container,
+  );
   if (opt.duration !== 0) {
     setTimeout(res.clear, opt.duration > 0 ? opt.duration : opt.loading ? 60 * 1000 : 2000);
   }
