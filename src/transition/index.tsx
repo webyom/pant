@@ -19,9 +19,12 @@ export interface TransitionableComponent {
   ): void;
 }
 
+export type TransitionType = 'fade' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
+export type TransitionStage = 'enter' | 'leave';
+
 export type TransitionProps = {
-  type: 'fade' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
-  stage: 'enter' | 'leave';
+  type: TransitionType;
+  stage: TransitionStage;
   duration?: number | string;
   children: preact.VNode<TransitionableProps>;
   onAfterEnter?(): void;

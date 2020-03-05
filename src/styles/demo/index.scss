@@ -1,0 +1,37 @@
+@import '../../styles/var.scss';
+
+.demo-styles {
+  padding: $padding-md 0;
+  background-color: $gray-1;
+  min-height: calc(100vh - 56px);
+  > section {
+    margin-bottom: $padding-xl;
+    > h2 {
+      padding: 0 $padding-md;
+    }
+    > [class*='ellipsis'] {
+      padding: 0 $padding-md;
+      padding-right: $padding-base * 15;
+      &:not(:last-child) {
+        margin-bottom: $padding-md;
+      }
+    }
+    > .pant-hairline--top {
+      height: 30px;
+      background-color: white;
+      &::after {
+        top: 5px;
+      }
+    }
+    .demo-animate-block {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      margin: -50px 0 0 -50px;
+      background-color: $blue;
+      border-radius: 3px;
+    }
+  }
+}
