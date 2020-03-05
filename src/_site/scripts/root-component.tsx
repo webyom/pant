@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import { HomeRouteComponent } from './routes/home';
 import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
+import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
@@ -23,6 +24,7 @@ export class RootComponent extends preact.Component {
         <HomeRouteComponent path="/" />
         <ButtonRouteComponent path="/button/" />
         <CardRouteComponent path="/card/" />
+        <CellRouteComponent path="/cell/" />
         <CheckboxRouteComponent path="/checkbox/" />
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />

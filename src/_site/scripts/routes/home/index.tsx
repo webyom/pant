@@ -44,6 +44,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/button/">
             Button <Arrow />
           </Link>
+          <Link href="/cell/">
+            Cell <Arrow />
+          </Link>
           <Link href="/img/">
             Image <Arrow />
           </Link>

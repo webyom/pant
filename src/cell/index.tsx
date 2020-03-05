@@ -5,22 +5,22 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type CellProps = {
-  children: string | preact.VNode;
   icon?: string | preact.VNode;
-  title?: string | preact.VNode;
-  label?: string | preact.VNode;
+  title?: string | preact.VNode | Array<string | preact.VNode>;
+  label?: string | preact.VNode | Array<string | preact.VNode>;
   rightIcon?: string | preact.VNode;
-  size?: string;
-  border: boolean;
+  large?: boolean;
+  border?: boolean;
   center?: boolean;
   required?: boolean;
+  children?: string | preact.VNode | Array<string | preact.VNode>;
   onClick?(event: Event): void;
 };
 
 const bem = createBEM('pant-cell');
 
 export function Cell(props: CellProps): preact.JSX.Element {
-  const { icon, size, title, label, rightIcon } = props;
+  const { icon, title, label, rightIcon } = props;
   const showTitle = isDef(title);
 
   function Label(): preact.JSX.Element {
@@ -54,7 +54,7 @@ export function Cell(props: CellProps): preact.JSX.Element {
 
   function RightIcon(): preact.JSX.Element {
     if (typeof rightIcon === 'string') {
-      return <Icon className={bem('left-icon')} name={rightIcon} />;
+      return <Icon className={bem('right-icon')} name={rightIcon} />;
     } else if (rightIcon) {
       return rightIcon;
     }
@@ -68,14 +68,11 @@ export function Cell(props: CellProps): preact.JSX.Element {
 
   const classes: Record<string, string | boolean> = {
     clickable,
+    large: props.large,
     center: props.center,
     required: props.required,
     borderless: !props.border,
   };
-
-  if (size) {
-    classes[size] = size;
-  }
 
   return (
     <div class={bem(classes)} role={clickable ? 'button' : null} tabIndex={clickable ? 0 : null} onClick={onClick}>
@@ -86,3 +83,7 @@ export function Cell(props: CellProps): preact.JSX.Element {
     </div>
   );
 }
+
+Cell.defaultProps = {
+  border: true,
+};
