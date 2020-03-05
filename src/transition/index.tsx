@@ -1,11 +1,29 @@
 import * as preact from 'preact';
 import './index.scss';
 
+export type TransitionableProps = {
+  className?: string;
+  style?: Record<string, string>;
+};
+
+export interface TransitionableComponent {
+  addEventListener(
+    type: string,
+    listener: (this: HTMLElement, ev: Event) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  removeEventListener(
+    type: string,
+    listener: (this: HTMLElement, ev: Event) => any,
+    options?: boolean | EventListenerOptions,
+  ): void;
+}
+
 export type TransitionProps = {
   type: 'fade' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
   stage: 'enter' | 'leave';
   duration?: number | string;
-  children: preact.VNode;
+  children: preact.VNode<TransitionableProps>;
   onAfterEnter?(): void;
   onAfterLeave?(): void;
 };
@@ -21,8 +39,8 @@ const animationEndEventName =
     : 'animationend';
 
 export class Transition extends preact.Component<TransitionProps, TransitionState> {
+  childrenRef: TransitionableComponent;
   bindedOnAnimationEnd = this.onAnimationEnd.bind(this);
-  childrenRef: preact.VNode = null;
   state = {
     prevProps: this.props,
     active: this.props.stage === 'enter',
@@ -51,11 +69,11 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
   }
 
   componentDidMount(): void {
-    (this.childrenRef as any).addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+    this.childrenRef.addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
   }
 
   componentDidUpdate(): void {
-    (this.childrenRef as any).addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
+    this.childrenRef.addEventListener(animationEndEventName, this.bindedOnAnimationEnd);
   }
 
   render(): preact.JSX.Element {
@@ -85,7 +103,7 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
         {preact.cloneElement(children, {
           className,
           style,
-          ref: (el: preact.VNode) => {
+          ref: (el: TransitionableComponent) => {
             this.childrenRef = el;
           },
         })}

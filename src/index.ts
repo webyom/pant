@@ -1,5 +1,6 @@
 type PantConfig = {
   viewportWidth?: number;
+  defaultOverlayBgColor?: string;
 };
 
 const config: PantConfig = {};
