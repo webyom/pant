@@ -28,6 +28,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   } else {
     opt = options;
   }
+  let message = opt.message;
 
   let container = document.createElement('div');
   container.className = 'pant-toast-container';
@@ -46,62 +47,62 @@ export function toast(options: string | ToastOptions): ToastReturn {
         return;
       }
       preact.render(
-        <Transition
-          type="fade"
-          stage="leave"
-          onAfterLeave={function(): void {
-            document.body.removeChild(container);
-            container = null;
-            opt.onClosed && opt.onClosed();
-          }}
-        >
-          <div>
-            <Toast {...opt} onClick={onClick} />
-          </div>
-        </Transition>,
+        <preact.Fragment>
+          {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={false} /> : null}
+          <Transition
+            type="fade"
+            stage="leave"
+            onAfterLeave={function(): void {
+              document.body.removeChild(container);
+              container = null;
+              opt.onClosed && opt.onClosed();
+            }}
+          >
+            <div>
+              <Toast {...opt} message={message} onClick={onClick} />
+            </div>
+          </Transition>
+          ,
+        </preact.Fragment>,
         container,
       );
       const index = toastReturnList.indexOf(res);
       index >= 0 && toastReturnList.splice(index, 1);
     },
 
-    setMessage(message: string): void {
+    setMessage(msg: string): void {
       if (!container) {
         return;
       }
-      if (opt.overlay) {
-        preact.render(
-          <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show>
-            <Toast {...opt} message={message} onClick={onClick} />
-          </Overlay>,
-          container,
-        );
-      } else {
-        preact.render(<Toast {...opt} message={message} onClick={onClick} />, container);
-      }
+      message = msg;
+      preact.render(
+        <preact.Fragment>
+          {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
+          <Transition type="fade" stage="enter">
+            <div>
+              <Toast {...opt} message={message} onClick={onClick} />
+            </div>
+          </Transition>
+        </preact.Fragment>,
+        container,
+      );
     },
   };
 
   toastReturnList.push(res);
 
   document.body.appendChild(container);
-  if (opt.overlay) {
-    preact.render(
-      <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} onAfterEnter={opt.onOpened} show>
-        <Toast {...opt} onClick={onClick} />
-      </Overlay>,
-      container,
-    );
-  } else {
-    preact.render(
+  preact.render(
+    <preact.Fragment>
+      {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
       <Transition type="fade" stage="enter" onAfterEnter={opt.onOpened}>
         <div>
           <Toast {...opt} onClick={onClick} />
         </div>
-      </Transition>,
-      container,
-    );
-  }
+      </Transition>
+    </preact.Fragment>,
+    container,
+  );
 
   if (opt.duration !== 0) {
     setTimeout(res.clear, opt.duration > 0 ? opt.duration : opt.loading ? 60 * 1000 : 2000);
