@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
-import { Transition } from '../transition';
+import { Transition, TransitionEvents } from '../transition';
 import { isDef } from '../utils';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -25,15 +25,17 @@ export type PopupProps = {
   closeOnClickOverlay?: boolean;
   customStyle?: Record<string, string>;
   children?: string | preact.VNode | preact.VNode[];
-  onClose?(event: Event, props: PopupProps): void;
-};
+  onClickClose?(event: Event, props: PopupProps): void;
+} & TransitionEvents;
 
 const bem = createBEM('pant-popup');
 
 export class Popup extends preact.Component<PopupProps> {
-  onClose(event: Event): void {
+  bindedOnClickClose = this.onClickClose.bind(this);
+
+  onClickClose(event: Event): void {
     const props = this.props;
-    props.onClose && props.onClose(event, props);
+    props.onClickClose && props.onClickClose(event, props);
   }
 
   render(): preact.JSX.Element {
@@ -53,9 +55,14 @@ export class Popup extends preact.Component<PopupProps> {
     return (
       <preact.Fragment>
         {props.overlay ? (
-          <Overlay show={show} onClick={props.closeOnClickOverlay ? this.onClose.bind(this) : null} />
+          <Overlay show={show} onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null} />
         ) : null}
-        <Transition customName={transitionName} stage={show ? 'enter' : 'leave'}>
+        <Transition
+          customName={transitionName}
+          stage={show ? 'enter' : 'leave'}
+          onAfterEnter={props.onAfterEnter}
+          onAfterLeave={props.onAfterLeave}
+        >
           <div
             style={style}
             className={bem({
@@ -70,7 +77,7 @@ export class Popup extends preact.Component<PopupProps> {
               <Icon
                 name={props.closeIcon}
                 className={bem('close-icon', props.closeIconPosition)}
-                onClick={this.onClose.bind(this)}
+                onClick={this.bindedOnClickClose}
               />
             )}
           </div>

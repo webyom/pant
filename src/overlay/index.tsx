@@ -1,6 +1,6 @@
 import * as preact from 'preact';
 import clsx from 'clsx';
-import { Transition } from '../transition';
+import { Transition, TransitionEvents } from '../transition';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
 import { pantConfig } from '../';
@@ -14,9 +14,7 @@ export type OverlayProps = {
   customStyle?: Record<string, string>;
   children?: preact.VNode;
   onClick?(event: Event): void;
-  onAfterEnter?(): void;
-  onAfterLeave?(): void;
-};
+} & TransitionEvents;
 
 const bem = createBEM('pant-overlay');
 
