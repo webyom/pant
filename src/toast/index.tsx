@@ -2,6 +2,7 @@ import * as preact from 'preact';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
 import { Toast, ToastProps } from './toast';
+import { preventDefaultAndStopPropagation } from '../utils/event';
 import './index.scss';
 
 export { Toast };
@@ -58,7 +59,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
               opt.onClosed && opt.onClosed();
             }}
           >
-            <div>
+            <div onTouchMove={opt.overlay ? preventDefaultAndStopPropagation : null}>
               <Toast {...opt} message={message} onClick={onClick} />
             </div>
           </Transition>
@@ -79,7 +80,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
         <preact.Fragment>
           {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
           <Transition name="fade" stage="enter">
-            <div>
+            <div onTouchMove={opt.overlay ? preventDefaultAndStopPropagation : null}>
               <Toast {...opt} message={message} onClick={onClick} />
             </div>
           </Transition>
@@ -96,7 +97,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
     <preact.Fragment>
       {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
       <Transition name="fade" stage="enter" onAfterEnter={opt.onOpened}>
-        <div>
+        <div onTouchMove={opt.overlay ? preventDefaultAndStopPropagation : null}>
           <Toast {...opt} onClick={onClick} />
         </div>
       </Transition>

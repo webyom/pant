@@ -2,12 +2,13 @@ export function stopPropagation(event: Event): void {
   event.stopPropagation();
 }
 
-export function preventDefault(event: Event, isStopPropagation?: boolean): void {
+export function preventDefault(event: Event): void {
   if (typeof event.cancelable !== 'boolean' || event.cancelable) {
     event.preventDefault();
   }
+}
 
-  if (isStopPropagation) {
-    stopPropagation(event);
-  }
+export function preventDefaultAndStopPropagation(event: Event): void {
+  preventDefault(event);
+  stopPropagation(event);
 }

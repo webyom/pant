@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { Transition } from '../transition';
 import { createBEM } from '../utils/bem';
-import { preventDefault } from '../utils/event';
+import { preventDefaultAndStopPropagation } from '../utils/event';
 import { pantConfig } from '../';
 import './index.scss';
 
@@ -19,10 +19,6 @@ export type OverlayProps = {
 };
 
 const bem = createBEM('pant-overlay');
-
-function preventTouchMove(event: TouchEvent): void {
-  preventDefault(event, true);
-}
 
 export function Overlay(props: OverlayProps): preact.JSX.Element {
   const style: Record<string, any> = {
@@ -45,7 +41,7 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
       <div
         style={style}
         className={clsx(bem(), props.className)}
-        onTouchMove={preventTouchMove}
+        onTouchMove={preventDefaultAndStopPropagation}
         onClick={props.onClick}
       >
         {props.children}

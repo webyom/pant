@@ -4,6 +4,7 @@ import { Overlay } from '../overlay';
 import { Transition } from '../transition';
 import { isDef } from '../utils';
 import { createBEM } from '../utils/bem';
+import { preventDefaultAndStopPropagation } from '../utils/event';
 import './index.scss';
 
 export type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
@@ -62,6 +63,7 @@ export class Popup extends preact.Component<PopupProps> {
               [position]: position,
               'safe-area-inset-bottom': props.safeAreaInsetBottom,
             })}
+            onTouchMove={preventDefaultAndStopPropagation}
           >
             {props.children}
             {props.closeable && (
