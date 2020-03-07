@@ -19,6 +19,8 @@ export type ToastReturn = {
   setMessage(message: string): void;
 };
 
+const toastReturnList: ToastReturn[] = [];
+
 export function toast(options: string | ToastOptions): ToastReturn {
   let opt: ToastOptions;
   if (typeof options === 'string') {
@@ -38,7 +40,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
     }
   };
 
-  const res = {
+  const res: ToastReturn = {
     clear(): void {
       if (!container) {
         return;
@@ -59,6 +61,8 @@ export function toast(options: string | ToastOptions): ToastReturn {
         </Transition>,
         container,
       );
+      const index = toastReturnList.indexOf(res);
+      index >= 0 && toastReturnList.splice(index, 1);
     },
 
     setMessage(message: string): void {
@@ -77,6 +81,8 @@ export function toast(options: string | ToastOptions): ToastReturn {
       }
     },
   };
+
+  toastReturnList.push(res);
 
   document.body.appendChild(container);
   if (opt.overlay) {
@@ -102,4 +108,8 @@ export function toast(options: string | ToastOptions): ToastReturn {
   }
 
   return res;
+}
+
+export function clearAllToasts(): void {
+  toastReturnList.forEach(item => item.clear());
 }
