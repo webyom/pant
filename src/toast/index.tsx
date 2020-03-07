@@ -50,7 +50,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
         <preact.Fragment>
           {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={false} /> : null}
           <Transition
-            type="fade"
+            name="fade"
             stage="leave"
             onAfterLeave={function(): void {
               document.body.removeChild(container);
@@ -78,7 +78,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
       preact.render(
         <preact.Fragment>
           {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
-          <Transition type="fade" stage="enter">
+          <Transition name="fade" stage="enter">
             <div>
               <Toast {...opt} message={message} onClick={onClick} />
             </div>
@@ -95,7 +95,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   preact.render(
     <preact.Fragment>
       {opt.overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show /> : null}
-      <Transition type="fade" stage="enter" onAfterEnter={opt.onOpened}>
+      <Transition name="fade" stage="enter" onAfterEnter={opt.onOpened}>
         <div>
           <Toast {...opt} onClick={onClick} />
         </div>

@@ -176,6 +176,7 @@ $loading-spinner-size: 30px;
 $loading-spinner-animation-duration: 0.8s;
 
 // Popup
+$popup-z-index: 2;
 $popup-background-color: $white;
 $popup-transition: transform $animation-duration-base ease-out;
 $popup-round-border-radius: 20px;

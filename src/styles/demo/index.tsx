@@ -1,5 +1,5 @@
 import * as preact from 'preact';
-import { Transition, TransitionType, TransitionStage } from '../../transition';
+import { Transition, TransitionStage } from '../../transition';
 import { CellGroup } from '../../cell-group';
 import { Cell } from '../../cell';
 import { createBEM } from '../../utils/bem';
@@ -9,13 +9,13 @@ import './index.scss';
 const bem = createBEM('demo-styles');
 
 type StylesRouteComponentState = {
-  type: TransitionType;
+  name: string;
   stage: TransitionStage;
 };
 
 export class StylesRouteComponent extends preact.Component<any, StylesRouteComponentState> {
   state: StylesRouteComponentState = {
-    type: 'fade',
+    name: 'fade',
     stage: 'leave',
   };
 
@@ -47,35 +47,35 @@ export class StylesRouteComponent extends preact.Component<any, StylesRouteCompo
                 title="Fade"
                 rightIcon="arrow"
                 onClick={(): void => {
-                  this.setState({ type: 'fade', stage: 'enter' });
+                  this.setState({ name: 'fade', stage: 'enter' });
                 }}
               ></Cell>
               <Cell
                 title="Slide Up"
                 rightIcon="arrow"
                 onClick={(): void => {
-                  this.setState({ type: 'slide-up', stage: 'enter' });
+                  this.setState({ name: 'slide-up', stage: 'enter' });
                 }}
               ></Cell>
               <Cell
                 title="Slide Down"
                 rightIcon="arrow"
                 onClick={(): void => {
-                  this.setState({ type: 'slide-down', stage: 'enter' });
+                  this.setState({ name: 'slide-down', stage: 'enter' });
                 }}
               ></Cell>
               <Cell
                 title="Slide Left"
                 rightIcon="arrow"
                 onClick={(): void => {
-                  this.setState({ type: 'slide-left', stage: 'enter' });
+                  this.setState({ name: 'slide-left', stage: 'enter' });
                 }}
               ></Cell>
               <Cell
                 title="Slide Right"
                 rightIcon="arrow"
                 onClick={(): void => {
-                  this.setState({ type: 'slide-right', stage: 'enter' });
+                  this.setState({ name: 'slide-right', stage: 'enter' });
                 }}
               ></Cell>
             </CellGroup>

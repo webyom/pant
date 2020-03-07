@@ -19,11 +19,10 @@ export interface TransitionableComponent {
   ): void;
 }
 
-export type TransitionType = 'fade' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
 export type TransitionStage = 'enter' | 'leave';
 
 export type TransitionProps = {
-  type: TransitionType;
+  name: string;
   stage: TransitionStage;
   duration?: number | string;
   children: preact.VNode<TransitionableProps>;
@@ -80,9 +79,9 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
   }
 
   render(): preact.JSX.Element {
-    const { type, stage, duration, children } = this.props;
+    const { name, stage, duration, children } = this.props;
     const active = this.state.active;
-    const transitionClassName = active ? `pant-${type}-${stage}-active` : '';
+    const transitionClassName = active ? `pant-${name}-${stage}-active` : '';
     const childrenClassName = children.props.className;
     const className = transitionClassName
       ? childrenClassName

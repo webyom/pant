@@ -11,7 +11,7 @@ export type OverlayProps = {
   zIndex?: number | string;
   duration?: number;
   className?: any;
-  customStyle?: object;
+  customStyle?: Record<string, string>;
   children?: preact.VNode;
   onClick?(event: Event): void;
   onAfterEnter?(): void;
@@ -37,7 +37,7 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
 
   return (
     <Transition
-      type="fade"
+      name="fade"
       stage={props.show ? 'enter' : 'leave'}
       onAfterEnter={props.onAfterEnter}
       onAfterLeave={props.onAfterLeave}

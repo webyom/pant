@@ -53,6 +53,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/layout/">
             Layout <Arrow />
           </Link>
+          <Link href="/popup/">
+            Popup <Arrow />
+          </Link>
           <Link href="/styles/">
             Built-in Styles <Arrow />
           </Link>

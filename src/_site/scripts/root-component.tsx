@@ -11,6 +11,7 @@ import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
+import { PopupRouteComponent } from '../../popup/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StylesRouteComponent } from '../../styles/demo';
@@ -32,6 +33,7 @@ export class RootComponent extends preact.Component {
         <LayoutRouteComponent path="/layout/" />
         <LoadingRouteComponent path="/loading/" />
         <OverlayRouteComponent path="/overlay/" />
+        <PopupRouteComponent path="/popup/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
         <StylesRouteComponent path="/styles/" />
