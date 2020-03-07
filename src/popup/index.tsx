@@ -14,6 +14,7 @@ export type PopupCloseIconPosition = 'top-left' | 'top-right' | 'bottom-left' | 
 export type PopupProps = {
   name?: string;
   show?: boolean;
+  lazyRender?: boolean;
   round?: boolean;
   duration?: number | string;
   closeable?: boolean;
@@ -28,18 +29,43 @@ export type PopupProps = {
   onClickClose?(event: Event, props: PopupProps): void;
 } & TransitionEvents;
 
+type PopupState = {
+  active: boolean;
+};
+
 const bem = createBEM('pant-popup');
 
-export class Popup extends preact.Component<PopupProps> {
+export class Popup extends preact.Component<PopupProps, PopupState> {
   bindedOnClickClose = this.onClickClose.bind(this);
+  bindedOnAfterLeave = this.onAfterLeave.bind(this);
+  state = {
+    active: !!this.props.show,
+  };
 
-  onClickClose(event: Event): void {
+  static getDerivedStateFromProps(props: PopupProps): PopupState {
+    if (props.show) {
+      return { active: true };
+    }
+    return null;
+  }
+
+  private onClickClose(event: Event): void {
     const props = this.props;
     props.onClickClose && props.onClickClose(event, props);
   }
 
+  private onAfterLeave(): void {
+    this.setState({ active: false });
+    this.props.onAfterLeave && this.props.onAfterLeave();
+  }
+
   render(): preact.JSX.Element {
     const props = this.props;
+
+    if (props.lazyRender && !this.state.active) {
+      return;
+    }
+
     const { show, round, position, duration } = props;
     const isCenter = position === 'center';
 
@@ -61,7 +87,7 @@ export class Popup extends preact.Component<PopupProps> {
           customName={transitionName}
           stage={show ? 'enter' : 'leave'}
           onAfterEnter={props.onAfterEnter}
-          onAfterLeave={props.onAfterLeave}
+          onAfterLeave={this.bindedOnAfterLeave}
         >
           <div
             style={style}
@@ -88,6 +114,7 @@ export class Popup extends preact.Component<PopupProps> {
 }
 
 Popup.defaultProps = {
+  lazyRender: true,
   closeIcon: 'cross',
   closeIconPosition: 'top-right',
   position: 'center',

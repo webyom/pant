@@ -34,6 +34,7 @@ type CheckboxGroupState = {
 const bem = createBEM('pant-checkbox-group');
 
 export class CheckboxGroup extends preact.Component<CheckboxGroupProps, CheckboxGroupState> {
+  bindedOnClick = this.onClick.bind(this);
   state = {
     value: this.props.defaultValue,
   };
@@ -126,7 +127,7 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
             inactiveIconNode={props.inactiveIconNode}
             disabled={isDef(option.disabled) ? option.disabled : props.disabled}
             checked={stateValue.includes(option.value)}
-            onClick={this.onClick.bind(this)}
+            onClick={this.bindedOnClick}
           >
             {option.label}
           </Checkbox>
