@@ -51,8 +51,10 @@ export class Popup extends preact.Component<PopupProps> {
 
     return (
       <preact.Fragment>
-        {props.overlay ? <Overlay show={show} /> : null}
-        <Transition name={transitionName} stage={show ? 'enter' : 'leave'}>
+        {props.overlay ? (
+          <Overlay show={show} onClick={props.closeOnClickOverlay ? this.onClose.bind(this) : null} />
+        ) : null}
+        <Transition customName={transitionName} stage={show ? 'enter' : 'leave'}>
           <div
             style={style}
             className={bem({

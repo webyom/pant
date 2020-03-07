@@ -1,5 +1,5 @@
 import * as preact from 'preact';
-import { Transition, TransitionStage } from '../../transition';
+import { Transition, TransitionName, TransitionStage } from '../../transition';
 import { CellGroup } from '../../cell-group';
 import { Cell } from '../../cell';
 import { createBEM } from '../../utils/bem';
@@ -9,7 +9,7 @@ import './index.scss';
 const bem = createBEM('demo-styles');
 
 type StylesRouteComponentState = {
-  name: string;
+  name: TransitionName;
   stage: TransitionStage;
 };
 
