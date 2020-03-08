@@ -1,5 +1,6 @@
 import * as preact from 'preact';
 import { Dialog, DialogProps } from './dialog';
+import { Z_INDEX_DIALOG } from '../utils/constant';
 import './index.scss';
 
 export { Dialog };
@@ -12,6 +13,8 @@ export type DialogReturn = {
 };
 
 const dialogReturnList: DialogReturn[] = [];
+
+let zIndexNext = Z_INDEX_DIALOG;
 
 export function openDialog(options: string | DialogOptions): DialogReturn {
   let opt: DialogOptions;
@@ -29,6 +32,8 @@ export function openDialog(options: string | DialogOptions): DialogReturn {
     res.close();
   };
 
+  const zIndex = zIndexNext;
+
   const res: DialogReturn = {
     close(): void {
       if (!container) {
@@ -38,6 +43,7 @@ export function openDialog(options: string | DialogOptions): DialogReturn {
         <Dialog
           {...opt}
           {...props}
+          zIndex={zIndex}
           onCancelClick={opt.onCancelClick || onClick}
           onConfirmClick={opt.onConfirmClick || onClick}
           onClosed={function(): void {
@@ -50,6 +56,9 @@ export function openDialog(options: string | DialogOptions): DialogReturn {
       );
       const index = dialogReturnList.indexOf(res);
       index >= 0 && dialogReturnList.splice(index, 1);
+      if (!dialogReturnList.length) {
+        zIndexNext = Z_INDEX_DIALOG;
+      }
     },
 
     update(newProps: DialogProps): void {
@@ -61,6 +70,7 @@ export function openDialog(options: string | DialogOptions): DialogReturn {
         <Dialog
           {...opt}
           {...props}
+          zIndex={zIndex}
           onCancelClick={opt.onCancelClick || onClick}
           onConfirmClick={opt.onConfirmClick || onClick}
           show
@@ -76,12 +86,15 @@ export function openDialog(options: string | DialogOptions): DialogReturn {
   preact.render(
     <Dialog
       {...opt}
+      zIndex={zIndex}
       onCancelClick={opt.onCancelClick || onClick}
       onConfirmClick={opt.onConfirmClick || onClick}
       show
     />,
     container,
   );
+
+  zIndexNext++;
 
   return res;
 }

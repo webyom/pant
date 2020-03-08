@@ -1,6 +1,7 @@
 import * as preact from 'preact';
 import { Router } from 'preact-router';
 import { createHashHistory } from 'history';
+import { closeAllDialogs } from '../../dialog';
 import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
 import { ButtonRouteComponent } from '../../button/demo';
@@ -22,9 +23,14 @@ import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends preact.Component {
+  onRouteChange(): void {
+    closeAllDialogs();
+    clearAllToasts();
+  }
+
   render(): preact.JSX.Element {
     return (
-      <Router history={createHashHistory()} onChange={clearAllToasts}>
+      <Router history={createHashHistory()} onChange={this.onRouteChange}>
         <HomeRouteComponent path="/" />
         <ButtonRouteComponent path="/button/" />
         <CardRouteComponent path="/card/" />

@@ -13,6 +13,7 @@ export type ToastPosition = 'top' | 'middle' | 'bottom';
 
 export type ToastProps = {
   show?: boolean;
+  zIndex?: number | string;
   message: string;
   icon?: string;
   html?: boolean;
@@ -55,11 +56,11 @@ function genMessage(props: ToastProps): preact.JSX.Element {
 }
 
 export function Toast(props: ToastProps): preact.JSX.Element {
-  const { show, overlay } = props;
+  const { show, zIndex, overlay } = props;
 
   return (
     <preact.Fragment>
-      {overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} /> : null}
+      {overlay ? <Overlay zIndex={zIndex} customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} /> : null}
       <Transition
         name="fade"
         stage={show ? 'enter' : 'leave'}
@@ -71,6 +72,7 @@ export function Toast(props: ToastProps): preact.JSX.Element {
             bem([props.position, { [props.html ? 'html' : 'text']: !props.icon && !props.loading }]),
             props.className,
           )}
+          style={{ zIndex: zIndex }}
           onTouchMove={overlay ? preventDefaultAndStopPropagation : null}
           onClick={props.onClick}
         >

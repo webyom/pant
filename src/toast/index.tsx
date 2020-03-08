@@ -1,5 +1,6 @@
 import * as preact from 'preact';
 import { Toast, ToastProps } from './toast';
+import { Z_INDEX_TOAST } from '../utils/constant';
 import './index.scss';
 
 export { Toast };
@@ -15,6 +16,8 @@ export type ToastReturn = {
 
 const toastReturnList: ToastReturn[] = [];
 
+let zIndexNext = Z_INDEX_TOAST;
+
 export function toast(options: string | ToastOptions): ToastReturn {
   let opt: ToastOptions;
   if (typeof options === 'string') {
@@ -24,7 +27,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   }
   let message = opt.message;
 
-  const container = document.createElement('div');
+  let container = document.createElement('div');
   container.className = 'pant-toast-container';
 
   const onClick = function(event: Event): void {
@@ -35,14 +38,31 @@ export function toast(options: string | ToastOptions): ToastReturn {
     }
   };
 
+  const zIndex = zIndexNext;
+
   const res: ToastReturn = {
     clear(): void {
       if (!container) {
         return;
       }
-      preact.render(<Toast {...opt} message={message} />, container);
+      preact.render(
+        <Toast
+          {...opt}
+          message={message}
+          zIndex={zIndex}
+          onClosed={function(): void {
+            document.body.removeChild(container);
+            container = null;
+            opt.onClosed && opt.onClosed();
+          }}
+        />,
+        container,
+      );
       const index = toastReturnList.indexOf(res);
       index >= 0 && toastReturnList.splice(index, 1);
+      if (!toastReturnList.length) {
+        zIndexNext = Z_INDEX_TOAST;
+      }
     },
 
     setMessage(msg: string): void {
@@ -50,18 +70,20 @@ export function toast(options: string | ToastOptions): ToastReturn {
         return;
       }
       message = msg;
-      preact.render(<Toast {...opt} message={message} onClick={onClick} show />, container);
+      preact.render(<Toast {...opt} message={message} zIndex={zIndex} onClick={onClick} show />, container);
     },
   };
 
   toastReturnList.push(res);
 
   document.body.appendChild(container);
-  preact.render(<Toast {...opt} onClick={onClick} show />, container);
+  preact.render(<Toast {...opt} zIndex={zIndex} onClick={onClick} show />, container);
 
   if (opt.duration !== 0) {
     setTimeout(res.clear, opt.duration > 0 ? opt.duration : opt.loading ? 60 * 1000 : 2000);
   }
+
+  zIndexNext++;
 
   return res;
 }

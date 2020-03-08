@@ -14,6 +14,7 @@ export type DialogProps = {
   title?: string;
   titleNode?: preact.VNode | preact.VNode[];
   width?: number | string;
+  zIndex?: number | string;
   message?: string;
   messageNode?: preact.VNode | preact.VNode[];
   messageAlign?: string;
@@ -63,7 +64,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
 }
 
 export function Dialog(props: DialogProps): preact.JSX.Element {
-  const { show, message, messageAlign } = props;
+  const { show, zIndex, message, messageAlign } = props;
   const messageNode = props.messageNode;
   const title = props.titleNode || props.title;
 
@@ -85,7 +86,9 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
 
   return (
     <preact.Fragment>
-      {props.overlay ? <Overlay show={show} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} /> : null}
+      {props.overlay ? (
+        <Overlay show={show} zIndex={zIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
+      ) : null}
       <Transition
         customName={props.transition}
         stage={show ? 'enter' : 'leave'}
@@ -96,7 +99,7 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
           role="dialog"
           aria-labelledby={props.title || message}
           className={bem()}
-          style={{ width: addUnit(props.width) }}
+          style={{ width: addUnit(props.width), zIndex: zIndex }}
           onTouchMove={preventDefaultAndStopPropagation}
         >
           {Title}

@@ -25,6 +25,7 @@ export type PopupProps = {
   overlay?: boolean;
   closeOnClickOverlay?: boolean;
   customStyle?: Record<string, string>;
+  zIndex?: number | string;
   children?: string | preact.VNode | preact.VNode[];
   onClickClose?(event: Event, props: PopupProps): void;
 } & TransitionEvents;
@@ -66,13 +67,14 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
       return;
     }
 
-    const { show, round, position, duration } = props;
+    const { show, zIndex, round, position, duration } = props;
     const isCenter = position === 'center';
 
     const transitionName = isCenter ? 'fade' : `popup-slide-${position}`;
 
-    const style: Record<string, string> = {
+    const style: Record<string, number | string> = {
       ...props.customStyle,
+      zIndex: zIndex,
     };
     if (isDef(duration)) {
       style['animationDuration'] = `${duration}s`;
@@ -81,7 +83,7 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
     return (
       <preact.Fragment>
         {props.overlay ? (
-          <Overlay show={show} onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null} />
+          <Overlay show={show} zIndex={zIndex} onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null} />
         ) : null}
         <Transition
           customName={transitionName}
