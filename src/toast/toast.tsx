@@ -1,5 +1,8 @@
 import * as preact from 'preact';
 import clsx from 'clsx';
+import { Overlay } from '../overlay';
+import { Transition } from '../transition';
+import { preventDefaultAndStopPropagation } from '../utils/event';
 import { isDef } from '../utils';
 import { createBEM } from '../utils/bem';
 import { Icon } from '../icon';
@@ -9,6 +12,7 @@ import './index.scss';
 export type ToastPosition = 'top' | 'middle' | 'bottom';
 
 export type ToastProps = {
+  show?: boolean;
   message: string;
   icon?: string;
   html?: boolean;
@@ -18,6 +22,9 @@ export type ToastProps = {
   position?: ToastPosition;
   loading?: boolean;
   loadingType?: LoadingType;
+  closeOnClick?: boolean;
+  onClosed?(): void;
+  onOpened?(): void;
   onClick?(event: Event): void;
 };
 
@@ -48,17 +55,30 @@ function genMessage(props: ToastProps): preact.JSX.Element {
 }
 
 export function Toast(props: ToastProps): preact.JSX.Element {
+  const { show, overlay } = props;
+
   return (
-    <div
-      className={clsx(
-        bem([props.position, { [props.html ? 'html' : 'text']: !props.icon && !props.loading }]),
-        props.className,
-      )}
-      onClick={props.onClick}
-    >
-      {genIcon(props)}
-      {genMessage(props)}
-    </div>
+    <preact.Fragment>
+      {overlay ? <Overlay customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} /> : null}
+      <Transition
+        name="fade"
+        stage={show ? 'enter' : 'leave'}
+        onAfterEnter={show ? props.onOpened : null}
+        onAfterLeave={show ? null : props.onClosed}
+      >
+        <div
+          className={clsx(
+            bem([props.position, { [props.html ? 'html' : 'text']: !props.icon && !props.loading }]),
+            props.className,
+          )}
+          onTouchMove={overlay ? preventDefaultAndStopPropagation : null}
+          onClick={props.onClick}
+        >
+          {genIcon(props)}
+          {genMessage(props)}
+        </div>
+      </Transition>
+    </preact.Fragment>
   );
 }
 
