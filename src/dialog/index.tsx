@@ -13,7 +13,7 @@ export type DialogReturn = {
 
 const dialogReturnList: DialogReturn[] = [];
 
-export function dialog(options: string | DialogOptions): DialogReturn {
+export function openDialog(options: string | DialogOptions): DialogReturn {
   let opt: DialogOptions;
   if (typeof options === 'string') {
     opt = { message: options };

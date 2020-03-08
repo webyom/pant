@@ -54,7 +54,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
         size="large"
         className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
         loading={props.confirmLoading}
-        text={props.confirmButtonText || 'Ok'}
+        text={props.confirmButtonText || 'Confirm'}
         customStyle={{ color: props.confirmButtonColor }}
         onClick={props.onConfirmClick}
       />
