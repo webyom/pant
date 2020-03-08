@@ -29,6 +29,7 @@ export type ButtonProps = {
   loadingType?: LoadingType;
   loadingText?: string;
   className?: string;
+  customStyle?: Record<string, string>;
   children?: string;
   onClick?(event: Event): void;
 };
@@ -38,7 +39,7 @@ const bem = createBEM('pant-button');
 export function Button(props: ButtonProps): preact.JSX.Element {
   const { url, icon, type, color, plain, disabled, loading, hairline, loadingText } = props;
 
-  const style: Record<string, string | number> = {};
+  let style: Record<string, string | number> = {};
 
   if (color) {
     style.color = plain ? color : WHITE;
@@ -55,6 +56,8 @@ export function Button(props: ButtonProps): preact.JSX.Element {
       style.borderColor = color;
     }
   }
+
+  style = { ...style, ...props.customStyle };
 
   function onClick(event: Event): void {
     if (!loading && !disabled && props.onClick) {

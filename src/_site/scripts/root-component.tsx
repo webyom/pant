@@ -7,6 +7,7 @@ import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
+import { DialogRouteComponent } from '../../dialog/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
@@ -29,6 +30,7 @@ export class RootComponent extends preact.Component {
         <CardRouteComponent path="/card/" />
         <CellRouteComponent path="/cell/" />
         <CheckboxRouteComponent path="/checkbox/" />
+        <DialogRouteComponent path="/dialog/" />
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
         <LoadingRouteComponent path="/loading/" />
