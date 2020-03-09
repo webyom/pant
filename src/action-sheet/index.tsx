@@ -1,5 +1,5 @@
 import * as preact from 'preact';
-import { Dialog, DialogProps } from './dialog';
+import { Dialog, DialogProps } from './action-sheet';
 import { Z_INDEX_DIALOG } from '../utils/constant';
 import './index.scss';
 
