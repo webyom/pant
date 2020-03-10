@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import { closeAllDialogs } from '../../dialog';
 import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
+import { ActionSheetRouteComponent } from '../../action-sheet/demo';
 import { ButtonRouteComponent } from '../../button/demo';
 import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
@@ -32,6 +33,7 @@ export class RootComponent extends preact.Component {
     return (
       <Router history={createHashHistory()} onChange={this.onRouteChange}>
         <HomeRouteComponent path="/" />
+        <ActionSheetRouteComponent path="/action-sheet/" />
         <ButtonRouteComponent path="/button/" />
         <CardRouteComponent path="/card/" />
         <CellRouteComponent path="/cell/" />

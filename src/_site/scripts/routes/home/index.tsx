@@ -73,6 +73,9 @@ export class HomeRouteComponent extends preact.Component {
 
         <section>
           <h3>Action Components</h3>
+          <Link href="/action-sheet/">
+            ActionSheet <Arrow />
+          </Link>
           <Link href="/dialog/">
             Dialog <Arrow />
           </Link>

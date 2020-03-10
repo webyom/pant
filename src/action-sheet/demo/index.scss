@@ -1,9 +1,13 @@
 @import '../../styles/var.scss';
 
-.demo-dialog {
-  padding: $padding-md;
-  .pant-button {
-    margin-right: $padding-md;
-    margin-bottom: $padding-md;
+.demo-action-sheet {
+  padding: $padding-md 0;
+  background-color: $gray-1;
+  min-height: calc(100vh - 56px);
+  > section {
+    margin-bottom: $padding-xl;
+    > h2 {
+      padding: 0 $padding-md;
+    }
   }
 }

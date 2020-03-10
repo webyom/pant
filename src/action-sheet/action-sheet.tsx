@@ -108,6 +108,7 @@ export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
       lazyRender={props.lazyRender}
       closeOnClickOverlay={props.closeOnClickOverlay}
       safeAreaInsetBottom={props.safeAreaInsetBottom}
+      onClickClose={props.onCancel}
       onAfterEnter={show ? props.onOpened : null}
       onAfterLeave={show ? null : props.onClosed}
     >
@@ -123,4 +124,5 @@ export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
 ActionSheet.defaultProps = {
   round: true,
   safeAreaInsetBottom: true,
+  closeOnClickOverlay: true,
 };
