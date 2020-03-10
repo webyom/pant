@@ -29,7 +29,7 @@ export type ButtonProps = {
   loadingType?: LoadingType;
   loadingText?: string;
   className?: string;
-  customStyle?: Record<string, string>;
+  customStyle?: Record<string, string | number>;
   children?: string;
   onClick?(event: Event): void;
 };

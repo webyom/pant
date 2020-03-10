@@ -216,6 +216,16 @@ $loading-spinner-color: $gray-5;
 $loading-spinner-size: 30px;
 $loading-spinner-animation-duration: 0.8s;
 
+// Notify
+$notify-text-color: $white;
+$notify-padding: $padding-xs $padding-md;
+$notify-font-size: $font-size-md;
+$notify-line-height: 20px;
+$notify-primary-background-color: $blue;
+$notify-success-background-color: $green;
+$notify-danger-background-color: $red;
+$notify-warning-background-color: $orange;
+
 // Popup
 $popup-z-index: 2;
 $popup-background-color: $white;

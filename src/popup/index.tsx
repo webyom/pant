@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
-import { Transition, TransitionEvents } from '../transition';
+import { Transition } from '../transition';
 import { isDef } from '../utils';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -25,12 +25,16 @@ export type PopupProps = {
   position?: PopupPosition;
   overlay?: boolean;
   closeOnClickOverlay?: boolean;
-  customStyle?: Record<string, string>;
+  lockScroll?: boolean;
+  customStyle?: Record<string, string | number>;
   zIndex?: number | string;
   className?: string;
   children?: preact.ComponentChild;
+  onClosed?(): void;
+  onOpened?(): void;
+  onClick?(event: Event, props: PopupProps): void;
   onClickClose?(event: Event, props: PopupProps): void;
-} & TransitionEvents;
+};
 
 type PopupState = {
   active: boolean;
@@ -39,8 +43,9 @@ type PopupState = {
 const bem = createBEM('pant-popup');
 
 export class Popup extends preact.Component<PopupProps, PopupState> {
+  bindedOnClick = this.onClick.bind(this);
   bindedOnClickClose = this.onClickClose.bind(this);
-  bindedOnAfterLeave = this.onAfterLeave.bind(this);
+  bindedOnClosed = this.onClosed.bind(this);
   state = {
     active: !!this.props.show,
   };
@@ -52,14 +57,19 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
     return null;
   }
 
+  private onClick(event: Event): void {
+    const props = this.props;
+    props.onClick && props.onClick(event, props);
+  }
+
   private onClickClose(event: Event): void {
     const props = this.props;
     props.onClickClose && props.onClickClose(event, props);
   }
 
-  private onAfterLeave(): void {
+  private onClosed(): void {
     this.setState({ active: false });
-    this.props.onAfterLeave && this.props.onAfterLeave();
+    this.props.onClosed && this.props.onClosed();
   }
 
   render(): preact.JSX.Element {
@@ -90,8 +100,8 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
         <Transition
           customName={transitionName}
           stage={show ? 'enter' : 'leave'}
-          onAfterEnter={props.onAfterEnter}
-          onAfterLeave={this.bindedOnAfterLeave}
+          onAfterEnter={props.onOpened}
+          onAfterLeave={this.bindedOnClosed}
         >
           <div
             style={style}
@@ -103,7 +113,8 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
               }),
               props.className,
             )}
-            onTouchMove={preventDefaultAndStopPropagation}
+            onClick={this.bindedOnClick}
+            onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
           >
             {props.children}
             {props.closeable && (
@@ -127,4 +138,5 @@ Popup.defaultProps = {
   position: 'center',
   overlay: true,
   closeOnClickOverlay: true,
+  lockScroll: true,
 };

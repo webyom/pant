@@ -11,7 +11,7 @@ export type OverlayProps = {
   zIndex?: number | string;
   duration?: number;
   className?: any;
-  customStyle?: Record<string, string>;
+  customStyle?: Record<string, string | number>;
   children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 } & TransitionEvents;

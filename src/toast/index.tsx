@@ -7,6 +7,7 @@ export { Toast, ToastProps, ToastPosition } from './toast';
 
 export type ToastOptions = ToastProps & {
   duration?: number;
+  clearOnClick?: boolean;
 };
 
 export type ToastReturn = {
@@ -33,7 +34,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
   const onClick = function(event: Event): void {
     if (opt.onClick) {
       opt.onClick(event);
-    } else if (opt.closeOnClick) {
+    } else if (opt.clearOnClick) {
       res.clear();
     }
   };
@@ -50,6 +51,7 @@ export function toast(options: string | ToastOptions): ToastReturn {
           {...opt}
           message={message}
           zIndex={zIndex}
+          onClick={onClick}
           onClosed={function(): void {
             document.body.removeChild(container);
             container = null;

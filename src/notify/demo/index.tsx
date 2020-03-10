@@ -1,0 +1,95 @@
+import * as preact from 'preact';
+import { Button } from '../../button';
+import { notify } from '../../notify';
+import { createBEM } from '../../utils/bem';
+import { NavBar } from '../../_site/scripts/components/nav-bar';
+import './index.scss';
+
+const bem = createBEM('demo-notify');
+
+export class NotifyRouteComponent extends preact.Component {
+  render(): preact.JSX.Element {
+    return (
+      <preact.Fragment>
+        <NavBar title="Notify" type="notify" />
+        <div className={bem()}>
+          <section>
+            <h2>Basic Usage</h2>
+            <Button
+              type="danger"
+              onClick={(): void => {
+                notify('Notify Message');
+              }}
+            >
+              Basic Usage
+            </Button>
+          </section>
+
+          <section>
+            <h2>Notify Type</h2>
+            <Button
+              type="info"
+              onClick={(): void => {
+                notify('Notify Message', 'primary');
+              }}
+            >
+              Primary
+            </Button>
+            <Button
+              type="primary"
+              onClick={(): void => {
+                notify('Notify Message', 'success');
+              }}
+            >
+              Success
+            </Button>
+            <Button
+              type="danger"
+              onClick={(): void => {
+                notify('Notify Message', 'danger');
+              }}
+            >
+              Danger
+            </Button>
+            <Button
+              type="warning"
+              onClick={(): void => {
+                notify('Notify Message', 'warning');
+              }}
+            >
+              Warning
+            </Button>
+          </section>
+
+          <section>
+            <h2>Custom Notify</h2>
+            <Button
+              type="primary"
+              onClick={(): void => {
+                notify({ message: 'Custom Color', color: '#ad0000', background: '#ffe1e1' });
+              }}
+            >
+              Custom Color
+            </Button>
+            <Button
+              type="primary"
+              onClick={(): void => {
+                notify({ message: 'Custom Duration', duration: 5000 });
+              }}
+            >
+              Custom Duration
+            </Button>
+            <Button
+              type="primary"
+              onClick={(): void => {
+                notify({ message: 'Clear on Close', duration: 5000, clearOnClick: true });
+              }}
+            >
+              Clear on Close
+            </Button>
+          </section>
+        </div>
+      </preact.Fragment>
+    );
+  }
+}

@@ -110,8 +110,8 @@ export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
       closeOnClickOverlay={props.closeOnClickOverlay}
       safeAreaInsetBottom={props.safeAreaInsetBottom}
       onClickClose={props.onCancel}
-      onAfterEnter={show ? props.onOpened : null}
-      onAfterLeave={show ? null : props.onClosed}
+      onOpened={show ? props.onOpened : null}
+      onClosed={show ? null : props.onClosed}
     >
       {Header()}
       {Description}

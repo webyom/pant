@@ -38,7 +38,7 @@ export class ToastRouteComponent extends preact.Component {
             <Button
               type="primary"
               onClick={(): void => {
-                toast({ message: 'Loading...', loading: true, overlay: true, closeOnClick: true });
+                toast({ message: 'Loading...', loading: true, overlay: true, clearOnClick: true });
               }}
             >
               Loading
@@ -51,7 +51,7 @@ export class ToastRouteComponent extends preact.Component {
                   loading: true,
                   overlay: true,
                   loadingType: 'spinner',
-                  closeOnClick: true,
+                  clearOnClick: true,
                 });
               }}
             >

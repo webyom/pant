@@ -3,6 +3,7 @@ import { Router } from 'preact-router';
 import { createHashHistory } from 'history';
 import { closeAllactionSheets } from '../../action-sheet';
 import { closeAllDialogs } from '../../dialog';
+import { clearAllNotifies } from '../../notify';
 import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
 import { ActionSheetRouteComponent } from '../../action-sheet/demo';
@@ -14,6 +15,7 @@ import { DialogRouteComponent } from '../../dialog/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
+import { NotifyRouteComponent } from '../../notify/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
@@ -28,6 +30,7 @@ export class RootComponent extends preact.Component {
   onRouteChange(): void {
     closeAllactionSheets();
     closeAllDialogs();
+    clearAllNotifies();
     clearAllToasts();
   }
 
@@ -44,6 +47,7 @@ export class RootComponent extends preact.Component {
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
         <LoadingRouteComponent path="/loading/" />
+        <NotifyRouteComponent path="/notify/" />
         <OverlayRouteComponent path="/overlay/" />
         <PopupRouteComponent path="/popup/" />
         <RadioRouteComponent path="/radio/" />

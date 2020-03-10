@@ -82,6 +82,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/loading/">
             Loading <Arrow />
           </Link>
+          <Link href="/notify/">
+            Notify <Arrow />
+          </Link>
           <Link href="/overlay/">
             Overlay <Arrow />
           </Link>

@@ -23,7 +23,6 @@ export type ToastProps = {
   position?: ToastPosition;
   loading?: boolean;
   loadingType?: LoadingType;
-  closeOnClick?: boolean;
   onClosed?(): void;
   onOpened?(): void;
   onClick?(event: Event): void;
