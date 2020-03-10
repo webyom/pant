@@ -9,6 +9,7 @@ import './index.scss';
 
 export type ActionSheetItem = {
   name: string;
+  value?: any;
   color?: string;
   subname?: string;
   loading?: boolean;
