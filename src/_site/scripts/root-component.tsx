@@ -1,6 +1,7 @@
 import * as preact from 'preact';
 import { Router } from 'preact-router';
 import { createHashHistory } from 'history';
+import { closeAllactionSheets } from '../../action-sheet';
 import { closeAllDialogs } from '../../dialog';
 import { clearAllToasts } from '../../toast';
 import { HomeRouteComponent } from './routes/home';
@@ -25,6 +26,7 @@ import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends preact.Component {
   onRouteChange(): void {
+    closeAllactionSheets();
     closeAllDialogs();
     clearAllToasts();
   }
