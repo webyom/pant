@@ -1,32 +1,25 @@
 import * as preact from 'preact';
-import { Dialog, DialogProps } from './action-sheet';
-import { Z_INDEX_DIALOG } from '../utils/constant';
+import { ActionSheet, ActionSheetProps } from './action-sheet';
+import { Z_INDEX_ACTION_SHEET } from '../utils/constant';
 import './index.scss';
 
-export { Dialog };
+export { ActionSheet, ActionSheetProps };
 
-export type DialogOptions = DialogProps & {};
+export type ActionSheetOptions = ActionSheetProps & {};
 
-export type DialogReturn = {
+export type ActionSheetReturn = {
   close(): void;
-  update(newProps: DialogProps): void;
 };
 
-const dialogReturnList: DialogReturn[] = [];
+const actionSheetReturnList: ActionSheetReturn[] = [];
 
-let zIndexNext = Z_INDEX_DIALOG;
+let zIndexNext = Z_INDEX_ACTION_SHEET;
 
-export function dialog(options: string | DialogOptions): DialogReturn {
-  let opt: DialogOptions;
-  if (typeof options === 'string') {
-    opt = { message: options };
-  } else {
-    opt = options;
-  }
-  let props: DialogProps;
+export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
+  const opt = options;
 
   let container = document.createElement('div');
-  container.className = 'pant-dialog-container';
+  container.className = 'pant-action-sheet-container';
 
   const onClick = function(): void {
     res.close();
@@ -34,18 +27,16 @@ export function dialog(options: string | DialogOptions): DialogReturn {
 
   const zIndex = zIndexNext;
 
-  const res: DialogReturn = {
+  const res: ActionSheetReturn = {
     close(): void {
       if (!container) {
         return;
       }
       preact.render(
-        <Dialog
+        <ActionSheet
           {...opt}
-          {...props}
           zIndex={zIndex}
-          onCancelClick={opt.onCancelClick || onClick}
-          onConfirmClick={opt.onConfirmClick || onClick}
+          onCancel={opt.onCancel || onClick}
           onClosed={function(): void {
             document.body.removeChild(container);
             container = null;
@@ -54,51 +45,24 @@ export function dialog(options: string | DialogOptions): DialogReturn {
         />,
         container,
       );
-      const index = dialogReturnList.indexOf(res);
-      index >= 0 && dialogReturnList.splice(index, 1);
-      if (!dialogReturnList.length) {
-        zIndexNext = Z_INDEX_DIALOG;
+      const index = actionSheetReturnList.indexOf(res);
+      index >= 0 && actionSheetReturnList.splice(index, 1);
+      if (!actionSheetReturnList.length) {
+        zIndexNext = Z_INDEX_ACTION_SHEET;
       }
-    },
-
-    update(newProps: DialogProps): void {
-      if (!container) {
-        return;
-      }
-      props = newProps;
-      preact.render(
-        <Dialog
-          {...opt}
-          {...props}
-          zIndex={zIndex}
-          onCancelClick={opt.onCancelClick || onClick}
-          onConfirmClick={opt.onConfirmClick || onClick}
-          show
-        />,
-        container,
-      );
     },
   };
 
-  dialogReturnList.push(res);
+  actionSheetReturnList.push(res);
 
   document.body.appendChild(container);
-  preact.render(
-    <Dialog
-      {...opt}
-      zIndex={zIndex}
-      onCancelClick={opt.onCancelClick || onClick}
-      onConfirmClick={opt.onConfirmClick || onClick}
-      show
-    />,
-    container,
-  );
+  preact.render(<ActionSheet {...opt} zIndex={zIndex} onCancel={opt.onCancel || onClick} show />, container);
 
   zIndexNext++;
 
   return res;
 }
 
-export function closeAllDialogs(): void {
-  dialogReturnList.forEach(item => item.close());
+export function closeAllactionSheets(): void {
+  actionSheetReturnList.forEach(item => item.close());
 }

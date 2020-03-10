@@ -12,7 +12,7 @@ export type OverlayProps = {
   duration?: number;
   className?: any;
   customStyle?: Record<string, string>;
-  children?: preact.VNode;
+  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 } & TransitionEvents;
 

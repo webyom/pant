@@ -6,7 +6,7 @@ export type ColProps = {
   span?: number | string;
   offset?: number | string;
   gutter?: number | string;
-  children?: string | preact.VNode | preact.VNode[];
+  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 

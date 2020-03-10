@@ -3,7 +3,7 @@ import { Dialog, DialogProps } from './dialog';
 import { Z_INDEX_DIALOG } from '../utils/constant';
 import './index.scss';
 
-export { Dialog };
+export { Dialog, DialogProps } from './dialog';
 
 export type DialogOptions = DialogProps & {};
 

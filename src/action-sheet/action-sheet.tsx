@@ -1,118 +1,126 @@
 import * as preact from 'preact';
 import clsx from 'clsx';
-import { Button } from '../button';
-import { Overlay } from '../overlay';
-import { Transition } from '../transition';
-import { addUnit } from '../utils';
+import { Popup, PopupProps } from '../popup';
+import { Loading } from '../loading';
+import { Icon } from '../icon';
 import { createBEM } from '../utils/bem';
-import { BORDER_TOP, BORDER_LEFT } from '../utils/constant';
-import { preventDefaultAndStopPropagation } from '../utils/event';
+import { BORDER_TOP } from '../utils/constant';
 import './index.scss';
 
-export type DialogProps = {
-  show?: boolean;
-  title?: string;
-  titleNode?: preact.VNode | preact.VNode[];
-  width?: number | string;
-  zIndex?: number | string;
-  message?: string;
-  messageNode?: preact.VNode | preact.VNode[];
-  messageAlign?: string;
-  cancelButtonText?: string;
-  cancelButtonColor?: string;
-  confirmButtonText?: string;
-  confirmButtonColor?: string;
-  showCancelButton?: boolean;
-  cancelLoading?: boolean;
-  confirmLoading?: boolean;
-  transition?: string;
-  overlay?: boolean;
-  cancelOnClickOverlay?: boolean;
-  onClosed?(): void;
-  onOpened?(): void;
-  onCancelClick?(event: Event): void;
-  onConfirmClick?(event: Event): void;
+export type ActionSheetItem = {
+  name: string;
+  color?: string;
+  subname?: string;
+  loading?: boolean;
+  disabled?: boolean;
+  className?: string;
 };
 
-const bem = createBEM('pant-dialog');
+export type ActionSheetProps = PopupProps & {
+  title?: string;
+  actions?: ActionSheetItem[];
+  cancelText?: string;
+  description?: string;
+  onClosed?(): void;
+  onOpened?(): void;
+  onCancel?(event: Event): void;
+  onSelect?(item: ActionSheetItem, index: number): void;
+};
 
-function genButtons(props: DialogProps): preact.JSX.Element {
-  const multiple = props.showCancelButton;
+const bem = createBEM('pant-action-sheet');
 
-  return (
-    <div className={clsx(BORDER_TOP, bem('footer', { buttons: multiple }))}>
-      {props.showCancelButton && (
-        <Button
-          size="large"
-          className={bem('cancel')}
-          loading={props.cancelLoading}
-          text={props.cancelButtonText || 'Cancel'}
-          customStyle={{ color: props.cancelButtonColor }}
-          onClick={props.onCancelClick}
-        />
-      )}
-      <Button
-        size="large"
-        className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
-        loading={props.confirmLoading}
-        text={props.confirmButtonText || 'Confirm'}
-        customStyle={{ color: props.confirmButtonColor }}
-        onClick={props.onConfirmClick}
-      />
-    </div>
-  );
-}
+export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
+  const { show, title, cancelText } = props;
 
-export function Dialog(props: DialogProps): preact.JSX.Element {
-  const { show, zIndex, message, messageAlign } = props;
-  const messageNode = props.messageNode;
-  const title = props.titleNode || props.title;
-
-  const Title = title && <div className={bem('header', { isolated: !message && !messageNode })}>{title}</div>;
-
-  const Content = (messageNode || message) && (
-    <div className={bem('content')}>
-      {messageNode || (
-        <div
-          dangerouslySetInnerHTML={{ __html: message }}
-          className={bem('message', {
-            'has-title': title,
-            [messageAlign]: messageAlign,
-          })}
-        />
-      )}
-    </div>
-  );
-
-  return (
-    <preact.Fragment>
-      {props.overlay ? (
-        <Overlay show={show} zIndex={zIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
-      ) : null}
-      <Transition
-        customName={props.transition}
-        stage={show ? 'enter' : 'leave'}
-        onAfterEnter={show ? props.onOpened : null}
-        onAfterLeave={show ? null : props.onClosed}
-      >
-        <div
-          role="dialog"
-          aria-labelledby={props.title || message}
-          className={bem()}
-          style={{ width: addUnit(props.width), zIndex: zIndex }}
-          onTouchMove={preventDefaultAndStopPropagation}
-        >
-          {Title}
-          {Content}
-          {genButtons(props)}
+  function Header(): preact.JSX.Element {
+    if (title) {
+      return (
+        <div class={bem('header')}>
+          {title}
+          <Icon name={props.closeIcon} className={bem('close')} onClick={props.onCancel} />
         </div>
-      </Transition>
-    </preact.Fragment>
+      );
+    }
+  }
+
+  function Content(): preact.JSX.Element {
+    if (props.children) {
+      return <div class={bem('content')}>{props.children}</div>;
+    }
+  }
+
+  function Option(item: ActionSheetItem, index: number): preact.JSX.Element {
+    const { disabled, loading } = item;
+
+    function onClickOption(event: MouseEvent): void {
+      event.stopPropagation();
+
+      if (disabled || loading) {
+        return;
+      }
+
+      props.onSelect && props.onSelect(item, index);
+    }
+
+    function OptionContent(): preact.JSX.Element | preact.JSX.Element[] {
+      if (loading) {
+        return <Loading size="20px" />;
+      }
+
+      return [
+        <span class={bem('name')}>{item.name}</span>,
+        item.subname && <span class={bem('subname')}>{item.subname}</span>,
+      ];
+    }
+
+    return (
+      <button
+        type="button"
+        className={clsx(bem('item', { disabled, loading }), item.className, BORDER_TOP)}
+        style={{ color: item.color }}
+        onClick={onClickOption}
+      >
+        {OptionContent()}
+      </button>
+    );
+  }
+
+  function CancelText(): preact.JSX.Element {
+    if (cancelText) {
+      return (
+        <button type="button" class={bem('cancel')} onClick={props.onCancel}>
+          {cancelText}
+        </button>
+      );
+    }
+  }
+
+  const Description = props.description && <div class={bem('description')}>{props.description}</div>;
+
+  return (
+    <Popup
+      className={bem()}
+      show={show}
+      position="bottom"
+      round={props.round}
+      overlay={props.overlay}
+      duration={props.duration}
+      lazyRender={props.lazyRender}
+      closeOnClickOverlay={props.closeOnClickOverlay}
+      safeAreaInsetBottom={props.safeAreaInsetBottom}
+      onAfterEnter={show ? props.onOpened : null}
+      onAfterLeave={show ? null : props.onClosed}
+    >
+      {Header()}
+      {Description}
+      {props.actions && props.actions.map(Option)}
+      {Content()}
+      {CancelText()}
+    </Popup>
   );
 }
 
-Dialog.defaultProps = {
-  transition: 'dialog-bounce',
-  overlay: true,
-  cancelOnClickOverlay: false,
+ActionSheet.defaultProps = {
+  round: true,
+  safeAreaInsetBottom: true,
 };

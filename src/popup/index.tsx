@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import clsx from 'clsx';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
 import { Transition, TransitionEvents } from '../transition';
@@ -26,7 +27,8 @@ export type PopupProps = {
   closeOnClickOverlay?: boolean;
   customStyle?: Record<string, string>;
   zIndex?: number | string;
-  children?: string | preact.VNode | preact.VNode[];
+  className?: string;
+  children?: preact.ComponentChild;
   onClickClose?(event: Event, props: PopupProps): void;
 } & TransitionEvents;
 
@@ -93,11 +95,14 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
         >
           <div
             style={style}
-            className={bem({
-              round,
-              [position]: position,
-              'safe-area-inset-bottom': props.safeAreaInsetBottom,
-            })}
+            className={clsx(
+              bem({
+                round,
+                [position]: position,
+                'safe-area-inset-bottom': props.safeAreaInsetBottom,
+              }),
+              props.className,
+            )}
             onTouchMove={preventDefaultAndStopPropagation}
           >
             {props.children}

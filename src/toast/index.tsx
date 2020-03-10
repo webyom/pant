@@ -3,7 +3,7 @@ import { Toast, ToastProps } from './toast';
 import { Z_INDEX_TOAST } from '../utils/constant';
 import './index.scss';
 
-export { Toast };
+export { Toast, ToastProps, ToastPosition } from './toast';
 
 export type ToastOptions = ToastProps & {
   duration?: number;

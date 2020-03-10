@@ -5,15 +5,15 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type CellProps = {
+  title?: preact.ComponentChildren;
+  label?: preact.ComponentChildren;
   icon?: string | preact.VNode;
-  title?: string | preact.VNode | Array<string | preact.VNode>;
-  label?: string | preact.VNode | Array<string | preact.VNode>;
   rightIcon?: string | preact.VNode;
   large?: boolean;
   border?: boolean;
   center?: boolean;
   required?: boolean;
-  children?: string | preact.VNode | Array<string | preact.VNode>;
+  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 

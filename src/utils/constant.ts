@@ -15,5 +15,6 @@ export const BORDER_TOP_BOTTOM = `${BORDER}--top-bottom`;
 export const BORDER_UNSET_TOP_BOTTOM = `${BORDER}-unset--top-bottom`;
 
 // z-index
+export const Z_INDEX_ACTION_SHEET = 100;
 export const Z_INDEX_DIALOG = 900;
 export const Z_INDEX_TOAST = 1000;
