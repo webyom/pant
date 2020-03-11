@@ -41,7 +41,9 @@ export function Cell(props: CellProps): preact.JSX.Element {
   }
 
   function Value(): preact.JSX.Element {
-    return <div className={bem('value', { alone: !showTitle })}>{props.children}</div>;
+    if (isDef(props.children)) {
+      return <div className={bem('value', { alone: !showTitle })}>{props.children}</div>;
+    }
   }
 
   function LeftIcon(): preact.JSX.Element {

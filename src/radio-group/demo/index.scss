@@ -1,15 +1,23 @@
 @import '../../styles/var.scss';
 
 .demo-radio {
-  padding: $padding-md;
   > section {
     margin-bottom: $padding-xl;
+    padding: 0 $padding-md;
     .pant-checkbox {
       font-size: $font-size-lg;
       margin-bottom: $padding-xs;
       img {
         height: 20px;
       }
+    }
+    .pant-cell {
+      > .pant-checkbox {
+        margin-bottom: 0;
+      }
+    }
+    &.cell {
+      padding: 0;
     }
   }
 }

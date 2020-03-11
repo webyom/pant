@@ -166,6 +166,13 @@ export class CheckboxRouteComponent extends preact.Component<any, CheckboxRouteC
               </Col>
             </Row>
           </section>
+
+          <section class="cell">
+            <CheckboxGroup
+              cellGroup={{ border: true, title: 'Inside a Cell' }}
+              options={['Checkbox a', 'Checkbox b', 'Checkbox c']}
+            />
+          </section>
         </div>
       </preact.Fragment>
     );

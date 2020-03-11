@@ -72,6 +72,14 @@ export class RadioRouteComponent extends preact.Component {
             <h2>Custom Label Click</h2>
             <RadioGroup options={['Radio a', 'Radio b']} defaultValue="Radio a" labelDisabled />
           </section>
+
+          <section class="cell">
+            <RadioGroup
+              cellGroup={{ border: true, title: 'Inside a Cell' }}
+              options={['Radio a', 'Radio b', 'Radio c']}
+              defaultValue="Radio a"
+            />
+          </section>
         </div>
       </preact.Fragment>
     );

@@ -1,4 +1,6 @@
 import * as preact from 'preact';
+import { Cell } from '../cell';
+import { CellGroup, CellGroupProps } from '../cell-group';
 import { Checkbox, CheckboxBaseProps, CheckboxProps, CheckboxRole } from '../checkbox';
 import { omit, isDef } from '../utils';
 import { createBEM } from '../utils/bem';
@@ -15,6 +17,7 @@ export type CheckboxGroupOption =
 export type CheckboxGroupOptions = CheckboxGroupOption[];
 
 export type CheckboxGroupBaseProps = CheckboxBaseProps & {
+  cellGroup?: boolean | CellGroupProps;
   options?: CheckboxGroupOptions;
   onClick?(event: Event, checkboxProps: CheckboxProps): void;
   onChange?(value: string[], props: CheckboxGroupProps): void;
@@ -89,6 +92,9 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     let newValue: string[];
 
     if (checkboxProps.checked) {
+      if (props.role === 'radio') {
+        return;
+      }
       newValue = oldValue.filter(function(value): boolean {
         return value !== checkboxProps.value;
       });
@@ -109,31 +115,56 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     onClick && onClick(event, checkboxProps);
   }
 
-  private genOptions(): preact.JSX.Element[] {
+  private onCellClick(checkboxProps: CheckboxProps, event: Event): void {
+    this.onClick(event, checkboxProps);
+  }
+
+  private genOption(option: CheckboxGroupOption, passProps: CheckboxProps): preact.JSX.Element {
     const props = this.props;
-    const { options } = props;
     const stateValue = this.state.value;
 
-    return options.map(
-      (option): preact.JSX.Element => {
-        const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onClick', 'onChange', 'onMaxLimit']);
-        option = this.normalizeOption(option);
-        return (
-          <Checkbox
-            {...passProps}
-            value={option.value}
-            iconNode={props.iconNode}
-            activeIconNode={props.activeIconNode}
-            inactiveIconNode={props.inactiveIconNode}
-            disabled={isDef(option.disabled) ? option.disabled : props.disabled}
-            checked={stateValue.includes(option.value)}
-            onClick={this.bindedOnClick}
-          >
-            {option.label}
-          </Checkbox>
-        );
-      },
+    option = this.normalizeOption(option);
+    const label = option.label;
+    option = { ...option, label: '' };
+
+    const checkboxProps = {
+      ...passProps,
+      value: option.value,
+      iconNode: props.iconNode,
+      activeIconNode: props.activeIconNode,
+      inactiveIconNode: props.inactiveIconNode,
+      disabled: isDef(option.disabled) ? option.disabled : props.disabled,
+      checked: stateValue.includes(option.value),
+    };
+
+    if (props.cellGroup) {
+      return (
+        <Cell
+          title={label}
+          rightIcon={<Checkbox {...checkboxProps}>{option.label}</Checkbox>}
+          onClick={this.onCellClick.bind(this, checkboxProps)}
+        ></Cell>
+      );
+    }
+
+    return (
+      <Checkbox {...checkboxProps} onClick={this.bindedOnClick}>
+        {label}
+      </Checkbox>
     );
+  }
+
+  private genOptions(): preact.JSX.Element | preact.JSX.Element[] {
+    const props = this.props;
+    const { options } = props;
+
+    const passProps = omit(props, ['name', 'options', 'defaultValue', 'max', 'onClick', 'onChange', 'onMaxLimit']);
+
+    if (props.cellGroup) {
+      return <CellGroup {...props.cellGroup}>{options.map(option => this.genOption(option, passProps))}</CellGroup>;
+    }
+
+    return options.map(option => this.genOption(option, passProps));
   }
 
   render(): preact.JSX.Element {
