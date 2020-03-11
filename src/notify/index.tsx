@@ -12,6 +12,7 @@ export type NotifyOptions = NotifyProps & {
 
 export type NotifyReturn = {
   clear(): void;
+  setMessage(message: string): void;
 };
 
 const notifyReturnList: NotifyReturn[] = [];
@@ -28,6 +29,7 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
   if (type) {
     opt.type = type;
   }
+  let message = opt.message;
 
   let container = document.createElement('div');
   container.className = 'pant-notify-container';
@@ -50,6 +52,7 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
       preact.render(
         <Notify
           {...opt}
+          message={message}
           zIndex={zIndex}
           onClick={onClick}
           onClosed={function(): void {
@@ -65,6 +68,14 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
       if (!notifyReturnList.length) {
         zIndexNext = Z_INDEX_NOTIFY;
       }
+    },
+
+    setMessage(msg: string): void {
+      if (!container) {
+        return;
+      }
+      message = msg;
+      preact.render(<Notify {...opt} message={message} zIndex={zIndex} onClick={onClick} show />, container);
     },
   };
 

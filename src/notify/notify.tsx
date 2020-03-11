@@ -10,6 +10,7 @@ export type NotifyProps = PopupProps & {
   type?: NotifyType;
   color?: string;
   background?: string;
+  customStyle?: Record<string, string | number>;
   onClick?(event: Event): void;
 };
 
@@ -17,6 +18,7 @@ const bem = createBEM('pant-notify');
 
 export function Notify(props: NotifyProps): preact.JSX.Element {
   const style = {
+    ...props.customStyle,
     color: props.color,
     background: props.background,
   };
@@ -24,22 +26,25 @@ export function Notify(props: NotifyProps): preact.JSX.Element {
   return (
     <Popup
       show={props.show}
-      customStyle={style}
+      customStyle={{ backgroundColor: 'transparent' }}
       zIndex={props.zIndex}
-      position="top"
       overlay={false}
       duration={0.2}
       lockScroll={false}
-      className={bem([props.type])}
+      position={props.position}
+      fadeLeave={props.fadeLeave}
       onClick={props.onClick}
       onOpened={props.onOpened}
       onClosed={props.onClosed}
     >
-      {props.message}
+      <div className={bem([props.type])} style={style}>
+        {props.message}
+      </div>
     </Popup>
   );
 }
 
 Notify.defaultProps = {
   type: 'danger',
+  position: 'top',
 };

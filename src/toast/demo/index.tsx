@@ -135,14 +135,14 @@ export class ToastRouteComponent extends preact.Component {
               type="primary"
               onClick={(): void => {
                 let seconds = 3;
-                const t = toast({ message: `${seconds} seconds`, loading: true, overlay: true, duration: 0 });
+                const toastRef = toast({ message: `${seconds} seconds`, loading: true, overlay: true, duration: 0 });
                 setTimeout(function timer() {
                   seconds--;
                   if (seconds > 0) {
-                    t.setMessage(`${seconds} seconds`);
+                    toastRef.setMessage(`${seconds} seconds`);
                     setTimeout(timer, 1000);
                   } else {
-                    t.clear();
+                    toastRef.clear();
                   }
                 }, 1000);
               }}

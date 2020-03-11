@@ -23,6 +23,7 @@ export type PopupProps = {
   closeIconPosition?: PopupCloseIconPosition;
   safeAreaInsetBottom?: boolean;
   position?: PopupPosition;
+  fadeLeave?: boolean;
   overlay?: boolean;
   closeOnClickOverlay?: boolean;
   lockScroll?: boolean;
@@ -82,7 +83,7 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
     const { show, zIndex, round, position, duration } = props;
     const isCenter = position === 'center';
 
-    const transitionName = isCenter ? 'fade' : `popup-slide-${position}`;
+    const transitionName = isCenter || (!show && props.fadeLeave) ? 'fade' : `popup-slide-${position}`;
 
     const style: Record<string, number | string> = {
       ...props.customStyle,

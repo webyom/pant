@@ -205,6 +205,29 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
               }}
             ></Popup>
           </section>
+
+          <section>
+            <h2>Fade Leave</h2>
+            <CellGroup border>
+              <Cell
+                title="Fade Leave"
+                rightIcon="arrow"
+                onClick={(): void => {
+                  this.setState({ show10: true });
+                }}
+              ></Cell>
+            </CellGroup>
+            <Popup
+              show={this.state.show10}
+              position="bottom"
+              customStyle={{ height: '30%' }}
+              fadeLeave
+              round
+              onClickClose={(): void => {
+                this.setState({ show10: false });
+              }}
+            ></Popup>
+          </section>
         </div>
       </preact.Fragment>
     );
