@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import clsx from 'clsx';
 import { Icon } from '../icon';
 import { isDef, addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
@@ -12,6 +13,7 @@ export type ImgProps = {
   width?: number | string;
   height?: number | string;
   radius?: number | string;
+  className?: string;
   lazyLoad?: boolean;
   showError?: boolean;
   showLoading?: boolean;
@@ -107,8 +109,14 @@ export class Img extends preact.Component<ImgProps, ImgState> {
   }
 
   render(): preact.JSX.Element {
+    const props = this.props;
+
     return (
-      <div class={bem({ round: this.props.round })} style={this.genStyle()} onClick={this.props.onClick}>
+      <div
+        class={clsx(bem({ round: props.round }), props.className)}
+        style={this.genStyle()}
+        onClick={this.props.onClick}
+      >
         {this.genImage()}
         {this.genPlaceholder()}
       </div>

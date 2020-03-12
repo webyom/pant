@@ -98,6 +98,9 @@ export class HomeRouteComponent extends preact.Component {
 
         <section>
           <h3>Display Components</h3>
+          <Link href="/lazyload/">
+            Lazyload <Arrow />
+          </Link>
           <Link href="/skeleton/">
             Skeleton <Arrow />
           </Link>

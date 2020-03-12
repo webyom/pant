@@ -14,6 +14,7 @@ import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
+import { LazyloadRouteComponent } from '../../lazyload/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
@@ -47,6 +48,7 @@ export class RootComponent extends preact.Component {
         <DialogRouteComponent path="/dialog/" />
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
+        <LazyloadRouteComponent path="/lazyload/" />
         <LoadingRouteComponent path="/loading/" />
         <NotifyRouteComponent path="/notify/" />
         <OverlayRouteComponent path="/overlay/" />
