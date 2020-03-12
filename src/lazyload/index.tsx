@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
-import { getVisibleHeight, getVisibleTop } from '../utils/scroll';
+import { getVisibleHeight, getVisibleTop, getVisibleBottom } from '../utils/scroll';
 
 export type LazyloadProps = {
   width?: number | string;
@@ -39,20 +39,17 @@ export class Lazyload extends preact.Component<LazyloadProps, LazyloadState> {
     const placeholder = this.placeholder;
     if (window === scroller) {
       const rootHeight = getVisibleHeight(window);
-      const height = getVisibleHeight(placeholder);
       const top = getVisibleTop(placeholder);
-      const bottom = top + height;
+      const bottom = getVisibleBottom(placeholder);
       if ((top > 0 && top < rootHeight) || (bottom > 0 && bottom < rootHeight)) {
         scroller.removeEventListener('scroll', this.bindedOnScroll);
         this.setState({ loaded: true });
       }
     } else {
       const scrollerTop = getVisibleTop(scroller);
-      const scrollerHeight = getVisibleHeight(scroller);
-      const scrollerBottom = scrollerTop + scrollerHeight;
+      const scrollerBottom = getVisibleBottom(scroller);
       const placeholderTop = getVisibleTop(placeholder);
-      const placeholderHeight = getVisibleHeight(placeholder);
-      const placeholderBottom = placeholderTop + placeholderHeight;
+      const placeholderBottom = getVisibleBottom(placeholder);
       if (
         (placeholderTop > scrollerTop && placeholderTop < scrollerBottom) ||
         (placeholderBottom > scrollerTop && placeholderBottom < scrollerBottom)

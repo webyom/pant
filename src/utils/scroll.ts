@@ -46,3 +46,10 @@ export function getVisibleTop(el: ScrollElement): number {
   }
   return el.getBoundingClientRect().top;
 }
+
+export function getVisibleBottom(el: ScrollElement): number {
+  if (isWindow(el)) {
+    return 0;
+  }
+  return el.getBoundingClientRect().bottom;
+}
