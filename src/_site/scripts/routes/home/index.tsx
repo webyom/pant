@@ -69,6 +69,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/radio/">
             Radio <Arrow />
           </Link>
+          <Link href="/switch/">
+            Switch <Arrow />
+          </Link>
         </section>
 
         <section>

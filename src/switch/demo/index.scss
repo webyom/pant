@@ -1,0 +1,17 @@
+@import '../../styles/var.scss';
+
+.demo-switch {
+  padding: $padding-md 0;
+  background-color: $gray-1;
+  min-height: calc(100vh - 56px);
+  > section {
+    margin-bottom: $padding-xl;
+    padding: 0 $padding-md;
+    &.cell {
+      padding: 0;
+      > h2 {
+        padding: 0 $padding-md;
+      }
+    }
+  }
+}

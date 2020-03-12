@@ -22,6 +22,7 @@ import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StylesRouteComponent } from '../../styles/demo';
 import { SubmitBarRouteComponent } from '../../submit-bar/demo';
+import { SwitchRouteComponent } from '../../switch/demo';
 import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
@@ -54,6 +55,7 @@ export class RootComponent extends preact.Component {
         <SkeletonRouteComponent path="/skeleton/" />
         <StylesRouteComponent path="/styles/" />
         <SubmitBarRouteComponent path="/submit-bar/" />
+        <SwitchRouteComponent path="/switch/" />
         <TagRouteComponent path="/tag/" />
         <ToastRouteComponent path="/toast/" />
         <NotFoundRouteComponent default />
