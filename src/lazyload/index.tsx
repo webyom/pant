@@ -68,6 +68,10 @@ export class Lazyload extends preact.Component<LazyloadProps, LazyloadState> {
     this.onScroll();
   }
 
+  componentWillUnmount(): void {
+    this.props.scroller.removeEventListener('scroll', this.bindedOnScroll);
+  }
+
   render(): preact.JSX.Element {
     const props = this.props;
 
