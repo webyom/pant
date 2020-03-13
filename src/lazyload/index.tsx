@@ -7,6 +7,7 @@ import { getVisibleHeight, getVisibleTop, getVisibleBottom } from '../utils/scro
 export type LazyloadProps = {
   width?: number | string;
   height?: number | string;
+  preloadOffset?: number;
   inline?: boolean;
   className?: string;
   customStyle?: Record<string, string | number>;
@@ -35,28 +36,20 @@ export class Lazyload extends preact.Component<LazyloadProps, LazyloadState> {
   }
 
   private onScroll(): void {
-    const scroller = this.props.scroller;
+    const { preloadOffset, scroller } = this.props;
     const placeholder = this.placeholder;
-    if (window === scroller) {
-      const rootHeight = getVisibleHeight(window);
-      const top = getVisibleTop(placeholder);
-      const bottom = getVisibleBottom(placeholder);
-      if ((top > 0 && top < rootHeight) || (bottom > 0 && bottom < rootHeight)) {
-        scroller.removeEventListener('scroll', this.bindedOnScroll);
-        this.setState({ loaded: true });
-      }
-    } else {
-      const scrollerTop = getVisibleTop(scroller);
-      const scrollerBottom = getVisibleBottom(scroller);
-      const placeholderTop = getVisibleTop(placeholder);
-      const placeholderBottom = getVisibleBottom(placeholder);
-      if (
-        (placeholderTop > scrollerTop && placeholderTop < scrollerBottom) ||
-        (placeholderBottom > scrollerTop && placeholderBottom < scrollerBottom)
-      ) {
-        scroller.removeEventListener('scroll', this.bindedOnScroll);
-        this.setState({ loaded: true });
-      }
+    const isWindowScroller = window === scroller;
+    const scrollerTop = isWindowScroller ? 0 : getVisibleTop(scroller);
+    const scrollerBottom = isWindowScroller ? getVisibleHeight(window) : getVisibleBottom(scroller);
+    const placeholderTop = getVisibleTop(placeholder) - preloadOffset;
+    const placeholderBottom = getVisibleBottom(placeholder) + preloadOffset;
+    if (
+      (placeholderTop >= scrollerTop && placeholderTop <= scrollerBottom) ||
+      (placeholderBottom >= scrollerTop && placeholderBottom <= scrollerBottom) ||
+      (placeholderTop <= scrollerTop && placeholderBottom >= scrollerBottom)
+    ) {
+      scroller.removeEventListener('scroll', this.bindedOnScroll);
+      this.setState({ loaded: true });
     }
   }
 
@@ -91,5 +84,6 @@ export class Lazyload extends preact.Component<LazyloadProps, LazyloadState> {
 }
 
 Lazyload.defaultProps = {
+  preloadOffset: 0,
   scroller: window,
 };
