@@ -1,9 +1,13 @@
 import * as preact from 'preact';
+import { Suspense, lazy } from 'preact/compat';
 import { Img } from '../../img';
+import { Loading } from '../../loading';
 import { Lazyload } from '../../lazyload';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import './index.scss';
+
+const LazyComponent = lazy(() => import('./lazy-component'));
 
 const bem = createBEM('demo-lazyload');
 
@@ -62,6 +66,21 @@ export class LazyloadRouteComponent extends preact.Component {
                 radius="16"
                 src="https://img.yzcdn.cn/vant/apple-8.jpg"
               />
+            </Lazyload>
+          </section>
+
+          <section>
+            <h2>Suspense</h2>
+            <Lazyload className="lazyload">
+              <Suspense
+                fallback={
+                  <div className="lazyload" style="text-align: center; padding-top: 100px;">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyComponent />
+              </Suspense>
             </Lazyload>
           </section>
         </div>
