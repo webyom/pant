@@ -20,7 +20,7 @@ export type SubmitBarProps = {
   textAlign?: 'right' | 'left';
   tipNode?: preact.VNode;
   topNode?: preact.VNode;
-  children?: preact.VNode;
+  children?: preact.ComponentChildren;
   onSubmit?(): void;
 };
 

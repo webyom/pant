@@ -30,7 +30,7 @@ export type ButtonProps = {
   loadingText?: string;
   className?: string;
   customStyle?: Record<string, string | number>;
-  children?: string;
+  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 

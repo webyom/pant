@@ -18,7 +18,7 @@ export type TagProps = {
   round?: boolean;
   textColor?: string;
   closeable?: boolean;
-  children?: string;
+  children?: preact.ComponentChildren;
   onClose?(): void;
 };
 

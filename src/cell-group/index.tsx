@@ -7,7 +7,7 @@ import './index.scss';
 export type CellGroupProps = {
   title?: string | preact.VNode;
   border?: boolean;
-  children?: preact.VNode | preact.VNode[];
+  children?: preact.ComponentChildren;
 };
 
 const bem = createBEM('pant-cell-group');

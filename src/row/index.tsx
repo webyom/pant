@@ -7,7 +7,7 @@ export type RowProps = {
   align?: string;
   justify?: string;
   gutter?: number | string;
-  children?: preact.VNode | preact.VNode[];
+  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 

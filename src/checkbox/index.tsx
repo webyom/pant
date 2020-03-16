@@ -24,7 +24,7 @@ export type CheckboxProps = CheckboxBaseProps & {
   value?: string;
   checked?: boolean;
   role?: CheckboxRole;
-  children?: string;
+  children?: preact.ComponentChildren;
   onClick?(event: Event, props: CheckboxProps): void;
 };
 

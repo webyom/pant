@@ -30,7 +30,7 @@ export type PopupProps = {
   customStyle?: Record<string, string | number>;
   zIndex?: number | string;
   className?: string;
-  children?: preact.ComponentChild;
+  children?: preact.ComponentChildren;
   onClosed?(): void;
   onOpened?(): void;
   onClick?(event: Event, props: PopupProps): void;

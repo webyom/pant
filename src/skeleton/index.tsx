@@ -13,7 +13,7 @@ export type SkeletonProps = {
   avatarShape?: 'square' | 'round';
   titleWidth?: number | string;
   rowWidth?: number | string | (number | string)[];
-  children?: preact.VNode;
+  children?: preact.ComponentChildren;
 };
 
 const DEFAULT_ROW_WIDTH = '100%';
@@ -23,7 +23,7 @@ const bem = createBEM('pant-skeleton');
 
 export function Skeleton(props: SkeletonProps): preact.JSX.Element {
   if (!props.loading) {
-    return props.children;
+    return <preact.Fragment>props.children</preact.Fragment>;
   }
 
   function Title(): preact.JSX.Element {

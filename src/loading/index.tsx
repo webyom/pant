@@ -13,7 +13,7 @@ export type LoadingProps = {
   vertical?: boolean;
   textSize?: number | string;
   className?: string;
-  children?: string;
+  children?: preact.ComponentChildren;
 };
 
 const bem = createBEM('pant-loading');
