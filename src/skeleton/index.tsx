@@ -23,7 +23,7 @@ const bem = createBEM('pant-skeleton');
 
 export function Skeleton(props: SkeletonProps): preact.JSX.Element {
   if (!props.loading) {
-    return <preact.Fragment>props.children</preact.Fragment>;
+    return <preact.Fragment>{props.children}</preact.Fragment>;
   }
 
   function Title(): preact.JSX.Element {
