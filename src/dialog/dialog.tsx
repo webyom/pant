@@ -11,6 +11,7 @@ import './index.scss';
 
 export type DialogProps = {
   show?: boolean;
+  lockScroll?: boolean;
   title?: string;
   titleNode?: preact.VNode | preact.VNode[];
   width?: number | string;
@@ -100,7 +101,7 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
           aria-labelledby={props.title || message}
           className={bem()}
           style={{ width: addUnit(props.width), zIndex: zIndex }}
-          onTouchMove={preventDefaultAndStopPropagation}
+          onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         >
           {Title}
           {Content}
@@ -113,6 +114,7 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
 
 Dialog.defaultProps = {
   transition: 'dialog-bounce',
+  lockScroll: true,
   overlay: true,
   cancelOnClickOverlay: false,
 };

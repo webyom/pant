@@ -8,6 +8,7 @@ import './index.scss';
 
 export type OverlayProps = {
   show?: boolean;
+  lockScroll?: boolean;
   zIndex?: number | string;
   duration?: number;
   className?: any;
@@ -39,7 +40,7 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
       <div
         style={style}
         className={clsx(bem(), props.className)}
-        onTouchMove={preventDefaultAndStopPropagation}
+        onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         onClick={props.onClick}
       >
         {props.children}
@@ -47,3 +48,7 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
     </Transition>
   );
 }
+
+Overlay.defaultProps = {
+  lockScroll: true,
+};
