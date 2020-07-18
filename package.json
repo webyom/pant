@@ -1,6 +1,6 @@
 {
   "name": "pant",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Mobile UI Components built on Preact, Ported from Vant",
   "keywords": [
     "preact",
@@ -34,16 +34,19 @@
     "stylelint": "stylelint src/**/*.scss",
     "stylelint:fix": "stylelint src/**/*.scss --fix"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run eslint && npm run stylelint && npm run tsc-check"
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "@types/history": "^4.7.5",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
     "clean-webpack-plugin": "^3.0.0",
+    "commitizen": "^4.1.2",
     "css-loader": "^3.4.2",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.7.0",
@@ -55,7 +58,8 @@
     "gulp": "^4.0.2",
     "history": "^4.10.1",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^3.0.9",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "node-sass": "^4.13.1",
     "preact": "^10.3.2",
     "preact-router": "^3.2.1",
