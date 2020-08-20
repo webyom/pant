@@ -27,7 +27,6 @@
     "build:es": "tsc -d -m esNext --outDir es --sourceMap false --inlineSources false",
     "build:clean": "rm -rf lib/_site es/_site",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
-    "release": "npm run build && npm publish",
     "start": "webpack-dev-server",
     "deploy": "NODE_ENV=production webpack && gh-pages -d dist",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
@@ -35,7 +34,8 @@
     "eslint": "eslint --ext ts,tsx src",
     "eslint:fix": "eslint --ext ts,tsx src --fix",
     "stylelint": "stylelint src/**/*.scss",
-    "stylelint:fix": "stylelint src/**/*.scss --fix"
+    "stylelint:fix": "stylelint src/**/*.scss --fix",
+    "release": "standard-version"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
@@ -70,6 +70,7 @@
     "prettier": "^1.19.1",
     "require-all": "^2.0.0",
     "sass-loader": "^8.0.2",
+    "standard-version": "^9.0.0",
     "style-loader": "^1.1.3",
     "stylelint": "^12.0.1",
     "stylelint-config-recommended": "^3.0.0",
