@@ -20,6 +20,7 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "scripts": {
+    "commit": "git-cz",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "build:lib": "tsc -d -m commonjs --outDir lib --sourceMap false --inlineSources false",
@@ -35,11 +36,6 @@
     "eslint:fix": "eslint --ext ts,tsx src --fix",
     "stylelint": "stylelint src/**/*.scss",
     "stylelint:fix": "stylelint src/**/*.scss --fix"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
