@@ -6,7 +6,7 @@ export type RadioGroupProps = CheckboxGroupBaseProps & {
   defaultValue?: string;
 };
 
-export function RadioGroup(props: RadioGroupProps): preact.JSX.Element {
+export const RadioGroup: preact.FunctionalComponent<RadioGroupProps> = props => {
   const { defaultValue } = props;
   const passProps = omit(props, ['defaultValue', 'max', 'onMaxLimit']);
   return (
@@ -17,4 +17,4 @@ export function RadioGroup(props: RadioGroupProps): preact.JSX.Element {
       max="1"
     />
   );
-}
+};

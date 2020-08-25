@@ -20,7 +20,7 @@ export type SwitchProps = {
 
 const bem = createBEM('pant-switch');
 
-export function Switch(props: SwitchProps): preact.JSX.Element {
+export const Switch: preact.FunctionalComponent<SwitchProps> = props => {
   const { on, loading, disabled } = props;
 
   const style = {
@@ -59,4 +59,4 @@ export function Switch(props: SwitchProps): preact.JSX.Element {
       <div class={bem('node')}>{genLoading()}</div>
     </div>
   );
-}
+};

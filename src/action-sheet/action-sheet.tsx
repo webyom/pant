@@ -30,7 +30,7 @@ export type ActionSheetProps = PopupProps & {
 
 const bem = createBEM('pant-action-sheet');
 
-export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
+export const ActionSheet: preact.FunctionalComponent<ActionSheetProps> = props => {
   const { show, title, cancelText } = props;
 
   function Header(): preact.JSX.Element {
@@ -120,7 +120,7 @@ export function ActionSheet(props: ActionSheetProps): preact.JSX.Element {
       {CancelText()}
     </Popup>
   );
-}
+};
 
 ActionSheet.defaultProps = {
   round: true,

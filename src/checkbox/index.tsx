@@ -30,7 +30,7 @@ export type CheckboxProps = CheckboxBaseProps & {
 
 const bem = createBEM('pant-checkbox');
 
-export function Checkbox(props: CheckboxProps): preact.JSX.Element {
+export const Checkbox: preact.FunctionalComponent<CheckboxProps> = props => {
   function iconStyle(): Record<string, string> {
     const checkedColor = props.checkedColor;
 
@@ -107,7 +107,7 @@ export function Checkbox(props: CheckboxProps): preact.JSX.Element {
       {Children}
     </div>
   );
-}
+};
 
 Checkbox.defaultProps = {
   checked: false,

@@ -64,7 +64,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
   );
 }
 
-export function Dialog(props: DialogProps): preact.JSX.Element {
+export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
   const { show, zIndex, message, messageAlign } = props;
   const messageNode = props.messageNode;
   const title = props.titleNode || props.title;
@@ -110,7 +110,7 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
       </Transition>
     </preact.Fragment>
   );
-}
+};
 
 Dialog.defaultProps = {
   transition: 'dialog-bounce',

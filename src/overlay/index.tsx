@@ -13,13 +13,12 @@ export type OverlayProps = {
   duration?: number;
   className?: any;
   customStyle?: Record<string, string | number>;
-  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 } & TransitionEvents;
 
 const bem = createBEM('pant-overlay');
 
-export function Overlay(props: OverlayProps): preact.JSX.Element {
+export const Overlay: preact.FunctionalComponent<OverlayProps> = props => {
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
     ...props.customStyle,
@@ -47,7 +46,7 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
       </div>
     </Transition>
   );
-}
+};
 
 Overlay.defaultProps = {
   lockScroll: true,

@@ -7,12 +7,11 @@ import './index.scss';
 export type CellGroupProps = {
   title?: string | preact.VNode;
   border?: boolean;
-  children?: preact.ComponentChildren;
 };
 
 const bem = createBEM('pant-cell-group');
 
-export function CellGroup(props: CellGroupProps): preact.JSX.Element {
+export const CellGroup: preact.FunctionalComponent<CellGroupProps> = props => {
   const Group = <div className={clsx(bem(), { [BORDER_TOP_BOTTOM]: props.border })}>{props.children}</div>;
 
   if (props.title) {
@@ -25,4 +24,4 @@ export function CellGroup(props: CellGroupProps): preact.JSX.Element {
   }
 
   return Group;
-}
+};

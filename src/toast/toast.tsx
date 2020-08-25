@@ -54,7 +54,7 @@ function genMessage(props: ToastProps): preact.JSX.Element {
   return <div class={bem('text')}>{message}</div>;
 }
 
-export function Toast(props: ToastProps): preact.JSX.Element {
+export const Toast: preact.FunctionalComponent<ToastProps> = props => {
   const { show, zIndex, overlay } = props;
 
   return (
@@ -81,7 +81,7 @@ export function Toast(props: ToastProps): preact.JSX.Element {
       </Transition>
     </preact.Fragment>
   );
-}
+};
 
 Toast.defaultProps = {
   html: false,

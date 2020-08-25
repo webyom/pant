@@ -13,7 +13,7 @@ export type CardProps = {
   thumb?: string;
   title?: string;
   price?: number | string;
-  currency: string;
+  currency?: string;
   centered?: boolean;
   lazyLoad?: boolean;
   thumbLink?: string;
@@ -34,7 +34,7 @@ export type CardProps = {
 
 const bem = createBEM('pant-card');
 
-export function Card(props: CardProps): preact.JSX.Element {
+export const Card: preact.FunctionalComponent<CardProps> = props => {
   const { thumb } = props;
 
   const showNum = isDef(props.num);
@@ -155,7 +155,7 @@ export function Card(props: CardProps): preact.JSX.Element {
       {Footer()}
     </div>
   );
-}
+};
 
 Card.defaultProps = {
   currency: '¥',

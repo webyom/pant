@@ -23,7 +23,7 @@ function isImage(name?: string): boolean {
   return name ? name.indexOf('/') !== -1 : false;
 }
 
-export function Icon(props: IconProps): preact.JSX.Element {
+export const Icon: preact.FunctionalComponent<IconProps> = props => {
   const name = props.name;
   const imageIcon = isImage(name);
 
@@ -41,7 +41,7 @@ export function Icon(props: IconProps): preact.JSX.Element {
       <Info dot={props.dot} info={props.info} />
     </i>
   );
-}
+};
 
 Icon.defaultProps = {
   classPrefix: 'pant-icon',

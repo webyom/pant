@@ -7,18 +7,17 @@ import './index.scss';
 export type LoadingType = 'circular' | 'spinner';
 
 export type LoadingProps = {
-  type: LoadingType;
+  type?: LoadingType;
   color?: string;
   size?: number | string;
   vertical?: boolean;
   textSize?: number | string;
   className?: string;
-  children?: preact.ComponentChildren;
 };
 
 const bem = createBEM('pant-loading');
 
-function LoadingIcon(props: LoadingProps): preact.JSX.Element {
+const LoadingIcon: preact.FunctionalComponent<LoadingProps> = props => {
   if (props.type === 'spinner') {
     const Spin = [];
     for (let i = 0; i < 12; i++) {
@@ -32,9 +31,9 @@ function LoadingIcon(props: LoadingProps): preact.JSX.Element {
       <circle cx="50" cy="50" r="20" fill="none" />
     </svg>
   );
-}
+};
 
-function LoadingText(props: LoadingProps): preact.JSX.Element {
+const LoadingText: preact.FunctionalComponent<LoadingProps> = props => {
   const { children } = props;
   if (children) {
     const style = props.textSize && {
@@ -47,9 +46,9 @@ function LoadingText(props: LoadingProps): preact.JSX.Element {
       </span>
     );
   }
-}
+};
 
-export function Loading(props: LoadingProps): preact.JSX.Element {
+export const Loading: preact.FunctionalComponent<LoadingProps> = props => {
   const { color, size, type } = props;
 
   const style: Record<string, string> = { color };
@@ -67,7 +66,7 @@ export function Loading(props: LoadingProps): preact.JSX.Element {
       <LoadingText {...props} />
     </div>
   );
-}
+};
 
 Loading.defaultProps = {
   type: 'circular',

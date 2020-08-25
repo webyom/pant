@@ -13,13 +13,12 @@ export type CellProps = {
   border?: boolean;
   center?: boolean;
   required?: boolean;
-  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 
 const bem = createBEM('pant-cell');
 
-export function Cell(props: CellProps): preact.JSX.Element {
+export const Cell: preact.FunctionalComponent<CellProps> = props => {
   const { icon, title, label, rightIcon } = props;
   const showTitle = isDef(title);
 
@@ -84,7 +83,7 @@ export function Cell(props: CellProps): preact.JSX.Element {
       {RightIcon()}
     </div>
   );
-}
+};
 
 Cell.defaultProps = {
   border: true,

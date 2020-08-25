@@ -13,7 +13,6 @@ export type SkeletonProps = {
   avatarShape?: 'square' | 'round';
   titleWidth?: number | string;
   rowWidth?: number | string | (number | string)[];
-  children?: preact.ComponentChildren;
 };
 
 const DEFAULT_ROW_WIDTH = '100%';
@@ -21,7 +20,7 @@ const DEFAULT_LAST_ROW_WIDTH = '60%';
 
 const bem = createBEM('pant-skeleton');
 
-export function Skeleton(props: SkeletonProps): preact.JSX.Element {
+export const Skeleton: preact.FunctionalComponent<SkeletonProps> = props => {
   if (!props.loading) {
     return <preact.Fragment>{props.children}</preact.Fragment>;
   }
@@ -71,7 +70,7 @@ export function Skeleton(props: SkeletonProps): preact.JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 Skeleton.defaultProps = {
   row: 0,

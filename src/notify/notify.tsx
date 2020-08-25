@@ -16,7 +16,7 @@ export type NotifyProps = PopupProps & {
 
 const bem = createBEM('pant-notify');
 
-export function Notify(props: NotifyProps): preact.JSX.Element {
+export const Notify: preact.FunctionalComponent<NotifyProps> = props => {
   const style = {
     ...props.customStyle,
     color: props.color,
@@ -42,7 +42,7 @@ export function Notify(props: NotifyProps): preact.JSX.Element {
       </div>
     </Popup>
   );
-}
+};
 
 Notify.defaultProps = {
   type: 'danger',
