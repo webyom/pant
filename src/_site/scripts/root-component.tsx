@@ -12,6 +12,7 @@ import { CardRouteComponent } from '../../card/demo';
 import { CellRouteComponent } from '../../cell/demo';
 import { CheckboxRouteComponent } from '../../checkbox/demo';
 import { DialogRouteComponent } from '../../dialog/demo';
+import { FieldRouteComponent } from '../../field/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LazyloadRouteComponent } from '../../lazyload/demo';
@@ -46,6 +47,7 @@ export class RootComponent extends preact.Component {
         <CellRouteComponent path="/cell/" />
         <CheckboxRouteComponent path="/checkbox/" />
         <DialogRouteComponent path="/dialog/" />
+        <FieldRouteComponent path="/field/" />
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
         <LazyloadRouteComponent path="/lazyload/" />

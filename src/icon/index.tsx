@@ -15,6 +15,7 @@ export type IconProps = {
   classPrefix?: string;
   style?: Record<string, string>;
   onClick?(event: Event): void;
+  onTouchStart?(event: Event): void;
 };
 
 const bem = createBEM('pant-icon');
@@ -36,6 +37,7 @@ export const Icon: preact.FunctionalComponent<IconProps> = props => {
         ...props.style,
       }}
       onClick={props.onClick}
+      onTouchStart={props.onTouchStart}
     >
       {imageIcon && <img class={bem('image')} src={name} />}
       <Info dot={props.dot} info={props.info} />
