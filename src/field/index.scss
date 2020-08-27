@@ -93,7 +93,8 @@
 
   &__clear,
   &__right-icon {
-    padding: 0 $padding-xs / 2;
+    margin-right: -$padding-xs;
+    padding: 0 $padding-xs;
     line-height: inherit;
   }
 
@@ -148,6 +149,12 @@
   &__word-num {
     &--full {
       color: $field-word-num-full-color;
+    }
+  }
+
+  &--disabled {
+    .pant-field__title {
+      color: $field-input-disabled-text-color;
     }
   }
 

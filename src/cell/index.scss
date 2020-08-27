@@ -14,7 +14,7 @@
   background-color: $cell-background-color;
 
   &:not(:last-child)::after {
-    @include hairline-bottom($cell-border-color, $padding-md);
+    @include hairline-bottom($cell-border-color, $padding-md, $padding-md);
   }
 
   &--borderless::after {
