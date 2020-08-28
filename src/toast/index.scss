@@ -48,6 +48,14 @@
     }
   }
 
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
   &--top {
     top: $toast-position-top-distance;
   }

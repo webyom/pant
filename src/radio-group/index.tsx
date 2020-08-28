@@ -10,7 +10,8 @@ export class RadioGroup extends preact.Component<RadioGroupProps> {
   private readonly ref = preact.createRef();
 
   getValue(): string[] {
-    return this.ref.current.getValue();
+    const res = this.ref.current.getValue();
+    return res && res[0];
   }
 
   render(): preact.JSX.Element {

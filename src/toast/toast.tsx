@@ -10,6 +10,7 @@ import { Loading, LoadingType } from '../loading';
 import './index.scss';
 
 export type ToastPosition = 'top' | 'middle' | 'bottom';
+export type ToastTextAlign = 'left' | 'center' | 'right';
 
 export type ToastProps = {
   show?: boolean;
@@ -23,6 +24,7 @@ export type ToastProps = {
   position?: ToastPosition;
   loading?: boolean;
   loadingType?: LoadingType;
+  textAlign?: ToastTextAlign;
   onClosed?(): void;
   onOpened?(): void;
   onClick?(event: Event): void;
@@ -68,7 +70,11 @@ export const Toast: preact.FunctionalComponent<ToastProps> = props => {
       >
         <div
           className={clsx(
-            bem([props.position, { [props.html ? 'html' : 'text']: !props.icon && !props.loading }]),
+            bem([
+              props.position,
+              `align-${props.textAlign}`,
+              { [props.html ? 'html' : 'text']: !props.icon && !props.loading },
+            ]),
             props.className,
           )}
           style={{ zIndex: zIndex }}
@@ -88,4 +94,5 @@ Toast.defaultProps = {
   overlay: false,
   loading: false,
   position: 'middle',
+  textAlign: 'center',
 };
