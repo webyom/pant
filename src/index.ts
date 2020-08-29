@@ -1,4 +1,5 @@
 type PantConfig = {
+  isServer?: boolean;
   viewportWidth?: number;
   defaultOverlayBgColor?: string;
 };

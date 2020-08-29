@@ -110,6 +110,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/skeleton/">
             Skeleton <Arrow />
           </Link>
+          <Link href="/sticky/">
+            Sticky <Arrow />
+          </Link>
           <Link href="/tag/">
             Tag <Arrow />
           </Link>

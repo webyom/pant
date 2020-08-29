@@ -32,6 +32,22 @@ export function addUnit(value?: number | string): string | undefined {
   }
 }
 
+export function removeUnit(value?: number | string): number | undefined {
+  if (!isDef(value)) {
+    return undefined;
+  }
+  if (typeof value === 'number') {
+    return value;
+  } else {
+    const n = parseFloat(value);
+    if (/vw$/.test(value)) {
+      return (screen.availWidth * n) / 100;
+    } else {
+      return n;
+    }
+  }
+}
+
 export function omit(obj: Record<string, any>, keys: string[]): Record<string, any> {
   const res: Record<string, any> = {};
   Object.keys(obj)

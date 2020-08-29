@@ -23,6 +23,7 @@ import { OverlayRouteComponent } from '../../overlay/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
+import { StickyRouteComponent } from '../../sticky/demo';
 import { StylesRouteComponent } from '../../styles/demo';
 import { SubmitBarRouteComponent } from '../../submit-bar/demo';
 import { SwitchRouteComponent } from '../../switch/demo';
@@ -59,6 +60,7 @@ export class RootComponent extends preact.Component {
         <PopupRouteComponent path="/popup/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
+        <StickyRouteComponent path="/sticky/" />
         <StylesRouteComponent path="/styles/" />
         <SubmitBarRouteComponent path="/submit-bar/" />
         <SwitchRouteComponent path="/switch/" />
