@@ -119,6 +119,13 @@ export class HomeRouteComponent extends preact.Component {
         </section>
 
         <section>
+          <h3>Navigation Components</h3>
+          <Link href="/tab/">
+            Tab <Arrow />
+          </Link>
+        </section>
+
+        <section>
           <h3>Business Components</h3>
           <Link href="/card/">
             Card <Arrow />

@@ -89,3 +89,46 @@ export function getVisibleBottom(el: ScrollElement): number {
   }
   return el.getBoundingClientRect().bottom;
 }
+
+export function scrollLeftTo(scroller: HTMLElement, to: number, duration: number): void {
+  let count = 0;
+  const from = scroller.scrollLeft;
+  const frames = duration === 0 ? 1 : Math.round((duration * 1000) / 16);
+  const step = (to - from) / frames;
+
+  function animate(): void {
+    scroller.scrollLeft += step;
+
+    if (++count < frames) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  animate();
+}
+
+export function scrollTopTo(scroller: HTMLElement, to: number, duration: number, callback: Function): void {
+  let current = getScrollTop(scroller);
+
+  const isDown = current < to;
+  const frames = duration === 0 ? 1 : Math.round((duration * 1000) / 16);
+  const step = (to - current) / frames;
+
+  function animate(): void {
+    current += step;
+
+    if ((isDown && current > to) || (!isDown && current < to)) {
+      current = to;
+    }
+
+    setScrollTop(scroller, current);
+
+    if ((isDown && current < to) || (!isDown && current > to)) {
+      requestAnimationFrame(animate);
+    } else if (callback) {
+      requestAnimationFrame(callback as FrameRequestCallback);
+    }
+  }
+
+  animate();
+}

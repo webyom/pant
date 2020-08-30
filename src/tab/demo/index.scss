@@ -1,0 +1,16 @@
+@import '../../styles/var.scss';
+
+.demo-tab {
+  padding: $padding-md 0;
+  background-color: $gray-1;
+  > section {
+    margin-bottom: $padding-lg * 2;
+    > h2 {
+      padding: 0 $padding-md;
+    }
+    .pant-tabs__pane {
+      padding: 24px 20px;
+      background-color: #fff;
+    }
+  }
+}

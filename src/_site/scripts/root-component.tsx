@@ -27,6 +27,7 @@ import { StickyRouteComponent } from '../../sticky/demo';
 import { StylesRouteComponent } from '../../styles/demo';
 import { SubmitBarRouteComponent } from '../../submit-bar/demo';
 import { SwitchRouteComponent } from '../../switch/demo';
+import { TabRouteComponent } from '../../tab/demo';
 import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
@@ -64,6 +65,7 @@ export class RootComponent extends preact.Component {
         <StylesRouteComponent path="/styles/" />
         <SubmitBarRouteComponent path="/submit-bar/" />
         <SwitchRouteComponent path="/switch/" />
+        <TabRouteComponent path="/tab/" />
         <TagRouteComponent path="/tag/" />
         <ToastRouteComponent path="/toast/" />
         <NotFoundRouteComponent default />
