@@ -13,6 +13,7 @@ export type DialogProps = {
   show?: boolean;
   lockScroll?: boolean;
   title?: string;
+  className?: string;
   titleNode?: preact.VNode | preact.VNode[];
   width?: number | string;
   zIndex?: number | string;
@@ -99,7 +100,7 @@ export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
         <div
           role="dialog"
           aria-labelledby={props.title || message}
-          className={bem()}
+          className={clsx(bem(), props.className)}
           style={{ width: addUnit(props.width), zIndex: zIndex }}
           onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         >
