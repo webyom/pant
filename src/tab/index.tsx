@@ -1,11 +1,14 @@
 import * as preact from 'preact';
 import './index.scss';
 
-export { Tabs } from './tabs';
+export { Tabs, TabInfo } from './tabs';
 
 export type TabProps = {
-  title: string | preact.VNode;
+  title: string;
+  titleNode?: preact.VNode;
   name?: string;
+  dot?: boolean;
+  info?: number | string;
   disabled?: boolean;
 };
 

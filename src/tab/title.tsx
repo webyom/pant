@@ -4,20 +4,25 @@ import { Info } from '../info';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
-export type TitleProps = {
-  dot?: boolean;
+export type TitleParentProps = {
   type?: 'line' | 'card';
-  info?: number | string;
   color?: string;
-  title?: string;
-  isActive?: boolean;
   ellipsis?: boolean;
-  disabled?: boolean;
   scrollable?: boolean;
   activeColor?: string;
   inactiveColor?: string;
   swipeThreshold?: number | string;
-  onClick?(event: Event): void;
+};
+
+export type TitleProps = TitleParentProps & {
+  dot?: boolean;
+  info?: number | string;
+  title: string;
+  titleNode?: preact.VNode;
+  name?: string;
+  isActive?: boolean;
+  disabled?: boolean;
+  onClick?(event: Event, props: TitleProps): void;
 };
 
 const bem = createBEM('pant-tab');
@@ -29,6 +34,7 @@ export const Title: preact.FunctionalComponent<TitleProps> = props => {
     info,
     color,
     title,
+    titleNode,
     scrollable,
     disabled,
     isActive,
@@ -36,7 +42,6 @@ export const Title: preact.FunctionalComponent<TitleProps> = props => {
     activeColor,
     inactiveColor,
     swipeThreshold,
-    onClick,
   } = props;
 
   const getStyle = (): Record<string, number | string> => {
@@ -68,6 +73,10 @@ export const Title: preact.FunctionalComponent<TitleProps> = props => {
     return style;
   };
 
+  const onClick = (evt: Event): void => {
+    props.onClick(evt, props);
+  };
+
   return (
     <div
       role="tab"
@@ -85,7 +94,7 @@ export const Title: preact.FunctionalComponent<TitleProps> = props => {
       onClick={onClick}
     >
       <span class={bem('text')}>
-        {title}
+        {titleNode || title}
         <Info dot={dot} info={info} />
       </span>
     </div>

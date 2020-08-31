@@ -81,6 +81,10 @@ export class Sticky extends preact.Component<StickyProps, StickyState> {
     return style;
   }
 
+  get fixed(): boolean {
+    return this.state.fixed;
+  }
+
   onScroll(): void {
     const el = this.domRef.current;
     if (isHidden(el)) {

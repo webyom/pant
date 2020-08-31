@@ -2,33 +2,46 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { createBEM } from '../utils/bem';
 import { BORDER_TOP_BOTTOM } from '../utils/constant';
-import { scrollLeftTo } from '../utils/scroll';
+import { scrollLeftTo, setRootScrollTop, getElementTop } from '../utils/scroll';
 import { isDef, addUnit } from '../utils';
-import { Title, TitleProps } from './title';
+import { Sticky } from '../sticky';
+import { Title, TitleParentProps, TitleProps } from './title';
 import './index.scss';
 
-export type TabsProps = TitleProps & {
+export type TabsProps = TitleParentProps & {
   activeIndex?: number | string;
   activeName?: string;
   bordered?: boolean;
   animated?: boolean;
+  sticky?: boolean;
   duration?: number | string;
   lineHeight?: number | string;
   lineWidth?: number | string;
   background?: string;
   navLeft?: preact.VNode;
   navRight?: preact.VNode;
+  onClick?(event: Event, info: TabInfo): void;
+  onBeforeChange?(info: TabInfo): Promise<boolean>;
 };
 
 type TabsState = {
   activeIndex: number;
 };
 
+export type TabInfo = {
+  index: number;
+  title: string;
+  name?: string;
+  disabled?: boolean;
+};
+
 const bem = createBEM('pant-tabs');
 
 export class Tabs extends preact.Component<TabsProps, TabsState> {
+  private containerRef = preact.createRef<HTMLDivElement>();
   private tabListRef = preact.createRef<HTMLDivElement>();
   private lineRef = preact.createRef<HTMLDivElement>();
+  private stickyRef = preact.createRef<Sticky>();
 
   constructor(props: preact.RenderableProps<TabsProps>) {
     super(props);
@@ -99,13 +112,32 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     }
   }
 
-  private onTitleClick(index: number): void {
-    this.setState({ activeIndex: index });
+  private setActiveIndex(index: number): void {
+    this.setState({ activeIndex: index }, () => {
+      if (this.props.sticky && this.stickyRef.current.fixed) {
+        setRootScrollTop(Math.ceil(getElementTop(this.containerRef.current)));
+      }
+    });
+  }
+
+  private async onTitleClick(index: number, evt: Event, props: TitleProps): Promise<void> {
+    const { onClick, onBeforeChange } = this.props;
+    const tabInfo = { index, title: props.title, name: props.name, disabled: props.disabled };
+    if (!props.disabled) {
+      if (onBeforeChange) {
+        if (await onBeforeChange(tabInfo)) {
+          this.setActiveIndex(index);
+        }
+      } else {
+        this.setActiveIndex(index);
+      }
+    }
+    onClick && onClick(evt, tabInfo);
   }
 
   private genNavs(): preact.JSX.Element {
     const props = this.props;
-    const { type, color, bordered, scrollable, ellipsis, navLeft, navRight } = props;
+    const { type, color, bordered, scrollable, sticky, ellipsis, navLeft, navRight } = props;
     const navStyle = {
       borderColor: props.color,
       background: props.background,
@@ -121,6 +153,8 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
           dot={itemProps.dot}
           info={itemProps.info}
           title={itemProps.title}
+          titleNode={itemProps.titleNode}
+          name={itemProps.name}
           color={color}
           isActive={index === this.state.activeIndex}
           ellipsis={props.ellipsis}
@@ -143,7 +177,13 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
         </div>
       </div>
     );
-    return wrap;
+    return sticky ? (
+      <Sticky ref={this.stickyRef} container={this.containerRef}>
+        {wrap}
+      </Sticky>
+    ) : (
+      wrap
+    );
   }
 
   private warpAnimatedContents(contents: preact.ComponentChild): preact.ComponentChild {
@@ -193,7 +233,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
   render(): preact.JSX.Element {
     const { type } = this.props;
     return (
-      <div className={bem([type])}>
+      <div ref={this.containerRef} className={bem([type])}>
         {this.genNavs()}
         {this.genContents()}
       </div>
