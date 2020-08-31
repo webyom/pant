@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7](https://github.com/webyom/pant/compare/v0.3.6...v0.3.7) (2020-08-31)
+
+
+### Features
+
+* sticky ([7372818](https://github.com/webyom/pant/commit/7372818fbbb2263910f8a055077157c32c5307d7))
+* tab ([dcbfbdc](https://github.com/webyom/pant/commit/dcbfbdcd4068c17c1fad37cec5e983932ffdd701))
+
 ### [0.3.6](https://github.com/webyom/pant/compare/v0.3.5...v0.3.6) (2020-08-28)
 
 
