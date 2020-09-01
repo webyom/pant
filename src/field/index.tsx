@@ -173,10 +173,13 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     });
   }
 
-  private onCustomChange(): void {
+  private onCustomChange(onChange: Function, ...args: any[]): void {
     this.validateWithTrigger('change').then(msg => {
       msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
     });
+    if (onChange) {
+      onChange(...args);
+    }
   }
 
   private onInputChange(evt: Event): void {
@@ -311,9 +314,12 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     const { isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
-      const childrenWithProps = []
-        .concat(children)
-        .map(child => preact.cloneElement(child, { ref: this.inputRef, onChange: this.onCustomChange.bind(this) }));
+      const childrenWithProps = [].concat(children).map(child => {
+        return preact.cloneElement(child, {
+          ref: this.inputRef,
+          onChange: this.onCustomChange.bind(this, child.props.onChange),
+        });
+      });
       return <div class={bem('control', [inputAlign, 'custom'])}>{childrenWithProps}</div>;
     }
 
