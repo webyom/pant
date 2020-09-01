@@ -86,6 +86,8 @@ function isInputType(type: string, children: preact.ComponentChildren): boolean 
   return (!type && !children) || (!!type && !['checkbox', 'switch'].includes(type));
 }
 
+const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
+
 export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState<T>> {
   private readonly inputRef = preact.createRef();
 
@@ -166,21 +168,21 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   private onBlur(): void {
     this.setState({ focused: false }, () => {
       this.validateWithTrigger('blur').then(msg => {
-        this.setState({ validateMessage: msg || '' });
+        msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
   }
 
   private onCustomChange(): void {
     this.validateWithTrigger('change').then(msg => {
-      this.setState({ validateMessage: msg || '' });
+      msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
     });
   }
 
   private onInputChange(evt: Event): void {
     this.setState({ value: (evt.target as HTMLInputElement).value as any }, () => {
       this.validateWithTrigger('change').then(msg => {
-        this.setState({ validateMessage: msg || '' });
+        msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
   }
@@ -188,7 +190,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   private onCheckboxClick(evt: Event, props: CheckboxProps): void {
     this.setState({ value: (!props.checked as unknown) as T }, () => {
       this.validateWithTrigger('change').then(msg => {
-        this.setState({ validateMessage: msg || '' });
+        msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
   }
@@ -196,7 +198,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   private onSwitchClick(evt: Event, props: SwitchProps): void {
     this.setState({ value: (!props.on as unknown) as T }, () => {
       this.validateWithTrigger('change').then(msg => {
-        this.setState({ validateMessage: msg || '' });
+        msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
   }
@@ -237,18 +239,20 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         return this.validate(rules);
       }
     } else if (rules && rules.length) {
-      return this.validate(
-        rules.filter(rule => {
-          if (typeof rule === 'function') {
-            return validateTrigger.includes(trigger);
-          } else {
-            return (
-              (rule.trigger && rule.trigger.includes(trigger)) || (!rule.trigger && validateTrigger.includes(trigger))
-            );
-          }
-        }),
-      );
+      const matchedRules = rules.filter(rule => {
+        if (typeof rule === 'function') {
+          return validateTrigger.includes(trigger);
+        } else {
+          return (
+            (rule.trigger && rule.trigger.includes(trigger)) || (!rule.trigger && validateTrigger.includes(trigger))
+          );
+        }
+      });
+      if (matchedRules.length) {
+        return this.validate(matchedRules);
+      }
     }
+    return NO_MATCHED_RULE_FLAG;
   }
 
   private async validate(rules?: ValidateRule<T>[] | ValidatorFn<T>): Promise<string | void> {
