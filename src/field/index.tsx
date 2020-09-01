@@ -315,7 +315,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
     if (isInputType) {
       const inputProps = {
-        value: value + '',
+        value: isDef(value) ? value + '' : '',
         class: bem('control', inputAlign),
         name: name,
         disabled: props.disabled,
