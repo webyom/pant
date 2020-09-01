@@ -86,6 +86,16 @@ function isInputType(type: string, children: preact.ComponentChildren): boolean 
   return (!type && !children) || (!!type && !['checkbox', 'switch'].includes(type));
 }
 
+function normalizeDefaultValue(dv: any, isInputType: boolean): any {
+  if (isDef(dv)) {
+    return dv;
+  } else if (isInputType) {
+    return '';
+  } else {
+    return dv;
+  }
+}
+
 const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 
 export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState<T>> {
@@ -93,10 +103,11 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
   constructor(props: preact.RenderableProps<FieldProps<T>>) {
     super(props);
+    const iit = isInputType(props.type, props.children);
     this.state = {
-      isInputType: isInputType(props.type, props.children),
+      isInputType: iit,
       focused: false,
-      value: props.defaultValue,
+      value: normalizeDefaultValue(props.defaultValue, iit),
       validateMessage: '',
       prevProps: props,
     };
@@ -107,10 +118,11 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     state: FieldState<T>,
   ): FieldState<T> {
     const defaultValueChanged = props.defaultValue !== state.prevProps.defaultValue;
+    const iit = isInputType(props.type, props.children);
     return {
-      isInputType: isInputType(props.type, props.children),
+      isInputType: iit,
       focused: state.focused,
-      value: defaultValueChanged ? props.defaultValue : state.value,
+      value: defaultValueChanged ? normalizeDefaultValue(props.defaultValue, iit) : state.value,
       validateMessage: defaultValueChanged ? '' : state.validateMessage,
       prevProps: props,
     };
