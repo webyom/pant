@@ -280,7 +280,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
                         return rule.message;
                       }
                     } else {
-                      if (!isDef(value) || (typeof value === 'string' && value === '')) {
+                      if (!isDef(value) || (typeof value === 'string' && value.trim() === '')) {
                         return rule.message;
                       }
                     }
