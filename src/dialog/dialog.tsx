@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Button } from '../button';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
-import { addUnit } from '../utils';
+import { addUnit, getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
 import { BORDER_TOP, BORDER_LEFT } from '../utils/constant';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -75,6 +75,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
 
 export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
   const { show, zIndex, message, messageAlign } = props;
+  const incZIndex = zIndex || getIncrementalZIndex();
   const messageNode = props.messageNode;
   const title = props.titleNode || props.title;
 
@@ -97,7 +98,7 @@ export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
   return (
     <preact.Fragment>
       {props.overlay ? (
-        <Overlay show={show} zIndex={zIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
+        <Overlay show={show} zIndex={incZIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
       ) : null}
       <Transition
         customName={props.transition}
@@ -109,7 +110,7 @@ export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
           role="dialog"
           aria-labelledby={props.title || message}
           className={clsx(bem(), props.className)}
-          style={{ width: addUnit(props.width), zIndex: zIndex }}
+          style={{ width: addUnit(props.width), zIndex: incZIndex }}
           onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         >
           {Title}

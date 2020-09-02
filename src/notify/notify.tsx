@@ -1,6 +1,8 @@
 import * as preact from 'preact';
 import { Popup, PopupProps } from '../popup';
+import { getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
+import { Z_INDEX_NOTIFY_BASE } from '../utils/constant';
 import './index.scss';
 
 export type NotifyType = 'primary' | 'success' | 'danger' | 'warning';
@@ -27,7 +29,7 @@ export const Notify: preact.FunctionalComponent<NotifyProps> = props => {
     <Popup
       show={props.show}
       customStyle={{ backgroundColor: 'transparent' }}
-      zIndex={props.zIndex}
+      zIndex={props.zIndex || getIncrementalZIndex(Z_INDEX_NOTIFY_BASE)}
       overlay={false}
       duration={0.2}
       lockScroll={false}

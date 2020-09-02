@@ -1,4 +1,5 @@
 import { pantConfig } from '../';
+import { Z_INDEX_INCREMENTAL_START } from './constant';
 
 export function isDef(val: any): boolean {
   return val !== undefined && val !== null;
@@ -58,4 +59,9 @@ export function omit(obj: Record<string, any>, keys: string[]): Record<string, a
       res[key] = obj[key];
     });
   return res;
+}
+
+let zIndex = Z_INDEX_INCREMENTAL_START;
+export function getIncrementalZIndex(base = 0): number {
+  return base + zIndex++;
 }

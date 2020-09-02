@@ -1,6 +1,5 @@
 import * as preact from 'preact';
 import { Notify, NotifyProps, NotifyType } from './notify';
-import { Z_INDEX_NOTIFY } from '../utils/constant';
 import './index.scss';
 
 export { Notify, NotifyProps } from './notify';
@@ -16,8 +15,6 @@ export type NotifyReturn = {
 };
 
 const notifyReturnList: NotifyReturn[] = [];
-
-let zIndexNext = Z_INDEX_NOTIFY;
 
 export function notify(options: string | NotifyOptions, type?: NotifyType): NotifyReturn {
   let opt: NotifyOptions;
@@ -42,8 +39,6 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
     }
   };
 
-  const zIndex = zIndexNext;
-
   const res: NotifyReturn = {
     clear(): void {
       if (!container) {
@@ -53,7 +48,6 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
         <Notify
           {...opt}
           message={message}
-          zIndex={zIndex}
           onClick={onClick}
           onClosed={function(): void {
             document.body.removeChild(container);
@@ -65,9 +59,6 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
       );
       const index = notifyReturnList.indexOf(res);
       index >= 0 && notifyReturnList.splice(index, 1);
-      if (!notifyReturnList.length) {
-        zIndexNext = Z_INDEX_NOTIFY;
-      }
     },
 
     setMessage(msg: string): void {
@@ -75,20 +66,18 @@ export function notify(options: string | NotifyOptions, type?: NotifyType): Noti
         return;
       }
       message = msg;
-      preact.render(<Notify {...opt} message={message} zIndex={zIndex} onClick={onClick} show />, container);
+      preact.render(<Notify {...opt} message={message} onClick={onClick} show />, container);
     },
   };
 
   notifyReturnList.push(res);
 
   document.body.appendChild(container);
-  preact.render(<Notify {...opt} zIndex={zIndex} onClick={onClick} show />, container);
+  preact.render(<Notify {...opt} onClick={onClick} show />, container);
 
   if (opt.duration !== 0) {
     setTimeout(res.clear, opt.duration > 0 ? opt.duration : 2000);
   }
-
-  zIndexNext++;
 
   return res;
 }

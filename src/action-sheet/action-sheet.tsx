@@ -103,6 +103,7 @@ export const ActionSheet: preact.FunctionalComponent<ActionSheetProps> = props =
       className={bem()}
       show={show}
       position="bottom"
+      zIndex={props.zIndex}
       round={props.round}
       overlay={props.overlay}
       duration={props.duration}

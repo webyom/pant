@@ -1,6 +1,5 @@
 import * as preact from 'preact';
 import { ActionSheet, ActionSheetProps, ActionSheetItem } from './action-sheet';
-import { Z_INDEX_ACTION_SHEET } from '../utils/constant';
 import './index.scss';
 
 export { ActionSheet, ActionSheetProps } from './action-sheet';
@@ -14,8 +13,6 @@ export type ActionSheetReturn = {
 };
 
 const actionSheetReturnList: ActionSheetReturn[] = [];
-
-let zIndexNext = Z_INDEX_ACTION_SHEET;
 
 export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
   const opt = options;
@@ -34,8 +31,6 @@ export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
     opt.onSelect && opt.onSelect(item, index);
   }
 
-  const zIndex = zIndexNext;
-
   const res: ActionSheetReturn = {
     close(): void {
       if (!container) {
@@ -44,7 +39,6 @@ export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
       preact.render(
         <ActionSheet
           {...opt}
-          zIndex={zIndex}
           onCancel={opt.onCancel || onCancel}
           onSelect={onSelect}
           onClosed={function(): void {
@@ -57,21 +51,13 @@ export function actionSheet(options: ActionSheetOptions): ActionSheetReturn {
       );
       const index = actionSheetReturnList.indexOf(res);
       index >= 0 && actionSheetReturnList.splice(index, 1);
-      if (!actionSheetReturnList.length) {
-        zIndexNext = Z_INDEX_ACTION_SHEET;
-      }
     },
   };
 
   actionSheetReturnList.push(res);
 
   document.body.appendChild(container);
-  preact.render(
-    <ActionSheet {...opt} zIndex={zIndex} onCancel={opt.onCancel || onCancel} onSelect={onSelect} show />,
-    container,
-  );
-
-  zIndexNext++;
+  preact.render(<ActionSheet {...opt} onCancel={opt.onCancel || onCancel} onSelect={onSelect} show />, container);
 
   return res;
 }

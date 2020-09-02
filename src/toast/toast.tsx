@@ -3,8 +3,9 @@ import clsx from 'clsx';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
 import { preventDefaultAndStopPropagation } from '../utils/event';
-import { isDef } from '../utils';
+import { isDef, getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
+import { Z_INDEX_TOAST_BASE } from '../utils/constant';
 import { Icon } from '../icon';
 import { Loading, LoadingType } from '../loading';
 import './index.scss';
@@ -58,10 +59,13 @@ function genMessage(props: ToastProps): preact.JSX.Element {
 
 export const Toast: preact.FunctionalComponent<ToastProps> = props => {
   const { show, zIndex, overlay } = props;
+  const incZIndex = zIndex || getIncrementalZIndex(Z_INDEX_TOAST_BASE);
 
   return (
     <preact.Fragment>
-      {overlay ? <Overlay zIndex={zIndex} customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} /> : null}
+      {overlay ? (
+        <Overlay zIndex={incZIndex} customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} />
+      ) : null}
       <Transition
         name="fade"
         stage={show ? 'enter' : 'leave'}
@@ -77,7 +81,7 @@ export const Toast: preact.FunctionalComponent<ToastProps> = props => {
             ]),
             props.className,
           )}
-          style={{ zIndex: zIndex }}
+          style={{ zIndex: incZIndex }}
           onTouchMove={overlay ? preventDefaultAndStopPropagation : null}
           onClick={props.onClick}
         >
