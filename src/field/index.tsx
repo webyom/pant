@@ -111,6 +111,12 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
       validateMessage: '',
       prevProps: props,
     };
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onCheckboxClick = this.onCheckboxClick.bind(this);
+    this.onSwitchClick = this.onSwitchClick.bind(this);
+    this.clearInput = this.clearInput.bind(this);
   }
 
   static getDerivedStateFromProps<T>(
@@ -343,9 +349,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         disabled: props.disabled,
         readonly: props.readonly,
         placeholder: props.placeholder,
-        onFocus: this.onFocus.bind(this),
-        onBlur: this.onBlur.bind(this),
-        onChange: this.onInputChange.bind(this),
+        onFocus: this.onFocus,
+        onBlur: this.onBlur,
+        onChange: this.onInputChange,
         ref: this.inputRef,
       };
 
@@ -370,13 +376,13 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     } else if (type === 'checkbox') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
-          <Checkbox name={name} shape="square" checked={!!value} onClick={this.onCheckboxClick.bind(this)}></Checkbox>
+          <Checkbox name={name} shape="square" checked={!!value} onClick={this.onCheckboxClick}></Checkbox>
         </div>
       );
     } else if (type === 'switch') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
-          <Switch name={name} size="20" on={!!value} onClick={this.onSwitchClick.bind(this)}></Switch>
+          <Switch name={name} size="20" on={!!value} onClick={this.onSwitchClick}></Switch>
         </div>
       );
     }
@@ -435,7 +441,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
       >
         <div className={bem('body')}>
           {this.genInput()}
-          {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput.bind(this)} />}
+          {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput} />}
           {this.genRightIcon()}
           {props.button && <div class={bem('button')}>{props.button}</div>}
         </div>
