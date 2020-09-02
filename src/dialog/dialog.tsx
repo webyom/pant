@@ -24,6 +24,7 @@ export type DialogProps = {
   cancelButtonColor?: string;
   confirmButtonText?: string;
   confirmButtonColor?: string;
+  showConfirmButton?: boolean;
   showCancelButton?: boolean;
   cancelLoading?: boolean;
   confirmLoading?: boolean;
@@ -39,7 +40,12 @@ export type DialogProps = {
 const bem = createBEM('pant-dialog');
 
 function genButtons(props: DialogProps): preact.JSX.Element {
-  const multiple = props.showCancelButton;
+  const { showConfirmButton, showCancelButton } = props;
+  const multiple = showConfirmButton && showCancelButton;
+
+  if (!showConfirmButton && !showCancelButton) {
+    return;
+  }
 
   return (
     <div className={clsx(BORDER_TOP, bem('footer', { buttons: multiple }))}>
@@ -53,14 +59,16 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           onClick={props.onCancelClick}
         />
       )}
-      <Button
-        size="large"
-        className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
-        loading={props.confirmLoading}
-        text={props.confirmButtonText || 'Confirm'}
-        customStyle={{ color: props.confirmButtonColor }}
-        onClick={props.onConfirmClick}
-      />
+      {props.showConfirmButton && (
+        <Button
+          size="large"
+          className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
+          loading={props.confirmLoading}
+          text={props.confirmButtonText || 'Confirm'}
+          customStyle={{ color: props.confirmButtonColor }}
+          onClick={props.onConfirmClick}
+        />
+      )}
     </div>
   );
 }
@@ -117,5 +125,6 @@ Dialog.defaultProps = {
   transition: 'dialog-bounce',
   lockScroll: true,
   overlay: true,
+  showConfirmButton: true,
   cancelOnClickOverlay: false,
 };
