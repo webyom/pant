@@ -30,6 +30,7 @@ import { SwitchRouteComponent } from '../../switch/demo';
 import { TabRouteComponent } from '../../tab/demo';
 import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
+import { PickerRouteComponent } from '../../picker/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends preact.Component {
@@ -68,6 +69,7 @@ export class RootComponent extends preact.Component {
         <TabRouteComponent path="/tab/" />
         <TagRouteComponent path="/tag/" />
         <ToastRouteComponent path="/toast/" />
+        <PickerRouteComponent path="/picker/" />
         <NotFoundRouteComponent default />
       </Router>
     );

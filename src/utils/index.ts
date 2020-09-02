@@ -5,6 +5,10 @@ export function isDef(val: any): boolean {
   return val !== undefined && val !== null;
 }
 
+export function isObject(val: unknown): val is Record<any, any> {
+  return val !== null && typeof val === 'object';
+}
+
 export function isNumeric(val: string): boolean {
   return /^\d+(\.\d+)?$/.test(val);
 }
@@ -61,6 +65,26 @@ export function omit(obj: Record<string, any>, keys: string[]): Record<string, a
   return res;
 }
 
+export const inBrowser = typeof window !== 'undefined';
+
+function convertVw(value: string): number {
+  value = value.replace(/vw/g, '');
+  return (+value * window.innerWidth) / 100;
+}
+
+export function unitToPx(value: string | number): number {
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  if (inBrowser) {
+    if (value.indexOf('vw') !== -1) {
+      return convertVw(value);
+    }
+  }
+
+  return parseFloat(value);
+}
 let zIndex = Z_INDEX_INCREMENTAL_START;
 export function getIncrementalZIndex(base = 0): number {
   return base + zIndex++;
