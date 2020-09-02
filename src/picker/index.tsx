@@ -27,6 +27,7 @@ export type PickerProps = {
   cancelButtonText?: string;
   onCancel?<T extends string | any[], K extends number | number[]>(value: T, index: K): void;
   onConfirm?<T extends string | any[], K extends number | number[]>(value: T, index: K): void;
+  closePopup?(): void;
   confirmButtonText?: string;
   title?: string;
   itemHeight?: number;
@@ -164,6 +165,10 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   // get indexes of all columns
   getIndexes(): number[] {
     return this.state.children.map((child: any) => child.state.currentIndex);
+  }
+
+  getValue(): number[] {
+    return this.getIndexes();
   }
 
   // set indexes of all columns
@@ -326,10 +331,14 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   confirm(): void {
     this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
     this.emit('onConfirm');
+    const { closePopup } = this.props;
+    closePopup && closePopup();
   }
 
   cancel(): void {
     this.emit('onCancel');
+    const { closePopup } = this.props;
+    closePopup && closePopup();
   }
 
   emit(event: 'onConfirm' | 'onCancel'): void {

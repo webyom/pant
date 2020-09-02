@@ -71,6 +71,8 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
 type FieldState<T> = {
   isInputType: boolean;
   focused: boolean;
+  showPopup: boolean;
+  popupValue: T;
   value: T;
   validateMessage: string;
   prevProps: FieldProps<T>;
@@ -99,6 +101,7 @@ function normalizeDefaultValue(dv: any, isInputType: boolean): any {
 const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 
 export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState<T>> {
+  private isPopup = false;
   private readonly inputRef = preact.createRef();
 
   constructor(props: preact.RenderableProps<FieldProps<T>>) {
@@ -107,6 +110,8 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     this.state = {
       isInputType: iit,
       focused: false,
+      showPopup: false,
+      popupValue: null,
       value: normalizeDefaultValue(props.defaultValue, iit),
       validateMessage: '',
       prevProps: props,
@@ -116,7 +121,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     this.onInputChange = this.onInputChange.bind(this);
     this.onCheckboxClick = this.onCheckboxClick.bind(this);
     this.onSwitchClick = this.onSwitchClick.bind(this);
+    this.onCustomControlClick = this.onCustomControlClick.bind(this);
     this.clearInput = this.clearInput.bind(this);
+    this.closePopup = this.closePopup.bind(this);
   }
 
   static getDerivedStateFromProps<T>(
@@ -128,6 +135,8 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     return {
       isInputType: iit,
       focused: state.focused,
+      showPopup: state.showPopup,
+      popupValue: state.popupValue,
       value: defaultValueChanged ? normalizeDefaultValue(props.defaultValue, iit) : state.value,
       validateMessage: defaultValueChanged ? '' : state.validateMessage,
       prevProps: props,
@@ -136,6 +145,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
   componentDidMount(): void {
     this.adjustSize();
+    if (this.isPopup) {
+      this.setState({ popupValue: this.getValue() });
+    }
   }
 
   componentDidUpdate(): void {
@@ -222,6 +234,23 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
+  }
+
+  private openPopup(): void {
+    this.setState({ showPopup: true });
+  }
+
+  private closePopup(): void {
+    this.setState({ showPopup: false, popupValue: this.getValue() });
+  }
+
+  private onCustomControlClick(evt: Event): void {
+    if (this.isPopup) {
+      const target = evt.target as HTMLElement;
+      if (target.className.indexOf('pant-field__control') !== -1) {
+        this.openPopup();
+      }
+    }
   }
 
   private clearInput(): void {
@@ -329,16 +358,24 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   genInput(): preact.JSX.Element {
     const { props } = this;
     const { type, name, inputAlign, children } = props;
-    const { isInputType, value } = this.state;
+    const { showPopup, popupValue, isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
       const childrenWithProps = [].concat(children).map(child => {
+        const isPopup = (this.isPopup = child.type.__PANT_NAME__ === 'Popup');
         return preact.cloneElement(child, {
           ref: this.inputRef,
           onChange: this.onCustomChange.bind(this, child.props.onChange),
+          show: isPopup ? showPopup : undefined,
+          closePopup: isPopup ? this.closePopup : undefined,
         });
       });
-      return <div class={bem('control', [inputAlign, 'custom'])}>{childrenWithProps}</div>;
+      return (
+        <div class={bem('control', [inputAlign, 'custom'])} onClick={this.onCustomControlClick}>
+          {this.isPopup ? popupValue : ''}
+          {childrenWithProps}
+        </div>
+      );
     }
 
     if (isInputType) {

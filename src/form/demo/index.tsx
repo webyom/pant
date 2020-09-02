@@ -5,6 +5,9 @@ import { Field } from '../../field';
 import { Button } from '../../button';
 import { CheckboxGroup } from '../../checkbox-group';
 import { RadioGroup } from '../../radio-group';
+import { Popup } from '../../popup';
+import { Picker } from '../../picker';
+import { columns3 } from '../../picker/demo/constant';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import './index.scss';
@@ -198,6 +201,18 @@ export class FormRouteComponent extends preact.Component {
                 }}
               >
                 <RadioGroup direction="horizontal" options={['Radio a', 'Radio b']} />
+              </Field>
+              <Field<[]>
+                name="cascade"
+                title="Cascade"
+                validateTrigger={['change']}
+                rules={async (value): Promise<string> => {
+                  return value ? '' : 'Required field';
+                }}
+              >
+                <Popup round position="bottom" closeOnClickOverlay>
+                  <Picker title="Title" columns={columns3} />
+                </Popup>
               </Field>
               <div className={bem('submit')}>
                 <Button nativeType="submit" type="info" block round>

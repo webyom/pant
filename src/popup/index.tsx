@@ -31,6 +31,7 @@ export type PopupProps = {
   zIndex?: number | string;
   className?: string;
   children?: preact.ComponentChildren;
+  closePopup?(): void;
   onClosed?(): void;
   onOpened?(): void;
   onClick?(event: Event, props: PopupProps): void;
@@ -44,12 +45,15 @@ type PopupState = {
 const bem = createBEM('pant-popup');
 
 export class Popup extends preact.Component<PopupProps, PopupState> {
-  bindedOnClick = this.onClick.bind(this);
-  bindedOnClickClose = this.onClickClose.bind(this);
-  bindedOnClosed = this.onClosed.bind(this);
+  private childRef = preact.createRef();
+  private bindedOnClick = this.onClick.bind(this);
+  private bindedOnClickClose = this.onClickClose.bind(this);
+  private bindedOnClosed = this.onClosed.bind(this);
   state = {
     active: !!this.props.show,
   };
+
+  static readonly __PANT_NAME__ = 'Popup';
 
   static getDerivedStateFromProps(props: PopupProps): PopupState {
     if (props.show) {
@@ -65,12 +69,34 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
 
   private onClickClose(event: Event): void {
     const props = this.props;
-    props.onClickClose && props.onClickClose(event, props);
+    const { onClickClose, closePopup } = props;
+    onClickClose && onClickClose(event, props);
+    closePopup && closePopup();
   }
 
   private onClosed(): void {
     this.setState({ active: false });
     this.props.onClosed && this.props.onClosed();
+  }
+
+  private genChildren(): preact.ComponentChildren {
+    const { closePopup, children } = this.props;
+    if (closePopup) {
+      return [].concat(children).map(child => {
+        this.childRef = child.ref || this.childRef;
+        return preact.cloneElement(child, {
+          ref: this.childRef,
+          closePopup: closePopup,
+        });
+      });
+    } else {
+      return children;
+    }
+  }
+
+  getValue(): any {
+    const child = this.childRef.current;
+    return child && child.getValue && child.getValue();
   }
 
   render(): preact.JSX.Element {
@@ -121,7 +147,7 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
             onClick={this.bindedOnClick}
             onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
           >
-            {props.children}
+            {this.genChildren()}
             {props.closeable && (
               <Icon
                 name={props.closeIcon}
