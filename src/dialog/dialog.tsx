@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Button } from '../button';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
-import { addUnit } from '../utils';
+import { addUnit, getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
 import { BORDER_TOP, BORDER_LEFT } from '../utils/constant';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -11,7 +11,9 @@ import './index.scss';
 
 export type DialogProps = {
   show?: boolean;
+  lockScroll?: boolean;
   title?: string;
+  className?: string;
   titleNode?: preact.VNode | preact.VNode[];
   width?: number | string;
   zIndex?: number | string;
@@ -22,6 +24,7 @@ export type DialogProps = {
   cancelButtonColor?: string;
   confirmButtonText?: string;
   confirmButtonColor?: string;
+  showConfirmButton?: boolean;
   showCancelButton?: boolean;
   cancelLoading?: boolean;
   confirmLoading?: boolean;
@@ -37,7 +40,12 @@ export type DialogProps = {
 const bem = createBEM('pant-dialog');
 
 function genButtons(props: DialogProps): preact.JSX.Element {
-  const multiple = props.showCancelButton;
+  const { showConfirmButton, showCancelButton } = props;
+  const multiple = showConfirmButton && showCancelButton;
+
+  if (!showConfirmButton && !showCancelButton) {
+    return;
+  }
 
   return (
     <div className={clsx(BORDER_TOP, bem('footer', { buttons: multiple }))}>
@@ -51,20 +59,23 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           onClick={props.onCancelClick}
         />
       )}
-      <Button
-        size="large"
-        className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
-        loading={props.confirmLoading}
-        text={props.confirmButtonText || 'Confirm'}
-        customStyle={{ color: props.confirmButtonColor }}
-        onClick={props.onConfirmClick}
-      />
+      {props.showConfirmButton && (
+        <Button
+          size="large"
+          className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
+          loading={props.confirmLoading}
+          text={props.confirmButtonText || 'Confirm'}
+          customStyle={{ color: props.confirmButtonColor }}
+          onClick={props.onConfirmClick}
+        />
+      )}
     </div>
   );
 }
 
-export function Dialog(props: DialogProps): preact.JSX.Element {
+export const Dialog: preact.FunctionalComponent<DialogProps> = props => {
   const { show, zIndex, message, messageAlign } = props;
+  const incZIndex = zIndex || getIncrementalZIndex();
   const messageNode = props.messageNode;
   const title = props.titleNode || props.title;
 
@@ -87,7 +98,7 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
   return (
     <preact.Fragment>
       {props.overlay ? (
-        <Overlay show={show} zIndex={zIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
+        <Overlay show={show} zIndex={incZIndex} onClick={props.cancelOnClickOverlay ? props.onCancelClick : null} />
       ) : null}
       <Transition
         customName={props.transition}
@@ -98,9 +109,9 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
         <div
           role="dialog"
           aria-labelledby={props.title || message}
-          className={bem()}
-          style={{ width: addUnit(props.width), zIndex: zIndex }}
-          onTouchMove={preventDefaultAndStopPropagation}
+          className={clsx(bem(), props.className)}
+          style={{ width: addUnit(props.width), zIndex: incZIndex }}
+          onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         >
           {Title}
           {Content}
@@ -109,10 +120,12 @@ export function Dialog(props: DialogProps): preact.JSX.Element {
       </Transition>
     </preact.Fragment>
   );
-}
+};
 
 Dialog.defaultProps = {
   transition: 'dialog-bounce',
+  lockScroll: true,
   overlay: true,
+  showConfirmButton: true,
   cancelOnClickOverlay: false,
 };

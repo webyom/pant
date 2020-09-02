@@ -6,15 +6,25 @@ export type RadioGroupProps = CheckboxGroupBaseProps & {
   defaultValue?: string;
 };
 
-export function RadioGroup(props: RadioGroupProps): preact.JSX.Element {
-  const { defaultValue } = props;
-  const passProps = omit(props, ['defaultValue', 'max', 'onMaxLimit']);
-  return (
-    <CheckboxGroup
-      {...passProps}
-      defaultValue={(isDef(defaultValue) && [defaultValue]) || undefined}
-      role="radio"
-      max="1"
-    />
-  );
+export class RadioGroup extends preact.Component<RadioGroupProps> {
+  private readonly ref = preact.createRef();
+
+  getValue(): string[] {
+    const res = this.ref.current.getValue();
+    return res && res[0];
+  }
+
+  render(): preact.JSX.Element {
+    const { defaultValue } = this.props;
+    const passProps = omit(this.props, ['defaultValue', 'max', 'onMaxLimit']);
+    return (
+      <CheckboxGroup
+        {...passProps}
+        ref={this.ref}
+        defaultValue={(isDef(defaultValue) && [defaultValue]) || undefined}
+        role="radio"
+        max="1"
+      />
+    );
+  }
 }

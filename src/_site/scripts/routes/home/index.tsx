@@ -66,6 +66,12 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/checkbox/">
             Checkbox <Arrow />
           </Link>
+          <Link href="/field/">
+            Field <Arrow />
+          </Link>
+          <Link href="/form/">
+            Form <Arrow />
+          </Link>
           <Link href="/radio/">
             Radio <Arrow />
           </Link>
@@ -107,8 +113,18 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/skeleton/">
             Skeleton <Arrow />
           </Link>
+          <Link href="/sticky/">
+            Sticky <Arrow />
+          </Link>
           <Link href="/tag/">
             Tag <Arrow />
+          </Link>
+        </section>
+
+        <section>
+          <h3>Navigation Components</h3>
+          <Link href="/tab/">
+            Tab <Arrow />
           </Link>
         </section>
 

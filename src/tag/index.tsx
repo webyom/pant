@@ -10,7 +10,7 @@ export type TagType = 'default' | 'primary' | 'success' | 'warning' | 'danger';
 export type TagSize = 'large' | 'medium';
 
 export type TagProps = {
-  type: TagType;
+  type?: TagType;
   size?: TagSize;
   mark?: boolean;
   color?: string;
@@ -18,13 +18,12 @@ export type TagProps = {
   round?: boolean;
   textColor?: string;
   closeable?: boolean;
-  children?: preact.ComponentChildren;
   onClose?(): void;
 };
 
 const bem = createBEM('pant-tag');
 
-export function Tag(props: TagProps): preact.JSX.Element {
+export const Tag: preact.FunctionalComponent<TagProps> = props => {
   const { type, mark, plain, color, round, size } = props;
 
   const key = plain ? 'color' : 'backgroundColor';
@@ -56,7 +55,7 @@ export function Tag(props: TagProps): preact.JSX.Element {
       {CloseIcon}
     </span>
   );
-}
+};
 
 Tag.defaultProps = {
   type: 'default',

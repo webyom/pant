@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import clsx from 'clsx';
 import { Icon } from '../icon';
 import { isDef } from '../utils';
 import { createBEM } from '../utils/bem';
@@ -13,13 +14,15 @@ export type CellProps = {
   border?: boolean;
   center?: boolean;
   required?: boolean;
-  children?: preact.ComponentChildren;
+  className?: string;
+  titleClassName?: string;
+  valueClassName?: string;
   onClick?(event: Event): void;
 };
 
 const bem = createBEM('pant-cell');
 
-export function Cell(props: CellProps): preact.JSX.Element {
+export const Cell: preact.FunctionalComponent<CellProps> = props => {
   const { icon, title, label, rightIcon } = props;
   const showTitle = isDef(title);
 
@@ -32,7 +35,7 @@ export function Cell(props: CellProps): preact.JSX.Element {
   function Title(): preact.JSX.Element {
     if (showTitle) {
       return (
-        <div className={bem('title')}>
+        <div className={clsx(bem('title'), props.titleClassName)}>
           {typeof title === 'string' ? <span>{title}</span> : title}
           {Label()}
         </div>
@@ -42,7 +45,7 @@ export function Cell(props: CellProps): preact.JSX.Element {
 
   function Value(): preact.JSX.Element {
     if (isDef(props.children)) {
-      return <div className={bem('value', { alone: !showTitle })}>{props.children}</div>;
+      return <div className={clsx(bem('value', { alone: !showTitle }), props.valueClassName)}>{props.children}</div>;
     }
   }
 
@@ -77,14 +80,19 @@ export function Cell(props: CellProps): preact.JSX.Element {
   };
 
   return (
-    <div class={bem(classes)} role={clickable ? 'button' : null} tabIndex={clickable ? 0 : null} onClick={onClick}>
+    <div
+      class={clsx(bem(classes), props.className)}
+      role={clickable ? 'button' : null}
+      tabIndex={clickable ? 0 : null}
+      onClick={onClick}
+    >
       {LeftIcon()}
       {Title()}
       {Value()}
       {RightIcon()}
     </div>
   );
-}
+};
 
 Cell.defaultProps = {
   border: true,

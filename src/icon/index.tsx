@@ -15,6 +15,7 @@ export type IconProps = {
   classPrefix?: string;
   style?: Record<string, string>;
   onClick?(event: Event): void;
+  onTouchStart?(event: Event): void;
 };
 
 const bem = createBEM('pant-icon');
@@ -23,7 +24,7 @@ function isImage(name?: string): boolean {
   return name ? name.indexOf('/') !== -1 : false;
 }
 
-export function Icon(props: IconProps): preact.JSX.Element {
+export const Icon: preact.FunctionalComponent<IconProps> = props => {
   const name = props.name;
   const imageIcon = isImage(name);
 
@@ -36,12 +37,13 @@ export function Icon(props: IconProps): preact.JSX.Element {
         ...props.style,
       }}
       onClick={props.onClick}
+      onTouchStart={props.onTouchStart}
     >
       {imageIcon && <img class={bem('image')} src={name} />}
       <Info dot={props.dot} info={props.info} />
     </i>
   );
-}
+};
 
 Icon.defaultProps = {
   classPrefix: 'pant-icon',

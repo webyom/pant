@@ -10,12 +10,12 @@ export type SubmitBarProps = {
   label?: string;
   price?: number;
   loading?: boolean;
-  currency: string;
+  currency?: string;
   disabled?: boolean;
-  buttonType: ButtonType;
+  buttonType?: ButtonType;
   buttonText?: string;
   suffixLabel?: string;
-  decimalLength: number;
+  decimalLength?: number;
   safeAreaInsetBottom?: boolean;
   textAlign?: 'right' | 'left';
   tipNode?: preact.VNode;
@@ -26,7 +26,7 @@ export type SubmitBarProps = {
 
 const bem = createBEM('pant-submit-bar');
 
-export function SubmitBar(props: SubmitBarProps): preact.JSX.Element {
+export const SubmitBar: preact.FunctionalComponent<SubmitBarProps> = props => {
   const { tip, price, tipIcon } = props;
 
   function Text(): preact.JSX.Element {
@@ -78,7 +78,7 @@ export function SubmitBar(props: SubmitBarProps): preact.JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 SubmitBar.defaultProps = {
   decimalLength: 2,

@@ -12,7 +12,7 @@ export type ColProps = {
 
 const bem = createBEM('pant-col');
 
-export function Col(props: ColProps): preact.JSX.Element {
+export const Col: preact.FunctionalComponent<ColProps> = props => {
   const { span, offset } = props;
   const gutter = Number(props.gutter) || 0;
   const padding = `${gutter / 2}px`;
@@ -23,7 +23,7 @@ export function Col(props: ColProps): preact.JSX.Element {
       {props.children}
     </div>
   );
-}
+};
 
 Col.defaultProps = {
   gutter: 0,

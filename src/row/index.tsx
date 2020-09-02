@@ -7,13 +7,12 @@ export type RowProps = {
   align?: string;
   justify?: string;
   gutter?: number | string;
-  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 };
 
 const bem = createBEM('pant-row');
 
-export function Row(props: RowProps): preact.JSX.Element {
+export const Row: preact.FunctionalComponent<RowProps> = props => {
   const { align, justify } = props;
   const flex = props.type === 'flex';
   const margin = `-${Number(props.gutter) / 2}px`;
@@ -35,7 +34,7 @@ export function Row(props: RowProps): preact.JSX.Element {
       {childrenWithProps}
     </div>
   );
-}
+};
 
 Row.defaultProps = {
   gutter: 0,

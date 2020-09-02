@@ -18,12 +18,12 @@
   transform: scale(0.5);
 }
 
-@mixin hairline-bottom($color: $border-color, $left: 0) {
+@mixin hairline-bottom($color: $border-color, $left: 0, $right: 0) {
   @include hairline-common();
 
-  right: 0;
   bottom: 0;
   left: $left;
+  right: $right;
   border-bottom: 1px solid $color;
   transform: scaleY(0.5);
 }

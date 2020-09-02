@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
-import { isDef } from '../utils';
+import { isDef, getIncrementalZIndex } from '../utils';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
 import './index.scss';
@@ -81,13 +81,13 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
     }
 
     const { show, zIndex, round, position, duration } = props;
+    const incZIndex = zIndex || getIncrementalZIndex();
     const isCenter = position === 'center';
-
     const transitionName = isCenter || (!show && props.fadeLeave) ? 'fade' : `popup-slide-${position}`;
 
     const style: Record<string, number | string> = {
       ...props.customStyle,
-      zIndex: zIndex,
+      zIndex: incZIndex,
     };
     if (isDef(duration)) {
       style['animationDuration'] = `${duration}s`;
@@ -96,7 +96,11 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
     return (
       <preact.Fragment>
         {props.overlay ? (
-          <Overlay show={show} zIndex={zIndex} onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null} />
+          <Overlay
+            show={show}
+            zIndex={incZIndex}
+            onClick={props.closeOnClickOverlay ? this.bindedOnClickClose : null}
+          />
         ) : null}
         <Transition
           customName={transitionName}

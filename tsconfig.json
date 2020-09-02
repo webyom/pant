@@ -10,7 +10,7 @@
     "jsxFactory": "preact.h",
     "module": "ESNext",
     "moduleResolution": "node",
-    "target": "es6",
+    "target": "es5",
     "lib": [
       "esnext",
       "dom"
@@ -24,5 +24,8 @@
   "include": [
     "src/**/*",
     "types"
+  ],
+  "exclude": [
+    "src/**/__tests__"
   ]
 }

@@ -8,17 +8,17 @@ import './index.scss';
 
 export type OverlayProps = {
   show?: boolean;
+  lockScroll?: boolean;
   zIndex?: number | string;
   duration?: number;
   className?: any;
   customStyle?: Record<string, string | number>;
-  children?: preact.ComponentChildren;
   onClick?(event: Event): void;
 } & TransitionEvents;
 
 const bem = createBEM('pant-overlay');
 
-export function Overlay(props: OverlayProps): preact.JSX.Element {
+export const Overlay: preact.FunctionalComponent<OverlayProps> = props => {
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
     ...props.customStyle,
@@ -39,11 +39,15 @@ export function Overlay(props: OverlayProps): preact.JSX.Element {
       <div
         style={style}
         className={clsx(bem(), props.className)}
-        onTouchMove={preventDefaultAndStopPropagation}
+        onTouchMove={props.lockScroll ? preventDefaultAndStopPropagation : null}
         onClick={props.onClick}
       >
         {props.children}
       </div>
     </Transition>
   );
-}
+};
+
+Overlay.defaultProps = {
+  lockScroll: true,
+};

@@ -42,7 +42,7 @@ export class CheckboxGroup extends preact.Component<CheckboxGroupProps, Checkbox
     value: this.props.defaultValue,
   };
 
-  get value(): string[] {
+  getValue(): string[] {
     return this.state.value;
   }
 

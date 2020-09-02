@@ -10,7 +10,7 @@ export type InfoProps = {
 
 const bem = createBEM('pant-info');
 
-export function Info(props: InfoProps): preact.JSX.Element {
+export const Info: preact.FunctionalComponent<InfoProps> = props => {
   const { dot, info } = props;
   const showInfo = isDef(info) && info !== '';
 
@@ -19,4 +19,4 @@ export function Info(props: InfoProps): preact.JSX.Element {
   }
 
   return <div className={bem({ dot })}>{dot ? '' : info}</div>;
-}
+};
