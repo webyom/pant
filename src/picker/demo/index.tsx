@@ -4,7 +4,7 @@ import { Picker } from '../../picker';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import { Popup } from '../../popup';
-import { Button } from '../../button';
+import { toast } from '../../toast';
 import { columns1, columns2, columns3, columns4, columns5 } from './constant';
 import './index.scss';
 
@@ -32,22 +32,23 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     });
   }
 
-  onChange1(value, index): void {
-    // console.log(value, 'value');
-    // console.log(index, 'index');
+  onChange1<T extends string | any[]>(value: T, index: number): void {
+    toast({
+      message: `Value: ${value}, Index：${index}`,
+    });
   }
 
-  onChange2(values, index, picker): void {
-    // console.log(values, 'values');
-    // console.log(index, 'index');
-    // console.log(picker, 'picker');
-  }
-
-  onChange3(values, index, picker): void {
+  onChange2<T extends string | any[]>(values: T, index: number, picker: any): void {
     picker.setColumnValues(1, columns5[values[0]]);
   }
 
-  onConfirm(value, index): void {
+  onConfirm1<T extends string | any[], K extends number | number[]>(value: T, index: K): void {
+    toast({
+      message: `Value: ${value}, Index：${index}`,
+    });
+  }
+
+  onConfirm2(value: string, index: number): void {
     this.setState({
       cityValue: value,
       showPicker: false,
@@ -59,58 +60,6 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     this.setState({
       showPicker: false,
     });
-  }
-
-  getValues(): void {
-    // console.log(this.ele.getValues());
-    // console.log(values);
-  }
-
-  setValues(): void {
-    // this.ele.setValues([
-    //   {
-    //     text: '福建',
-    //     children: [
-    //       { text: '福州', children: [{ text: '鼓楼区' }, { text: '台江区' }] },
-    //       { text: '厦门', children: [{ text: '思明区' }, { text: '海沧区' }] },
-    //     ],
-    //   },
-    //   { text: '厦门', children: [{ text: '思明区' }, { text: '海沧区' }] },
-    //   { text: '思明区' },
-    // ]);
-    this.ele.setValues(['福建', '厦门', '思明区']);
-  }
-
-  getIndexes(): void {
-    // console.log(this.ele.getIndexes());
-  }
-
-  setIndexes(): void {
-    this.ele.setIndexes([1, 1, 1]);
-  }
-
-  getColumnValue(): void {
-    // console.log(this.ele.getColumnValue(2));
-  }
-
-  setColumnValue(): void {
-    this.ele.setColumnValue(2, '余杭区');
-  }
-
-  getColumnIndex(): void {
-    // console.log(this.ele.getColumnIndex(0));
-  }
-
-  setColumnIndex(): void {
-    this.ele.setColumnIndex([1, 1]);
-  }
-
-  getColumnValues(): void {
-    // console.log(this.ele.getColumnValues(2));
-  }
-
-  setColumnValues(): void {
-    this.ele.setColumnIndex([1, 1]);
   }
 
   render(): preact.JSX.Element {
@@ -153,7 +102,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 columns={columns2}
-                onChange={this.onChange2}
+                onConfirm={this.onConfirm1}
               />
             </div>
           </section>
@@ -166,7 +115,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 columns={columns3}
-                onChange={this.onChange2}
+                onConfirm={this.onConfirm1}
               />
             </div>
           </section>
@@ -174,13 +123,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
           <section>
             <h2>禁用选项</h2>
             <div className={bem('card')}>
-              <Picker
-                title="标题"
-                cancelButtonText="取消"
-                confirmButtonText="确定"
-                columns={columns4}
-                onChange={this.onChange1}
-              />
+              <Picker title="标题" cancelButtonText="取消" confirmButtonText="确定" columns={columns4} />
             </div>
           </section>
 
@@ -192,7 +135,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 columns={this.state.dynamicColumns}
-                onChange={this.onChange3}
+                onChange={this.onChange2}
               />
             </div>
           </section>
@@ -206,7 +149,6 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 confirmButtonText="确定"
                 loading={true}
                 columns={this.state.dynamicColumns}
-                onChange={this.onChange3}
               />
             </div>
           </section>
@@ -227,62 +169,9 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
               columns={columns1}
               defaultIndex={this.state.defaultIndex}
               onCancel={this.onCancel.bind(this)}
-              onConfirm={this.onConfirm.bind(this)}
+              onConfirm={this.onConfirm2.bind(this)}
             />
           </Popup>
-
-          <section>
-            <h2>调用Picker实例方法</h2>
-            <div className={bem('button')}>
-              <Button type="primary" onClick={this.getValues.bind(this)}>
-                getValues
-              </Button>
-              <Button type="primary" onClick={this.setValues.bind(this)}>
-                setValues
-              </Button>
-            </div>
-            <div className={bem('button')}>
-              <Button type="primary" onClick={this.getIndexes.bind(this)}>
-                getIndexes
-              </Button>
-              <Button type="primary" onClick={this.setIndexes.bind(this)}>
-                setIndexes
-              </Button>
-            </div>
-            <div className={bem('button')}>
-              <Button type="primary" onClick={this.getColumnValue.bind(this)}>
-                getColumnValue
-              </Button>
-              <Button type="primary" onClick={this.setColumnValue.bind(this)}>
-                setColumnValue
-              </Button>
-            </div>
-            <div className={bem('button')}>
-              <Button type="primary" onClick={this.getColumnIndex.bind(this)}>
-                getColumnIndex
-              </Button>
-              <Button type="primary" onClick={this.setColumnIndex.bind(this)}>
-                setColumnIndex
-              </Button>
-            </div>
-            <div className={bem('button')}>
-              <Button type="primary" onClick={this.getColumnValues.bind(this)}>
-                getColumnValues
-              </Button>
-              <Button type="primary" onClick={this.setColumnValues.bind(this)}>
-                setColumnValues
-              </Button>
-            </div>
-            <Picker
-              ref={ref => (this.ele = ref)}
-              title="标题"
-              cancelButtonText="取消"
-              confirmButtonText="确定"
-              columns={columns3}
-              onCancel={this.onCancel.bind(this)}
-              onConfirm={this.onConfirm.bind(this)}
-            />
-          </section>
         </div>
       </preact.Fragment>
     );

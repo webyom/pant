@@ -5,7 +5,7 @@ import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
 import { DEFAULT_ITEM_HEIGHT } from './constant';
-import { PickerColumn } from './PickerColumn';
+import { PickerColumn } from './picker-column';
 import { Loading } from '../loading';
 import './index.scss';
 
@@ -25,15 +25,15 @@ export type PickerProps = {
   showToolbar?: boolean;
   toolbarPosition?: ToolbarPosition;
   cancelButtonText?: string;
-  onCancel?(): void;
-  onConfirm?(): void;
+  onCancel?<T extends string | any[], K extends number | number[]>(value: T, index: K): void;
+  onConfirm?<T extends string | any[], K extends number | number[]>(value: T, index: K): void;
   confirmButtonText?: string;
   title?: string;
   itemHeight?: number;
   visibleItemCount?: number;
   columns?: any;
   defaultIndex?: number;
-  onChange?: (value, index, thisCom?) => void;
+  onChange?: <T extends string | any[]>(value: T, index: number, thisCom?: preact.AnyComponent) => void;
   valueKey?: string;
   allowHtml?: boolean;
   swipeDuration?: number;
@@ -49,7 +49,7 @@ type PickerState = {
 const bem = createBEM('pant-picker');
 
 export class Picker extends preact.Component<PickerProps, PickerState> {
-  private priChildren = [];
+  private priChildren: any[] = [];
   constructor(props: PickerProps) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   // 将pickerColumn实例注入到state.children
-  injectChildren(children): void {
+  injectChildren(children: preact.AnyComponent): void {
     this.priChildren.push(children);
     if (this.state.children.length < this.priChildren.length) {
       this.setState({ children: this.priChildren });
@@ -151,11 +151,11 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
    */
   // get values of all columns
   getValues(): any[] {
-    return this.state.children.map(child => child.getValue());
+    return this.state.children.map((child: any) => child.getValue());
   }
 
   // set values of all columns
-  setValues(values): void {
+  setValues(values: any[]): void {
     values.forEach((value, index) => {
       this.setColumnValue(index, value);
     });
@@ -163,28 +163,27 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
 
   // get indexes of all columns
   getIndexes(): number[] {
-    return this.state.children.map(child => child.state.currentIndex);
+    return this.state.children.map((child: any) => child.state.currentIndex);
   }
 
   // set indexes of all columns
-  setIndexes(indexes): void {
+  setIndexes(indexes: number[]): void {
     indexes.forEach((optionIndex, columnIndex) => {
       this.setColumnIndex(columnIndex, optionIndex);
     });
   }
 
   // get column value by index
-  getColumnValue(index): any {
+  getColumnValue(index: number): any {
     const column = this.getColumn(index);
     return column && column.getValue();
   }
 
   // set column value by index
-  setColumnValue(index, value): void {
+  setColumnValue(index: number, value: Record<string, any> | string): void {
     const column = this.getColumn(index);
     if (column) {
       column.setValue(value);
-
       if (this.state.dataType === 'cascade') {
         this.onCascadeChange(index);
       }
@@ -192,12 +191,12 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   // get column option index by column index
-  getColumnIndex(columnIndex): number {
+  getColumnIndex(columnIndex: number): number {
     return (this.getColumn(columnIndex) || {}).state.currentIndex;
   }
 
   // set column option index by column index
-  setColumnIndex(columnIndex, optionIndex): void {
+  setColumnIndex(columnIndex: number, optionIndex: number): void {
     const column = this.getColumn(columnIndex);
 
     if (column) {
@@ -210,12 +209,12 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   // get options of column by index
-  getColumnValues(index): any {
+  getColumnValues(index: number): any {
     return (this.state.children[index] || {}).state.options;
   }
 
   // set options of column by index
-  setColumnValues(index, options): void {
+  setColumnValues(index: number, options: any[]): void {
     const column = this.state.children[index];
     if (column) {
       column.setOptions(options);
@@ -223,7 +222,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   // get column instance by index
-  getColumn(index): any {
+  getColumn(index: number): any {
     return this.state.children[index];
   }
 
@@ -251,7 +250,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
     }
   }
 
-  onCascadeChange(columnIndex): void {
+  onCascadeChange(columnIndex: number): void {
     const { columns } = this.props;
     let cursor: CascadeColumns = { children: columns };
     const indexes = this.getIndexes();
@@ -325,7 +324,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   confirm(): void {
-    this.state.children.forEach(child => child.stopMomentum());
+    this.state.children.forEach((child: PickerColumn) => child.stopMomentum());
     this.emit('onConfirm');
   }
 
@@ -333,7 +332,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
     this.emit('onCancel');
   }
 
-  emit(event): void {
+  emit(event: 'onConfirm' | 'onCancel'): void {
     if (this.state.dataType === 'text') {
       if (this.props[event]) {
         this.props[event](this.getColumnValue(0), this.getColumnIndex(0));

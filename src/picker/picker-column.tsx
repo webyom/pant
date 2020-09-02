@@ -9,7 +9,7 @@ import { range } from '../utils/number';
 import { MOMENTUM_LIMIT_TIME, DEFAULT_DURATION, MOMENTUM_LIMIT_DISTANCE } from './constant';
 import './index.scss';
 
-function getElementTranslateY(element): number {
+function getElementTranslateY(element: HTMLUListElement): number {
   const style = window.getComputedStyle(element);
   const transform = style.transform || style.webkitTransform;
   const translateY = transform.slice(7, transform.length - 1).split(', ')[5];
@@ -43,12 +43,12 @@ type PickerState = {
 
 const bem = createBEM('pant-picker-column');
 
-function isOptionDisabled(option): boolean {
+function isOptionDisabled(option: Record<string, any> | string): boolean {
   return isObject(option) && option.disabled;
 }
 
 export class PickerColumn extends preact.Component<PickerProps, PickerState> {
-  private ele: any;
+  private ele: HTMLUListElement;
   private transitionEndTrigger: any;
   bindTouchEvent: Function;
   startOffset: number;
@@ -80,7 +80,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   // 重置cascade下一级的index为0
-  setOptions(options): void {
+  setOptions(options: any[]): void {
     if (JSON.stringify(options) !== JSON.stringify(this.state.options)) {
       this.setState({
         options: deepClone(options),
@@ -90,7 +90,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   // 默认valueKey是text，ul中展示text属性对应的值
-  getOptionText(option): any {
+  getOptionText(option: Record<string, any> | string): any {
     const props = this.props;
     if (isObject(option) && props.valueKey in option) {
       return option[props.valueKey];
@@ -98,7 +98,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     return option;
   }
 
-  onClickItem(index): void {
+  onClickItem(index: number): void {
     if (this.state.moving) {
       return;
     }
@@ -115,7 +115,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     return this.state.options[this.state.currentIndex];
   }
 
-  setValue(value): void {
+  setValue(value: string): void {
     const { options } = this.state;
     for (let i = 0; i < options.length; i++) {
       if (this.getOptionText(options[i]) === value) {
@@ -124,7 +124,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     }
   }
 
-  setIndex(index, emitChange?: boolean): void {
+  setIndex(index: number, emitChange?: boolean): void {
     const props = this.props;
     const { currentIndex } = this.state;
     index = this.adjustIndex(index) || 0;
@@ -156,11 +156,11 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     });
   }
 
-  getIndexByOffset(offset): number {
+  getIndexByOffset(offset: number): number {
     return range(Math.round(-offset / this.props.itemHeight), 0, this.state.options.length - 1);
   }
 
-  onTouchStart(event): void {
+  onTouchStart(event: Event): void {
     this.touchStart(event);
     if (this.state.moving) {
       const translateY = getElementTranslateY(this.ele);
@@ -184,7 +184,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     this.momentumOffset = this.startOffset;
   }
 
-  onTouchMove(event): void {
+  onTouchMove(event: Event): void {
     this.touchMove(event);
 
     if (this.direction === 'vertical') {
@@ -235,7 +235,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   // 滑动惯性
-  momentum(distance, duration): void {
+  momentum(distance: number, duration: number): void {
     const speed = Math.abs(distance / duration);
 
     distance = this.state.offset + (speed / 0.003) * (distance < 0 ? -1 : 1);
@@ -249,7 +249,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   // 校正index，使其跳过不可选
-  adjustIndex(index): number {
+  adjustIndex(index: number): number {
     const length = this.state.options.length;
     index = range(index, 0, length);
 
@@ -269,7 +269,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
       height: `${props.itemHeight}px`,
     };
 
-    return options.map((option, index: number) => {
+    return options.map((option: Record<string, any> | string, index: number) => {
       const text = this.getOptionText(option);
       const disabled = isOptionDisabled(option);
 
@@ -326,7 +326,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     return (
       <div className={clsx(bem(), this.props.className)}>
         <ul
-          ref={(el): void => {
+          ref={(el: HTMLUListElement): void => {
             this.ele = el;
           }}
           style={wrapperStyle}

@@ -1,6 +1,6 @@
 const MIN_DISTANCE = 10;
 
-function getDirection(x, y): string {
+function getDirection(x: number, y: number): string {
   if (x > y && x > MIN_DISTANCE) {
     return 'horizontal';
   }
@@ -19,12 +19,12 @@ export const PantTouch: any = {
   offsetX: 0,
   offsetY: 0,
   direction: '',
-  touchStart(event): void {
+  touchStart(event: any): void {
     this.resetTouchStatus();
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
   },
-  touchMove(event): void {
+  touchMove(event: any): void {
     const touch = event.touches[0];
     this.deltaX = touch.clientX - this.startX;
     this.deltaY = touch.clientY - this.startY;
@@ -41,7 +41,7 @@ export const PantTouch: any = {
     this.offsetY = 0;
   },
 
-  bindTouchEvent(el): void {
+  bindTouchEvent(el: any): void {
     const { onTouchStart, onTouchMove, onTouchEnd, onTransitionEnd } = this;
     el.addEventListener('touchstart', onTouchStart.bind(this), false);
     el.addEventListener('touchmove', onTouchMove.bind(this), false);

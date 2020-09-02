@@ -50,23 +50,6 @@ export function omit(obj: Record<string, any>, keys: string[]): Record<string, a
 
 export const inBrowser = typeof window !== 'undefined';
 
-// cache
-let rootFontSize: number;
-
-function getRootFontSize(): number {
-  if (!rootFontSize) {
-    const doc = document.documentElement;
-    const fontSize = doc.style.fontSize || window.getComputedStyle(doc).fontSize;
-    rootFontSize = parseFloat(fontSize);
-  }
-  return rootFontSize;
-}
-
-function convertRem(value: string): number {
-  value = value.replace(/rem/g, '');
-  return +value * getRootFontSize();
-}
-
 function convertVw(value: string): number {
   value = value.replace(/vw/g, '');
   return (+value * window.innerWidth) / 100;
@@ -78,10 +61,6 @@ export function unitToPx(value: string | number): number {
   }
 
   if (inBrowser) {
-    if (value.indexOf('rem') !== -1) {
-      return convertRem(value);
-    }
-
     if (value.indexOf('vw') !== -1) {
       return convertVw(value);
     }
