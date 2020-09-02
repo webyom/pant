@@ -50,7 +50,7 @@ export class Form<T = never> extends preact.Component<FormProps<T>> {
       let ref: preact.RefObject<any> = null;
       const { name, validateTrigger: childValidateTrigger } = child.props;
       if (name) {
-        ref = this.refs[name] = this.refs[name] || preact.createRef();
+        ref = this.refs[name] = this.refs[name] || child.ref || preact.createRef();
         return preact.cloneElement(child, { ref, validateTrigger: childValidateTrigger || validateTrigger });
       }
       return child;

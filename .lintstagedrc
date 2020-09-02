@@ -1,4 +1,4 @@
 {
-  "*.ts": "eslint",
+  "*.{ts,tsx}": "eslint",
   "*.scss": "stylelint"
 }
