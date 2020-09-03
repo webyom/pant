@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.9](https://github.com/webyom/pant/compare/v0.3.8...v0.3.9) (2020-09-03)
+
+
+### Bug Fixes
+
+* merge master ([9a75016](https://github.com/webyom/pant/commit/9a7501627e4e7a008149f22bd71c0adcdf6f1781))
+* **field:** custom component onchange event ([c4a03dc](https://github.com/webyom/pant/commit/c4a03dcbbb39e865ad4fea3d02cba5fb4265e8f5))
+* **field:** default value ([71f3da7](https://github.com/webyom/pant/commit/71f3da7ab46a87df6f843df0e64993f3dd4c20fa))
+* **field:** defaultValue ([393e1da](https://github.com/webyom/pant/commit/393e1dad41ac261075448753e78f36cac7b22b4b))
+* **field:** trim value for required validator ([23f60c6](https://github.com/webyom/pant/commit/23f60c69159b4a98b2152a5f8da1380e9dd5e60a))
+* **field:** validator ([d17ff27](https://github.com/webyom/pant/commit/d17ff274aa4320d80db83f8d0812c0f6635ab403))
+* **form:** field ref ([561274d](https://github.com/webyom/pant/commit/561274dff45a3cdec9dd057f7637d52d58790a1d))
+
 ### [0.3.8](https://github.com/webyom/pant/compare/v0.3.7...v0.3.8) (2020-08-31)
 
 ### [0.3.7](https://github.com/webyom/pant/compare/v0.3.6...v0.3.7) (2020-08-31)
