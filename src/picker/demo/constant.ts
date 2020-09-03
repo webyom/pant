@@ -3,44 +3,40 @@ export const columns1: string[] = ['杭州', '宁波', '温州', '绍兴', '湖�
 export const columns2: any[] = [
   {
     values: ['周一', '周二', '周三', '周四', '周五'],
-    defaultIndex: 2,
   },
   {
     values: ['上午', '下午', '晚上'],
-    defaultIndex: 1,
   },
 ];
 
 export const columns3: any[] = [
   {
-    text: '浙江',
+    values: '浙江',
     children: [
       {
-        text: '杭州',
-        children: [{ text: '西湖区' }, { text: '余杭区' }],
+        values: '杭州',
+        children: [{ values: '西湖区' }, { values: '余杭区' }],
       },
       {
-        text: '温州',
-        children: [{ text: '鹿城区' }, { text: '瓯海区' }],
+        values: '温州',
+        children: [{ values: '鹿城区' }, { values: '瓯海区' }],
       },
     ],
   },
   {
-    text: '福建',
+    values: '福建',
     children: [
       {
-        text: '福州',
-        children: [{ text: '鼓楼区' }, { text: '台江区' }],
+        values: '福州',
+        children: [{ values: '鼓楼区' }, { values: '台江区' }],
       },
       {
-        text: '厦门',
-        children: [{ text: '思明区' }, { text: '海沧区' }],
+        values: '厦门',
+        children: [{ values: '思明区' }, { values: '海沧区' }],
       },
     ],
   },
 ];
-
-export const columns4: any[] = [{ text: '杭州', disabled: true }, { text: '宁波' }, { text: '温州' }];
 
 export const columns5: Record<string, string[]> = {
   浙江: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
