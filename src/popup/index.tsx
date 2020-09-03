@@ -31,7 +31,7 @@ export type PopupProps = {
   zIndex?: number | string;
   className?: string;
   children?: preact.ComponentChildren;
-  closePopup?(): void;
+  closePopup?(confirm?: boolean): void;
   onClosed?(): void;
   onOpened?(): void;
   onClick?(event: Event, props: PopupProps): void;
@@ -163,7 +163,6 @@ export class Popup extends preact.Component<PopupProps, PopupState> {
 }
 
 Popup.defaultProps = {
-  lazyRender: true,
   closeIcon: 'cross',
   closeIconPosition: 'top-right',
   position: 'center',

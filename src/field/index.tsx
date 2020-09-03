@@ -66,6 +66,8 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   errorMessageAlign?: 'center' | 'right';
   showWordLimit?: boolean;
   validateTrigger?: ValidateTrigger[];
+  valueFormatter?(value: T): any;
+  displayValueFormatter?(value: any): string;
 };
 
 type FieldState<T> = {
@@ -121,7 +123,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     this.onInputChange = this.onInputChange.bind(this);
     this.onCheckboxClick = this.onCheckboxClick.bind(this);
     this.onSwitchClick = this.onSwitchClick.bind(this);
-    this.onCustomControlClick = this.onCustomControlClick.bind(this);
+    this.onPopupControlClick = this.onPopupControlClick.bind(this);
     this.clearInput = this.clearInput.bind(this);
     this.closePopup = this.closePopup.bind(this);
   }
@@ -172,15 +174,19 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
   getValue(): T {
     const { type } = this.props;
-    const { isInputType, value } = this.state;
+    const { isInputType, popupValue, value } = this.state;
 
-    if (this.isCustomChild()) {
-      return this.inputRef.current.getValue();
+    let res;
+    if (this.isPopup) {
+      return popupValue;
+    } else if (this.isCustomChild()) {
+      res = this.inputRef.current.getValue();
     } else if (isInputType) {
-      return value;
+      res = value;
     } else if (type === 'checkbox' || type === 'switch') {
-      return (!!value as unknown) as T;
+      res = (!!value as unknown) as T;
     }
+    return this.formatReturnValue(res);
   }
 
   private isCustomChild(): boolean {
@@ -240,11 +246,15 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     this.setState({ showPopup: true });
   }
 
-  private closePopup(): void {
-    this.setState({ showPopup: false, popupValue: this.getValue() });
+  private closePopup(confirm?: boolean): void {
+    if (confirm) {
+      this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) });
+    } else {
+      this.setState({ showPopup: false });
+    }
   }
 
-  private onCustomControlClick(evt: Event): void {
+  private onPopupControlClick(evt: Event): void {
     if (this.isPopup) {
       const target = evt.target as HTMLElement;
       if (target.className.indexOf('pant-field__control') !== -1) {
@@ -348,6 +358,28 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
+  private formatReturnValue(value: T): any {
+    const { valueFormatter } = this.props;
+    if (!isDef(value) || !valueFormatter) {
+      return value;
+    }
+    return valueFormatter(value);
+  }
+
+  private formatDisplayValue(value: any): string {
+    const { displayValueFormatter } = this.props;
+    if (!isDef(value)) {
+      return '';
+    }
+    if (displayValueFormatter) {
+      return displayValueFormatter(value);
+    }
+    if (typeof value === 'string') {
+      return value;
+    }
+    return String(value);
+  }
+
   async doValidate(): Promise<string | void> {
     return this.validate().then(msg => {
       this.setState({ validateMessage: msg || '' });
@@ -370,12 +402,22 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
           closePopup: isPopup ? this.closePopup : undefined,
         });
       });
-      return (
-        <div class={bem('control', [inputAlign, 'custom'])} onClick={this.onCustomControlClick}>
-          {this.isPopup ? popupValue : ''}
-          {childrenWithProps}
-        </div>
-      );
+      if (this.isPopup) {
+        return (
+          <preact.Fragment>
+            <input
+              class={bem('control', [inputAlign, 'custom'])}
+              value={this.formatDisplayValue(popupValue)}
+              placeholder={props.placeholder}
+              onClick={this.onPopupControlClick}
+              readOnly
+            />
+            {childrenWithProps}
+          </preact.Fragment>
+        );
+      } else {
+        return <div class={bem('control', [inputAlign, 'custom'])}>{childrenWithProps}</div>;
+      }
     }
 
     if (isInputType) {

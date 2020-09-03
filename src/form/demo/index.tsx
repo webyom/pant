@@ -7,7 +7,7 @@ import { CheckboxGroup } from '../../checkbox-group';
 import { RadioGroup } from '../../radio-group';
 import { Popup } from '../../popup';
 import { Picker } from '../../picker';
-import { columns3 } from '../../picker/demo/constant';
+import { columns1, columns3 } from '../../picker/demo/constant';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import './index.scss';
@@ -202,16 +202,55 @@ export class FormRouteComponent extends preact.Component {
               >
                 <RadioGroup direction="horizontal" options={['Radio a', 'Radio b']} />
               </Field>
-              <Field<[]>
-                name="cascade"
+              <Field<any[]>
+                name="city"
+                title="Picker"
+                placeholder="Select city"
+                valueFormatter={(value): any => {
+                  return value[0];
+                }}
+                displayValueFormatter={(value): string => {
+                  return columns1[value];
+                }}
+              >
+                <Popup round position="bottom" closeOnClickOverlay>
+                  <Picker columns={columns1} />
+                </Popup>
+              </Field>
+              <Field<any[]>
+                name="location"
                 title="Cascade"
+                placeholder="Select Location"
                 validateTrigger={['change']}
                 rules={async (value): Promise<string> => {
                   return value ? '' : 'Required field';
                 }}
+                valueFormatter={(value): any => {
+                  return {
+                    province: value[0],
+                    city: value[1],
+                    district: value[2],
+                  };
+                }}
+                displayValueFormatter={(value): string => {
+                  const parts: string[] = [];
+                  const province = columns3[value.province];
+                  if (province) {
+                    parts.push(province.text);
+                    const city = province.children[value.city];
+                    if (city) {
+                      parts.push(city.text);
+                      const district = city.children[value.district];
+                      if (district) {
+                        parts.push(district.text);
+                      }
+                    }
+                  }
+                  return parts.join('/');
+                }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
-                  <Picker title="Title" columns={columns3} />
+                  <Picker columns={columns3} />
                 </Popup>
               </Field>
               <div className={bem('submit')}>
