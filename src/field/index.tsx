@@ -66,7 +66,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   errorMessageAlign?: 'center' | 'right';
   showWordLimit?: boolean;
   validateTrigger?: ValidateTrigger[];
-  valueFormatter?(value: T): any;
+  valueFormatter?(value: any): T;
   displayValueFormatter?(value: any): string;
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
 };
@@ -264,7 +264,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   }
 
   private onPopupControlClick(evt: Event): void {
-    if (this.isPopup) {
+    if (this.isPopup && !this.props.disabled) {
       const target = evt.target as HTMLElement;
       if (target.className.indexOf('pant-field__control') !== -1) {
         this.openPopup();
@@ -367,7 +367,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
-  private formatReturnValue(value: T): any {
+  private formatReturnValue(value: any): T {
     const { valueFormatter } = this.props;
     if (!isDef(value) || !valueFormatter) {
       return value;
