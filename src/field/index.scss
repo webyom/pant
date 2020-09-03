@@ -6,6 +6,10 @@
     box-sizing: border-box;
     width: $field-label-width;
 
+    &.pant-cell__title {
+      flex: none;
+    }
+
     &--center {
       text-align: center;
     }

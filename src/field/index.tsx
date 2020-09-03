@@ -439,7 +439,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         placeholder: props.placeholder,
         onFocus: this.onFocus,
         onBlur: this.onBlur,
-        onChange: this.onInputChange,
+        onInput: this.onInputChange,
         ref: this.inputRef,
       };
 
