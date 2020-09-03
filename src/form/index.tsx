@@ -17,6 +17,7 @@ export type FormProps<T> = {
 const bem = createBEM('pant-form');
 
 export class Form<T = never> extends preact.Component<FormProps<T>> {
+  private bindedOnSubmit = this.onSubmit.bind(this);
   private readonly refs: Record<string, preact.RefObject<Field<any>>> = {};
 
   private onSubmit(evt: Event): void {
@@ -56,7 +57,7 @@ export class Form<T = never> extends preact.Component<FormProps<T>> {
       return child;
     });
     return (
-      <form class={bem()} onSubmit={this.onSubmit.bind(this)}>
+      <form class={bem()} onSubmit={this.bindedOnSubmit}>
         {childrenWithProps}
       </form>
     );

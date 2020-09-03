@@ -43,8 +43,14 @@ $font-size-sm: 12px;
 $font-size-md: 14px;
 $font-size-lg: 16px;
 $font-weight-bold: 500;
-$price-integer-font-family: Avenir-Heavy, PingFang SC, Helvetica Neue, Arial, sans-serif;
+$line-height-xs: 14px;
+$line-height-sm: 18px;
 $line-height-md: 20px;
+$line-height-lg: 22px;
+$base-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+  Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft Yahei', sans-serif;
+$price-integer-font-family: Avenir-Heavy, PingFang SC, Helvetica Neue, Arial, sans-serif;
 
 // Animation
 $animation-duration-base: 0.3s;
@@ -246,6 +252,25 @@ $notify-success-background-color: $green;
 $notify-danger-background-color: $red;
 $notify-warning-background-color: $orange;
 
+// Overlay
+$overlay-z-index: 1;
+$overlay-background-color: rgba(0, 0, 0, 0.7);
+
+// picker
+$picker-background-color: $white;
+$picker-toolbar-height: 44px;
+$picker-title-font-size: $font-size-lg;
+$picker-title-line-height: $line-height-md;
+$picker-action-padding: 0 $padding-md;
+$picker-action-font-size: $font-size-md;
+$picker-confirm-action-color: $text-link-color;
+$picker-cancel-action-color: $gray-6;
+$picker-option-font-size: $font-size-lg;
+$picker-option-text-color: $black;
+$picker-option-disabled-opacity: 0.3;
+$picker-loading-icon-color: $blue;
+$picker-loading-mask-color: rgba(255, 255, 255, 0.9);
+
 // Popup
 $popup-z-index: 2;
 $popup-background-color: $white;
@@ -349,22 +374,3 @@ $toast-default-width: 90px;
 $toast-default-min-height: 90px;
 $toast-position-top-distance: 50px;
 $toast-position-bottom-distance: 50px;
-
-// Overlay
-$overlay-z-index: 1;
-$overlay-background-color: rgba(0, 0, 0, 0.7);
-
-// picker
-$picker-background-color: $white;
-$picker-toolbar-height: 44px;
-$picker-title-font-size: $font-size-lg;
-$picker-title-line-height: $line-height-md;
-$picker-action-padding: 0 $padding-md;
-$picker-action-font-size: $font-size-md;
-$picker-confirm-action-color: $text-link-color;
-$picker-cancel-action-color: $gray-6;
-$picker-option-font-size: $font-size-lg;
-$picker-option-text-color: $black;
-$picker-option-disabled-opacity: 0.3;
-$picker-loading-icon-color: $blue;
-$picker-loading-mask-color: rgba(255, 255, 255, 0.9);

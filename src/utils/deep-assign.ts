@@ -14,7 +14,6 @@ function assignKey(to: ObjectIndex, from: ObjectIndex, key: string): void {
   if (!hasOwnProperty.call(to, key) || !isObject(val)) {
     to[key] = val;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     to[key] = deepAssign(Object(to[key]), from[key]);
   }
 }

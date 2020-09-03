@@ -1,6 +1,8 @@
 import { pantConfig } from '../';
 import { Z_INDEX_INCREMENTAL_START } from './constant';
 
+export const inBrowser = typeof window !== 'undefined';
+
 export function isDef(val: any): boolean {
   return val !== undefined && val !== null;
 }
@@ -45,7 +47,7 @@ export function removeUnit(value?: number | string): number | undefined {
     return value;
   } else {
     const n = parseFloat(value);
-    if (/vw$/.test(value)) {
+    if (inBrowser && /vw$/.test(value)) {
       return (screen.availWidth * n) / 100;
     } else {
       return n;
@@ -65,26 +67,6 @@ export function omit(obj: Record<string, any>, keys: string[]): Record<string, a
   return res;
 }
 
-export const inBrowser = typeof window !== 'undefined';
-
-function convertVw(value: string): number {
-  value = value.replace(/vw/g, '');
-  return (+value * window.innerWidth) / 100;
-}
-
-export function unitToPx(value: string | number): number {
-  if (typeof value === 'number') {
-    return value;
-  }
-
-  if (inBrowser) {
-    if (value.indexOf('vw') !== -1) {
-      return convertVw(value);
-    }
-  }
-
-  return parseFloat(value);
-}
 let zIndex = Z_INDEX_INCREMENTAL_START;
 export function getIncrementalZIndex(base = 0): number {
   return base + zIndex++;

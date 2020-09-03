@@ -20,6 +20,7 @@ import { LazyloadRouteComponent } from '../../lazyload/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
+import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
@@ -30,7 +31,6 @@ import { SwitchRouteComponent } from '../../switch/demo';
 import { TabRouteComponent } from '../../tab/demo';
 import { TagRouteComponent } from '../../tag/demo';
 import { ToastRouteComponent } from '../../toast/demo';
-import { PickerRouteComponent } from '../../picker/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends preact.Component {
@@ -59,6 +59,7 @@ export class RootComponent extends preact.Component {
         <LoadingRouteComponent path="/loading/" />
         <NotifyRouteComponent path="/notify/" />
         <OverlayRouteComponent path="/overlay/" />
+        <PickerRouteComponent path="/picker/" />
         <PopupRouteComponent path="/popup/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
@@ -69,7 +70,6 @@ export class RootComponent extends preact.Component {
         <TabRouteComponent path="/tab/" />
         <TagRouteComponent path="/tag/" />
         <ToastRouteComponent path="/toast/" />
-        <PickerRouteComponent path="/picker/" />
         <NotFoundRouteComponent default />
       </Router>
     );

@@ -1,6 +1,6 @@
 import * as preact from 'preact';
 import clsx from 'clsx';
-import { unitToPx } from '../utils';
+import { removeUnit } from '../utils';
 import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -38,6 +38,7 @@ export type PickerProps = {
   cancelButtonText?: string;
   onCancel?<T extends string | string[], K extends number | number[]>(value: T, index: K): void;
   onConfirm?<T extends string | string[], K extends number | number[]>(value: T, index: K): void;
+  closePopup?(confirm?: boolean): void;
   confirmButtonText?: string;
   title?: string;
   itemHeight?: number;
@@ -197,7 +198,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
 
   itemPxHeight(): number {
     const { itemHeight } = this.props;
-    return itemHeight ? unitToPx(itemHeight) : DEFAULT_ITEM_HEIGHT;
+    return itemHeight ? removeUnit(itemHeight) : DEFAULT_ITEM_HEIGHT;
   }
 
   genToolbar(): preact.JSX.Element {
@@ -207,11 +208,11 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
         <div className={bem('toolbar')}>
           {[
             <button type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
-              {props.cancelButtonText || 'cancel'}
+              {props.cancelButtonText || 'Cancel'}
             </button>,
             <div className={clsx(bem('title'), 'van-ellipsis')}>{props.title}</div>,
             <button type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
-              {props.confirmButtonText || 'confirm'}
+              {props.confirmButtonText || 'Confirm'}
             </button>,
           ]}
         </div>

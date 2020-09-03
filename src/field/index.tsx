@@ -66,11 +66,16 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   errorMessageAlign?: 'center' | 'right';
   showWordLimit?: boolean;
   validateTrigger?: ValidateTrigger[];
+  valueFormatter?(value: any): T;
+  displayValueFormatter?(value: any): string;
+  onClosePopup?(field: Field<T>, confirm?: boolean): void;
 };
 
 type FieldState<T> = {
   isInputType: boolean;
   focused: boolean;
+  showPopup: boolean;
+  popupValue: T;
   value: T;
   validateMessage: string;
   prevProps: FieldProps<T>;
@@ -99,6 +104,7 @@ function normalizeDefaultValue(dv: any, isInputType: boolean): any {
 const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 
 export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState<T>> {
+  private isPopup = false;
   private readonly inputRef = preact.createRef();
 
   constructor(props: preact.RenderableProps<FieldProps<T>>) {
@@ -107,10 +113,20 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     this.state = {
       isInputType: iit,
       focused: false,
+      showPopup: false,
+      popupValue: null,
       value: normalizeDefaultValue(props.defaultValue, iit),
       validateMessage: '',
       prevProps: props,
     };
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onCheckboxClick = this.onCheckboxClick.bind(this);
+    this.onSwitchClick = this.onSwitchClick.bind(this);
+    this.onPopupControlClick = this.onPopupControlClick.bind(this);
+    this.clearInput = this.clearInput.bind(this);
+    this.closePopup = this.closePopup.bind(this);
   }
 
   static getDerivedStateFromProps<T>(
@@ -122,6 +138,8 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     return {
       isInputType: iit,
       focused: state.focused,
+      showPopup: state.showPopup,
+      popupValue: state.popupValue,
       value: defaultValueChanged ? normalizeDefaultValue(props.defaultValue, iit) : state.value,
       validateMessage: defaultValueChanged ? '' : state.validateMessage,
       prevProps: props,
@@ -130,6 +148,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
   componentDidMount(): void {
     this.adjustSize();
+    if (this.isPopup) {
+      this.setState({ popupValue: this.getValue() });
+    }
   }
 
   componentDidUpdate(): void {
@@ -152,7 +173,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     return this.props.name;
   }
 
-  getValue(): T {
+  getRawValue(): any {
     const { type } = this.props;
     const { isInputType, value } = this.state;
 
@@ -163,6 +184,13 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     } else if (type === 'checkbox' || type === 'switch') {
       return (!!value as unknown) as T;
     }
+  }
+
+  getValue(): T {
+    if (this.isPopup) {
+      return this.state.popupValue;
+    }
+    return this.formatReturnValue(this.getRawValue());
   }
 
   private isCustomChild(): boolean {
@@ -216,6 +244,32 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
       });
     });
+  }
+
+  private openPopup(): void {
+    this.setState({ showPopup: true });
+  }
+
+  private closePopup(confirm?: boolean): void {
+    const { onClosePopup } = this.props;
+    if (confirm) {
+      this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) }, () => {
+        onClosePopup && onClosePopup(this, confirm);
+      });
+    } else {
+      this.setState({ showPopup: false }, () => {
+        onClosePopup && onClosePopup(this, confirm);
+      });
+    }
+  }
+
+  private onPopupControlClick(evt: Event): void {
+    if (this.isPopup && !this.props.disabled) {
+      const target = evt.target as HTMLElement;
+      if (target.className.indexOf('pant-field__control') !== -1) {
+        this.openPopup();
+      }
+    }
   }
 
   private clearInput(): void {
@@ -313,6 +367,28 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
+  private formatReturnValue(value: any): T {
+    const { valueFormatter } = this.props;
+    if (!isDef(value) || !valueFormatter) {
+      return value;
+    }
+    return valueFormatter(value);
+  }
+
+  private formatDisplayValue(value: any): string {
+    const { displayValueFormatter } = this.props;
+    if (!isDef(value)) {
+      return '';
+    }
+    if (displayValueFormatter) {
+      return displayValueFormatter(value);
+    }
+    if (typeof value === 'string') {
+      return value;
+    }
+    return String(value);
+  }
+
   async doValidate(): Promise<string | void> {
     return this.validate().then(msg => {
       this.setState({ validateMessage: msg || '' });
@@ -323,16 +399,34 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   genInput(): preact.JSX.Element {
     const { props } = this;
     const { type, name, inputAlign, children } = props;
-    const { isInputType, value } = this.state;
+    const { showPopup, popupValue, isInputType, value } = this.state;
 
     if (this.isCustomChild()) {
       const childrenWithProps = [].concat(children).map(child => {
+        const isPopup = (this.isPopup = child.type.__PANT_NAME__ === 'Popup');
         return preact.cloneElement(child, {
           ref: this.inputRef,
           onChange: this.onCustomChange.bind(this, child.props.onChange),
+          show: isPopup ? showPopup : undefined,
+          closePopup: isPopup ? this.closePopup : undefined,
         });
       });
-      return <div class={bem('control', [inputAlign, 'custom'])}>{childrenWithProps}</div>;
+      if (this.isPopup) {
+        return (
+          <preact.Fragment>
+            <input
+              class={bem('control', [inputAlign, 'custom'])}
+              value={this.formatDisplayValue(popupValue)}
+              placeholder={props.placeholder}
+              onClick={this.onPopupControlClick}
+              readOnly
+            />
+            {childrenWithProps}
+          </preact.Fragment>
+        );
+      } else {
+        return <div class={bem('control', [inputAlign, 'custom'])}>{childrenWithProps}</div>;
+      }
     }
 
     if (isInputType) {
@@ -343,9 +437,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         disabled: props.disabled,
         readonly: props.readonly,
         placeholder: props.placeholder,
-        onFocus: this.onFocus.bind(this),
-        onBlur: this.onBlur.bind(this),
-        onChange: this.onInputChange.bind(this),
+        onFocus: this.onFocus,
+        onBlur: this.onBlur,
+        onInput: this.onInputChange,
         ref: this.inputRef,
       };
 
@@ -370,13 +464,13 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     } else if (type === 'checkbox') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
-          <Checkbox name={name} shape="square" checked={!!value} onClick={this.onCheckboxClick.bind(this)}></Checkbox>
+          <Checkbox name={name} shape="square" checked={!!value} onClick={this.onCheckboxClick}></Checkbox>
         </div>
       );
     } else if (type === 'switch') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
-          <Switch name={name} size="20" on={!!value} onClick={this.onSwitchClick.bind(this)}></Switch>
+          <Switch name={name} size="20" on={!!value} onClick={this.onSwitchClick}></Switch>
         </div>
       );
     }
@@ -435,7 +529,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
       >
         <div className={bem('body')}>
           {this.genInput()}
-          {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput.bind(this)} />}
+          {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput} />}
           {this.genRightIcon()}
           {props.button && <div class={bem('button')}>{props.button}</div>}
         </div>
