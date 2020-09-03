@@ -68,6 +68,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   validateTrigger?: ValidateTrigger[];
   valueFormatter?(value: T): any;
   displayValueFormatter?(value: any): string;
+  onClosePopup?(field: Field<T>, confirm?: boolean): void;
 };
 
 type FieldState<T> = {
@@ -172,21 +173,24 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     return this.props.name;
   }
 
-  getValue(): T {
+  getRawValue(): any {
     const { type } = this.props;
-    const { isInputType, popupValue, value } = this.state;
+    const { isInputType, value } = this.state;
 
-    let res;
-    if (this.isPopup) {
-      return popupValue;
-    } else if (this.isCustomChild()) {
-      res = this.inputRef.current.getValue();
+    if (this.isCustomChild()) {
+      return this.inputRef.current.getValue();
     } else if (isInputType) {
-      res = value;
+      return value;
     } else if (type === 'checkbox' || type === 'switch') {
-      res = (!!value as unknown) as T;
+      return (!!value as unknown) as T;
     }
-    return this.formatReturnValue(res);
+  }
+
+  getValue(): T {
+    if (this.isPopup) {
+      return this.state.popupValue;
+    }
+    return this.formatReturnValue(this.getRawValue());
   }
 
   private isCustomChild(): boolean {
@@ -247,10 +251,15 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   }
 
   private closePopup(confirm?: boolean): void {
+    const { onClosePopup } = this.props;
     if (confirm) {
-      this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) });
+      this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) }, () => {
+        onClosePopup && onClosePopup(this, confirm);
+      });
     } else {
-      this.setState({ showPopup: false });
+      this.setState({ showPopup: false }, () => {
+        onClosePopup && onClosePopup(this, confirm);
+      });
     }
   }
 
