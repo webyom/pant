@@ -460,7 +460,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         inputMode = 'numeric';
       }
 
-      return <input type={inputType} inputMode={inputMode} {...inputProps} />;
+      return <input type={inputType} inputMode={inputMode} maxLength={+props.maxlength} {...inputProps} />;
     } else if (type === 'checkbox') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
