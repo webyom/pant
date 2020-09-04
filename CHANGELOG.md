@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.12](https://github.com/webyom/pant/compare/v0.3.11...v0.3.12) (2020-09-04)
+
+
+### Bug Fixes
+
+* **field:** maxlength ([07e2b07](https://github.com/webyom/pant/commit/07e2b07b26eaacea270bfaeba69c4d9a2cf000c0))
+
 ### [0.3.11](https://github.com/webyom/pant/compare/v0.3.10...v0.3.11) (2020-09-04)
 
 
