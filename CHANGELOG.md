@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.11](https://github.com/webyom/pant/compare/v0.3.10...v0.3.11) (2020-09-04)
+
+
+### Bug Fixes
+
+* **field:** getRawValue signature ([c4aca77](https://github.com/webyom/pant/commit/c4aca77c6c05230276bfc82092ab3cdf751d0a9e))
+* **field:** onInput ([afb5cdd](https://github.com/webyom/pant/commit/afb5cddc17e58c25bcaa140697507d3cb9dbb2ec))
+
 ### [0.3.10](https://github.com/webyom/pant/compare/v0.3.9...v0.3.10) (2020-09-03)
 
 ### [0.3.9](https://github.com/webyom/pant/compare/v0.3.8...v0.3.9) (2020-09-03)
