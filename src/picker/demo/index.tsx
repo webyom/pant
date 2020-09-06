@@ -4,7 +4,8 @@ import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import { Popup } from '../../popup';
 import { toast } from '../../toast';
-import { columns1, columns2, columns3, columns4, columns5 } from './constant';
+import { Button } from '../../button';
+import { columns1, columns2, columns3 } from './constant';
 import './index.scss';
 
 const bem = createBEM('demo-picker');
@@ -13,16 +14,16 @@ type PickerState = {
   dynamicColumns: any[];
   cityValue: string;
   showPicker: boolean;
-  defaultIndex: number;
+  defaultValue: string;
 };
 
 export class PickerRouteComponent extends preact.Component<any, PickerState> {
   private ele: any;
   state: PickerState = {
-    dynamicColumns: [{ values: Object.keys(columns5) }, { values: columns5['浙江'] }],
+    dynamicColumns: columns1,
     cityValue: '',
     showPicker: false,
-    defaultIndex: 0,
+    defaultValue: '',
   };
 
   onClick(): void {
@@ -31,14 +32,10 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     });
   }
 
-  onChange1<T extends string | any[]>(value: T, index: number): void {
+  onChange1<T extends string | string[]>(value: T, index: number): void {
     toast({
       message: `Value: ${value}, Index：${index}`,
     });
-  }
-
-  onChange2<T extends string | any[]>(values: T, index: number, picker: any): void {
-    picker.setColumnValues(1, columns5[values[0]]);
   }
 
   onConfirm1<T extends string | any[], K extends number | number[]>(value: T, index: K): void {
@@ -47,17 +44,29 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     });
   }
 
-  onConfirm2(value: string, index: number): void {
+  onConfirm2(value: string): void {
     this.setState({
       cityValue: value,
       showPicker: false,
-      defaultIndex: index,
+      defaultValue: value,
     });
   }
 
   onCancel(): void {
     this.setState({
       showPicker: false,
+    });
+  }
+
+  onChangeColumns1(): void {
+    this.setState({
+      dynamicColumns: columns1,
+    });
+  }
+
+  onChangeColumns3(): void {
+    this.setState({
+      dynamicColumns: columns3,
     });
   }
 
@@ -76,14 +85,28 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
           <section>
             <h2>Default Index</h2>
             <div className={bem('card')}>
-              <Picker title="Title" defaultIndex={2} columns={columns1} onChange={this.onChange1} />
+              <Picker
+                title="标题"
+                cancelButtonText="取消"
+                confirmButtonText="确定"
+                defaultValue={'温州'}
+                columns={columns1}
+                onChange={this.onChange1}
+              />
             </div>
           </section>
 
           <section>
             <h2>Multiple Columns</h2>
             <div className={bem('card')}>
-              <Picker title="Title" columns={columns2} onConfirm={this.onConfirm1} />
+              <Picker
+                title="标题"
+                cancelButtonText="取消"
+                confirmButtonText="确定"
+                columns={columns2}
+                onConfirm={this.onConfirm1}
+                disabledValue={['周二', '下午']}
+              />
             </div>
           </section>
 
@@ -97,14 +120,33 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
           <section>
             <h2>Disable Option</h2>
             <div className={bem('card')}>
-              <Picker title="Title" cancelButtonText="取消" confirmButtonText="确定" columns={columns4} />
+              <Picker
+                title="标题"
+                cancelButtonText="取消"
+                confirmButtonText="确定"
+                columns={columns1}
+                disabledValue="温州"
+              />
             </div>
           </section>
 
           <section>
             <h2>Set Column Values</h2>
             <div className={bem('card')}>
-              <Picker title="Title" columns={this.state.dynamicColumns} onChange={this.onChange2} />
+              <Picker
+                title="标题"
+                cancelButtonText="取消"
+                confirmButtonText="确定"
+                columns={this.state.dynamicColumns}
+              />
+            </div>
+            <div className={bem('set-columns-btn')}>
+              <Button type="primary" onClick={this.onChangeColumns1.bind(this)}>
+                columns1
+              </Button>
+              <Button type="primary" onClick={this.onChangeColumns3.bind(this)}>
+                columns3
+              </Button>
             </div>
           </section>
 
@@ -127,7 +169,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
             <Picker
               title="Title"
               columns={columns1}
-              defaultIndex={this.state.defaultIndex}
+              defaultValue={this.state.defaultValue}
               onCancel={this.onCancel.bind(this)}
               onConfirm={this.onConfirm2.bind(this)}
             />
