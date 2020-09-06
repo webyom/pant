@@ -71,9 +71,9 @@ const bem = createBEM('pant-picker');
 const getDataType = (columns: ColumnsType[] | string[], valueKey: string): string => {
   const firstColumn: ColumnsType | string = columns[0] || {};
   let dataTypeString = '';
-  if ((firstColumn as ColumnsType).children || typeof (firstColumn as ColumnsType)[valueKey] === 'string') {
+  if ((firstColumn as ColumnsType).children) {
     dataTypeString = 'cascade';
-  } else if ((firstColumn as ColumnsType)[valueKey]) {
+  } else if (Array.isArray((firstColumn as ColumnsType)[valueKey])) {
     dataTypeString = 'object';
   } else {
     dataTypeString = 'text';
@@ -91,6 +91,7 @@ const format = (
   valueKey: string,
 ): ColumnsItemType[] => {
   if (dataType === 'text') {
+    columns = (columns as any).map((item: ColumnsType | string) => (typeof item === 'string' ? item : item[valueKey]));
     return [
       {
         values: columns as string[],
@@ -298,8 +299,8 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
         indexList.push(item.values.indexOf(item.defaultValue));
       });
       return {
-        value: valuesList.length > 1 ? valuesList : valuesList[0],
-        index: indexList.length > 1 ? indexList : indexList[0],
+        value: valuesList,
+        index: indexList,
       };
     }
   }
