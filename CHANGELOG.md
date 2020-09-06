@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.13](https://github.com/webyom/pant/compare/v0.3.12...v0.3.13) (2020-09-06)
+
+
+### Bug Fixes
+
+* 合并master ([fc3431a](https://github.com/webyom/pant/commit/fc3431a300e0872e7078813dbd4a44e4b6d61328))
+* 重写picker逻辑 ([f30e5af](https://github.com/webyom/pant/commit/f30e5af572eedd5498e8cd04eab6e2788b60be40))
+
 ### [0.3.12](https://github.com/webyom/pant/compare/v0.3.11...v0.3.12) (2020-09-04)
 
 
