@@ -206,11 +206,8 @@ export class FormRouteComponent extends preact.Component {
                 name="city"
                 title="Picker"
                 placeholder="Select city"
-                valueFormatter={(value): any => {
-                  return value[0];
-                }}
-                displayValueFormatter={(value): string => {
-                  return columns1[value];
+                valueFormatter={(res): any => {
+                  return res.value;
                 }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
@@ -225,24 +222,21 @@ export class FormRouteComponent extends preact.Component {
                 rules={async (value): Promise<string> => {
                   return value ? '' : 'Required field';
                 }}
-                valueFormatter={(value): any => {
+                valueFormatter={(res): any => {
                   return {
-                    province: value[0],
-                    city: value[1],
-                    district: value[2],
+                    province: res.value[0],
+                    city: res.value[1],
+                    district: res.value[2],
                   };
                 }}
                 displayValueFormatter={(value): string => {
                   const parts: string[] = [];
-                  const province = columns3[value.province];
-                  if (province) {
-                    parts.push(province.text);
-                    const city = province.children[value.city];
-                    if (city) {
-                      parts.push(city.text);
-                      const district = city.children[value.district];
-                      if (district) {
-                        parts.push(district.text);
+                  if (value.province) {
+                    parts.push(value.province);
+                    if (value.city) {
+                      parts.push(value.city);
+                      if (value.district) {
+                        parts.push(value.district);
                       }
                     }
                   }
