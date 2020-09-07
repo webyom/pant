@@ -69,6 +69,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   valueFormatter?(value: any): T;
   displayValueFormatter?(value: any): string;
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
+  onInputKeyDown?(evt: Event): void;
 };
 
 type FieldState<T> = {
@@ -440,6 +441,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         onFocus: this.onFocus,
         onBlur: this.onBlur,
         onInput: this.onInputChange,
+        onKeyDown: props.onInputKeyDown,
         ref: this.inputRef,
       };
 
