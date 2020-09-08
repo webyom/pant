@@ -185,15 +185,17 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     const distance = this.state.offset - this.momentumOffset;
     const duration = Date.now() - this.touchStartTime;
     const allowMomentum = duration < MOMENTUM_LIMIT_TIME && Math.abs(distance) > MOMENTUM_LIMIT_DISTANCE;
-
     if (allowMomentum) {
       this.momentum(distance, duration);
       return;
     }
-
     this.setState({
       duration: DEFAULT_DURATION,
     });
+
+    // 划出边界处理
+    const index = this.getIndexByOffset(this.state.offset);
+    this.setIndex(index);
     // compatible with desktop scenario
     // use setTimeout to skip the click event triggered after touchstart
     setTimeout(() => {
