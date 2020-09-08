@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.16](https://github.com/webyom/pant/compare/v0.3.15...v0.3.16) (2020-09-08)
+
+
+### Bug Fixes
+
+* 划出边界处理 ([5ae44be](https://github.com/webyom/pant/commit/5ae44beaeee013071d938e31cb17d7d765437c6e))
+
 ### [0.3.15](https://github.com/webyom/pant/compare/v0.3.14...v0.3.15) (2020-09-07)
 
 ### [0.3.14](https://github.com/webyom/pant/compare/v0.3.13...v0.3.14) (2020-09-06)
