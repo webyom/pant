@@ -48,6 +48,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   touchStartTime: number;
   momentumOffset: number;
   touchStart: Function;
+
   constructor(props: PickerProps) {
     super(props);
     this.state = {

@@ -11,6 +11,7 @@ function getDirection(x: number, y: number): string {
 
   return '';
 }
+
 export const PantTouch: any = {
   startX: 0,
   startY: 0,
@@ -19,11 +20,13 @@ export const PantTouch: any = {
   offsetX: 0,
   offsetY: 0,
   direction: '',
+
   touchStart(event: any): void {
     this.resetTouchStatus();
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
   },
+
   touchMove(event: any): void {
     const touch = event.touches[0];
     this.deltaX = touch.clientX - this.startX;
