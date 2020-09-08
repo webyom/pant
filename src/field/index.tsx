@@ -70,6 +70,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   displayValueFormatter?(value: any): string;
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
   onInputKeyDown?(evt: Event): void;
+  onInputChange?(evt: Event): string | void;
 };
 
 type FieldState<T> = {
@@ -224,11 +225,16 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   }
 
   private onInputChange(evt: Event): void {
-    this.setState({ value: (evt.target as HTMLInputElement).value as any }, () => {
-      this.validateWithTrigger('change').then(msg => {
-        msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
-      });
-    });
+    const { onInputChange } = this.props;
+    const returnValue = onInputChange && onInputChange(evt);
+    this.setState(
+      { value: returnValue !== undefined ? String(returnValue) : ((evt.target as HTMLInputElement).value as any) },
+      () => {
+        this.validateWithTrigger('change').then(msg => {
+          msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
+        });
+      },
+    );
   }
 
   private onCheckboxClick(evt: Event, props: CheckboxProps): void {
@@ -462,7 +468,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         inputMode = 'numeric';
       }
 
-      return <input type={inputType} inputMode={inputMode} maxLength={+props.maxlength} {...inputProps} />;
+      return <input type={inputType} inputMode={inputMode} maxLength={+props.maxlength || undefined} {...inputProps} />;
     } else if (type === 'checkbox') {
       return (
         <div class={bem('control', [inputAlign, 'custom'])}>
