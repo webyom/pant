@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.18](https://github.com/webyom/pant/compare/v0.3.17...v0.3.18) (2020-09-10)
+
+
+### Bug Fixes
+
+* **field:** popup onchange validate ([be3067a](https://github.com/webyom/pant/commit/be3067a606ac599099c8b0585ca0754763016d65))
+
 ### [0.3.17](https://github.com/webyom/pant/compare/v0.3.16...v0.3.17) (2020-09-08)
 
 
