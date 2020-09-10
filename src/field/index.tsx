@@ -261,6 +261,9 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     const { onClosePopup } = this.props;
     if (confirm) {
       this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) }, () => {
+        this.validateWithTrigger('change').then(msg => {
+          msg === NO_MATCHED_RULE_FLAG || this.setState({ validateMessage: msg || '' });
+        });
         onClosePopup && onClosePopup(this, confirm);
       });
     } else {
