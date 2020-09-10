@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { createBEM } from '../utils/bem';
-import { DeleteIcon } from './DeleteIcon';
-import { CollapseIcon } from './CollapseIcon';
+import { DeleteIcon } from './delete-icon';
+import { CollapseIcon } from './collapse-icon';
 import { PantTouch } from '../utils/touch';
 import './index.scss';
 
