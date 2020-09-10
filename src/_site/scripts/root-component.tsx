@@ -21,6 +21,8 @@ import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
 import { OverlayRouteComponent } from '../../overlay/demo';
 import { PickerRouteComponent } from '../../picker/demo';
+import { PasswordInputRouteComponent } from '../../password-input/demo';
+import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
 import { PopupRouteComponent } from '../../popup/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
@@ -60,6 +62,8 @@ export class RootComponent extends preact.Component {
         <NotifyRouteComponent path="/notify/" />
         <OverlayRouteComponent path="/overlay/" />
         <PickerRouteComponent path="/picker/" />
+        <PasswordInputRouteComponent path="/password-input/" />
+        <NumberKeyboardRouteComponent path="/number-keyboard" />
         <PopupRouteComponent path="/popup/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />

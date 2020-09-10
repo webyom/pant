@@ -81,6 +81,12 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/switch/">
             Switch <Arrow />
           </Link>
+          <Link href="/number-keyboard/">
+            NumberKeyboard <Arrow />
+          </Link>
+          <Link href="/password-input/">
+            PasswordInput <Arrow />
+          </Link>
         </section>
 
         <section>

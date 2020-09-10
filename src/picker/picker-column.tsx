@@ -66,6 +66,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   componentDidMount(): void {
     this.props.injectChildren(this);
     this.bindTouchEvent(this.ele);
+    this.ele.addEventListener('transitionend', this.onTransitionEnd.bind(this), false);
   }
 
   static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
