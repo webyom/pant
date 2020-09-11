@@ -72,6 +72,12 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/form/">
             Form <Arrow />
           </Link>
+          <Link href="/number-keyboard/">
+            NumberKeyboard <Arrow />
+          </Link>
+          <Link href="/password-input/">
+            PasswordInput <Arrow />
+          </Link>
           <Link href="/picker/">
             Picker <Arrow />
           </Link>
@@ -80,12 +86,6 @@ export class HomeRouteComponent extends preact.Component {
           </Link>
           <Link href="/switch/">
             Switch <Arrow />
-          </Link>
-          <Link href="/number-keyboard/">
-            NumberKeyboard <Arrow />
-          </Link>
-          <Link href="/password-input/">
-            PasswordInput <Arrow />
           </Link>
         </section>
 

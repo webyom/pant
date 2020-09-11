@@ -47,7 +47,7 @@ export class NumberKeyboardRouteComponent extends preact.Component<any, NumberKe
     const { keyboard } = this.state;
     return (
       <preact.Fragment>
-        <NavBar title="NumberKeyboard" type="NumberKeyboard" />
+        <NavBar title="NumberKeyboard" type="number-keyboard" />
         <div className={bem()}>
           <div onTouchStart={this.onTouchStart}>
             <CellGroup border>

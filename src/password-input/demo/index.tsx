@@ -73,7 +73,7 @@ export class PasswordInputRouteComponent extends preact.Component<any, PasswordI
     const { show, value1, value2, value3, keyboard } = this.state;
     return (
       <preact.Fragment>
-        <NavBar title="PasswordInput" type="PasswordInput" />
+        <NavBar title="PasswordInput" type="password-input" />
         <div className={bem()}>
           <section>
             <h2>基础用法</h2>
