@@ -143,6 +143,16 @@ export class TabRouteComponent extends preact.Component {
           </section>
 
           <section>
+            <h2>Swipeable</h2>
+            <Tabs animated swipeable>
+              <Tab title="Tab 1">content of tab 1</Tab>
+              <Tab title="Tab 2">content of tab 2</Tab>
+              <Tab title="Tab 3">content of tab 3</Tab>
+              <Tab title="Tab 4">content of tab 4</Tab>
+            </Tabs>
+          </section>
+
+          <section>
             <h2>Info Tab</h2>
             <Tabs>
               <Tab title="Tab 1" dot>

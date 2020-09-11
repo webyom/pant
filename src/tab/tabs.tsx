@@ -4,15 +4,19 @@ import { createBEM } from '../utils/bem';
 import { BORDER_TOP_BOTTOM } from '../utils/constant';
 import { scrollLeftTo, setRootScrollTop, getElementTop } from '../utils/scroll';
 import { isDef, addUnit } from '../utils';
+import { TouchHandler } from '../utils/touch-handler';
 import { Sticky } from '../sticky';
 import { Title, TitleParentProps, TitleProps } from './title';
 import './index.scss';
+
+const MIN_SWIPE_DISTANCE = 50;
 
 export type TabsProps = TitleParentProps & {
   activeIndex?: number | string;
   activeName?: string;
   bordered?: boolean;
   animated?: boolean;
+  swipeable?: boolean;
   sticky?: boolean;
   duration?: number | string;
   lineHeight?: number | string;
@@ -40,8 +44,10 @@ const bem = createBEM('pant-tabs');
 export class Tabs extends preact.Component<TabsProps, TabsState> {
   private containerRef = preact.createRef<HTMLDivElement>();
   private tabListRef = preact.createRef<HTMLDivElement>();
+  private contentRef = preact.createRef<HTMLDivElement>();
   private lineRef = preact.createRef<HTMLDivElement>();
   private stickyRef = preact.createRef<Sticky>();
+  private touchHandler: TouchHandler;
 
   constructor(props: preact.RenderableProps<TabsProps>) {
     super(props);
@@ -58,7 +64,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
   }
 
   componentDidMount(): void {
-    const { activeName, children } = this.props;
+    const { activeName, children, swipeable } = this.props;
     if (activeName) {
       const activeIndex = [].concat(children).findIndex(item => item.props.name === activeName);
       if (activeIndex >= 0) {
@@ -67,11 +73,33 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     }
     this.updateLine(true);
     this.scrollIntoView(true);
+    if (swipeable) {
+      this.touchHandler = new TouchHandler(this.contentRef.current, { onTouchEnd: this.onTouchEnd.bind(this) });
+    }
   }
 
   componentDidUpdate(): void {
     this.updateLine();
     this.scrollIntoView();
+  }
+
+  componentWillUnmount(): void {
+    if (this.props.swipeable) {
+      this.touchHandler.destroy();
+      this.touchHandler = null;
+    }
+  }
+
+  private onTouchEnd(): void {
+    const { activeIndex } = this.state;
+    const { direction, offsetX, deltaX } = this.touchHandler.state;
+    if (direction === 'horizontal' && offsetX >= MIN_SWIPE_DISTANCE) {
+      if (deltaX > 0 && activeIndex !== 0) {
+        this.setActiveIndex(activeIndex - 1);
+      } else if (deltaX < 0 && activeIndex !== [].concat(this.props.children).length - 1) {
+        this.setActiveIndex(activeIndex + 1);
+      }
+    }
   }
 
   private scrollIntoView(immediate?: boolean): void {
@@ -223,7 +251,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
       }
     });
     const wrap = (
-      <div class={bem('content', { animated: animated })}>
+      <div ref={this.contentRef} class={bem('content', { animated: animated })}>
         {animated ? this.warpAnimatedContents(contents) : contents}
       </div>
     );
