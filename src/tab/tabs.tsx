@@ -190,7 +190,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     const props = this.props;
     if (props.animated) {
       const style = {
-        transform: `translate3d(${-1 * 1 * 100}%, 0, 0)`,
+        transform: `translate3d(${-1 * this.state.activeIndex * 100}%, 0, 0)`,
         transitionDuration: `${props.duration}s`,
       };
       return (
