@@ -45,10 +45,9 @@ export const PantTouch: any = {
   },
 
   bindTouchEvent(el: any): void {
-    const { onTouchStart, onTouchMove, onTouchEnd, onTransitionEnd } = this;
+    const { onTouchStart, onTouchMove, onTouchEnd } = this;
     el.addEventListener('touchstart', onTouchStart.bind(this), false);
     el.addEventListener('touchmove', onTouchMove.bind(this), false);
-    el.addEventListener('transitionend', onTransitionEnd.bind(this), false);
 
     if (onTouchEnd) {
       el.addEventListener('touchend', onTouchEnd.bind(this), false);

@@ -1,0 +1,41 @@
+@import '../../styles/var.scss';
+
+.demo-picker {
+  min-height: calc(100vh - 56px);
+  background-color: #f7f8fa;
+  h2 {
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 16px;
+    overflow: hidden;
+  }
+  &__card {
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  &__set-columns-btn {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-around;
+  }
+  &__cityinput {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  &__button {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 12px;
+    button {
+      width: 145px;
+    }
+  }
+}

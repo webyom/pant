@@ -216,7 +216,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
             <button type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
               {props.cancelButtonText || 'Cancel'}
             </button>,
-            <div className={clsx(bem('title'), 'van-ellipsis')}>{props.title}</div>,
+            <div className={clsx(bem('title'), 'pant-ellipsis')}>{props.title}</div>,
             <button type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
               {props.confirmButtonText || 'Confirm'}
             </button>,
