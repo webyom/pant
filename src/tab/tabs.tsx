@@ -2,8 +2,18 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { createBEM } from '../utils/bem';
 import { BORDER_TOP_BOTTOM } from '../utils/constant';
-import { scrollLeftTo, setRootScrollTop, getElementTop } from '../utils/scroll';
+import {
+  scrollLeftTo,
+  scrollTopTo,
+  setRootScrollTop,
+  getElementTop,
+  getVisibleTop,
+  getScroller,
+  getVisibleHeight,
+  ScrollElement,
+} from '../utils/scroll';
 import { isDef, addUnit } from '../utils';
+import { on, off } from '../utils/event';
 import { TouchHandler } from '../utils/touch-handler';
 import { Sticky } from '../sticky';
 import { Title, TitleParentProps, TitleProps } from './title';
@@ -18,6 +28,7 @@ export type TabsProps = TitleParentProps & {
   animated?: boolean;
   swipeable?: boolean;
   sticky?: boolean;
+  scrollspy?: boolean;
   duration?: number | string;
   lineHeight?: number | string;
   lineWidth?: number | string;
@@ -48,6 +59,10 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
   private lineRef = preact.createRef<HTMLDivElement>();
   private stickyRef = preact.createRef<Sticky>();
   private touchHandler: TouchHandler;
+  private scroller: ScrollElement;
+  private bindedOnScroll = this.onScroll.bind(this);
+  private lockScroll: boolean;
+  private tabHeight: number;
 
   constructor(props: preact.RenderableProps<TabsProps>) {
     super(props);
@@ -64,7 +79,8 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
   }
 
   componentDidMount(): void {
-    const { activeName, children, swipeable } = this.props;
+    const { activeName, children, swipeable, scrollspy } = this.props;
+    this.tabHeight = getVisibleHeight(this.tabListRef.current.parentNode as HTMLElement);
     if (activeName) {
       const activeIndex = [].concat(children).findIndex(item => item.props.name === activeName);
       if (activeIndex >= 0) {
@@ -75,6 +91,11 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     this.scrollIntoView(true);
     if (swipeable) {
       this.touchHandler = new TouchHandler(this.contentRef.current, { onTouchEnd: this.onTouchEnd.bind(this) });
+    }
+    if (scrollspy) {
+      this.scroller = getScroller(this.containerRef.current);
+      on(this.scroller, 'scroll', this.bindedOnScroll);
+      this.onScroll();
     }
   }
 
@@ -87,6 +108,32 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     if (this.props.swipeable) {
       this.touchHandler.destroy();
       this.touchHandler = null;
+    }
+    if (this.scroller) {
+      off(this.scroller, 'scroll', this.bindedOnScroll);
+      this.scroller = null;
+    }
+  }
+
+  private getCurrentIndexOnScroll(): number {
+    const children = this.containerRef.current.querySelectorAll('.pant-tabs__pane');
+
+    for (let index = 0; index < children.length; index++) {
+      const top = getVisibleTop(children[index] as HTMLElement);
+      const scrollOffset = this.props.sticky ? this.tabHeight : 0;
+
+      if (top > scrollOffset) {
+        return index === 0 ? 0 : index - 1;
+      }
+    }
+
+    return children.length - 1;
+  }
+
+  private onScroll(): void {
+    if (this.props.scrollspy && !this.lockScroll) {
+      const index = this.getCurrentIndexOnScroll();
+      this.setActiveIndex(index);
     }
   }
 
@@ -141,11 +188,32 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
   }
 
   private setActiveIndex(index: number): void {
+    if (this.state.activeIndex === index) {
+      return;
+    }
     this.setState({ activeIndex: index }, () => {
-      if (this.props.sticky && this.stickyRef.current.fixed) {
+      const { sticky, scrollspy } = this.props;
+      if (!scrollspy && sticky && this.stickyRef.current.fixed) {
         setRootScrollTop(Math.ceil(getElementTop(this.containerRef.current)));
       }
     });
+  }
+
+  private scrollToContent(index: number, immediate = false): void {
+    const { scrollspy, sticky, duration } = this.props;
+    if (scrollspy) {
+      const el = this.containerRef.current.querySelectorAll('.pant-tabs__pane')[index] as HTMLElement;
+
+      if (el) {
+        const scrollOffset = sticky ? this.tabHeight : 0;
+        const to = getElementTop(el, this.scroller as HTMLElement) - scrollOffset;
+
+        this.lockScroll = true;
+        scrollTopTo(this.scroller, to, immediate ? 0 : +duration, () => {
+          this.lockScroll = false;
+        });
+      }
+    }
   }
 
   private async onTitleClick(index: number, evt: Event, props: TitleProps): Promise<void> {
@@ -159,6 +227,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
       } else {
         this.setActiveIndex(index);
       }
+      this.scrollToContent(index);
     }
     onClick && onClick(evt, tabInfo);
   }
@@ -232,7 +301,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
 
   private genContents(): preact.JSX.Element {
     const props = this.props;
-    const { animated } = props;
+    const { animated, scrollspy } = props;
     const contents = [].concat(props.children).map((item, index) => {
       const { children } = item.props;
       const isActive = this.state.activeIndex === index;
@@ -244,7 +313,7 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
         );
       } else {
         return (
-          <div role="tabpanel" class={bem('pane')} style={{ display: isActive ? 'block' : 'none' }}>
+          <div role="tabpanel" class={bem('pane')} style={{ display: scrollspy || isActive ? 'block' : 'none' }}>
             {children}
           </div>
         );

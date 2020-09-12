@@ -166,6 +166,20 @@ export class TabRouteComponent extends preact.Component {
           </section>
 
           <section>
+            <h2>Scollspy</h2>
+            <Tabs scrollable scrollspy sticky>
+              <Tab title="Tab 1">content of tab 1</Tab>
+              <Tab title="Tab 2">content of tab 2</Tab>
+              <Tab title="Tab 3">content of tab 3</Tab>
+              <Tab title="Tab 4">content of tab 4</Tab>
+              <Tab title="Tab 5">content of tab 5</Tab>
+              <Tab title="Tab 6">content of tab 6</Tab>
+              <Tab title="Tab 7">content of tab 7</Tab>
+              <Tab title="Tab 8">content of tab 8</Tab>
+            </Tabs>
+          </section>
+
+          <section>
             <h2>Before Change</h2>
             <Tabs
               onBeforeChange={async (info): Promise<boolean> => {

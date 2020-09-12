@@ -62,11 +62,13 @@ export function setRootScrollTop(value: number): void {
 }
 
 // get distance from element top to page top
-export function getElementTop(el: ScrollElement): number {
+export function getElementTop(el: ScrollElement, scroller?: HTMLElement): number {
   if (isWindow(el)) {
     return 0;
   }
-  return el.getBoundingClientRect().top + getRootScrollTop();
+
+  const scrollTop = scroller ? getScrollTop(scroller) : getRootScrollTop();
+  return el.getBoundingClientRect().top + scrollTop;
 }
 
 export function getVisibleHeight(el: ScrollElement): number {
@@ -107,7 +109,7 @@ export function scrollLeftTo(scroller: HTMLElement, to: number, duration: number
   animate();
 }
 
-export function scrollTopTo(scroller: HTMLElement, to: number, duration: number, callback: Function): void {
+export function scrollTopTo(scroller: ScrollElement, to: number, duration: number, callback: Function): void {
   let current = getScrollTop(scroller);
 
   const isDown = current < to;
