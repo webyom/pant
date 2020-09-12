@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
-import { PantTouch } from '../utils/touch';
+import { TouchHandler } from '../utils/touch-handler';
 import { range } from '../utils/number';
 import { MOMENTUM_LIMIT_TIME, DEFAULT_DURATION, MOMENTUM_LIMIT_DISTANCE } from './constant';
 import './index.scss';
@@ -38,16 +38,12 @@ type PickerState = {
 const bem = createBEM('pant-picker-column');
 
 export class PickerColumn extends preact.Component<PickerProps, PickerState> {
-  private ele: HTMLUListElement;
+  private listRef = preact.createRef<HTMLUListElement>();
   private transitionEndTrigger: any;
-  bindTouchEvent: Function;
+  private touchHandler: TouchHandler;
   startOffset: number;
-  touchMove: Function;
-  direction: string;
-  deltaY: number;
   touchStartTime: number;
   momentumOffset: number;
-  touchStart: Function;
 
   constructor(props: PickerProps) {
     super(props);
@@ -59,14 +55,23 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
       prevOptions: [],
       prevDefaultValue: '',
     };
-    Object.assign(this, PantTouch);
     this.setIndex = this.setIndex.bind(this);
   }
 
   componentDidMount(): void {
+    const listEl = this.listRef.current;
     this.props.injectChildren(this);
-    this.bindTouchEvent(this.ele);
-    this.ele.addEventListener('transitionend', this.onTransitionEnd.bind(this), false);
+    this.touchHandler = new TouchHandler(listEl, {
+      onTouchStart: this.onTouchStart.bind(this),
+      onTouchMove: this.onTouchMove.bind(this),
+      onTouchEnd: this.onTouchEnd.bind(this),
+    });
+    listEl.addEventListener('transitionend', this.onTransitionEnd.bind(this), false);
+  }
+
+  componentWillUnmount(): void {
+    this.touchHandler.destroy();
+    this.touchHandler = null;
   }
 
   static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
@@ -133,10 +138,9 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     return range(Math.round(-offset / this.props.itemHeight), 0, this.props.options.length - 1);
   }
 
-  onTouchStart(event: Event): void {
-    this.touchStart(event);
+  onTouchStart(): void {
     if (this.state.moving) {
-      const translateY = getElementTranslateY(this.ele);
+      const translateY = getElementTranslateY(this.listRef.current);
       this.setState(
         {
           offset: Math.min(0, translateY - this.state.baseOffset),
@@ -157,10 +161,10 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     this.momentumOffset = this.startOffset;
   }
 
-  onTouchMove(event: Event): void {
-    this.touchMove(event);
-
-    if (this.direction === 'vertical') {
+  onTouchMove(event: TouchEvent): void {
+    const { itemHeight, options } = this.props;
+    const { direction, deltaY } = this.touchHandler.state;
+    if (direction === 'vertical') {
       this.setState({
         moving: true,
       });
@@ -168,11 +172,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     }
 
     this.setState({
-      offset: range(
-        this.startOffset + this.deltaY,
-        -(this.props.options.length * this.props.itemHeight),
-        this.props.itemHeight,
-      ),
+      offset: range(this.startOffset + deltaY, -(options.length * itemHeight), itemHeight),
     });
 
     const now = Date.now();
@@ -275,13 +275,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     };
     return (
       <div className={clsx(bem(), this.props.className)}>
-        <ul
-          ref={(el: HTMLUListElement): void => {
-            this.ele = el;
-          }}
-          style={wrapperStyle}
-          className={bem('wrapper')}
-        >
+        <ul ref={this.listRef} style={wrapperStyle} className={bem('wrapper')}>
           {this.genOptions()}
         </ul>
       </div>

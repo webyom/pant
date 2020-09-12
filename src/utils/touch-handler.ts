@@ -7,14 +7,16 @@ type TouchHandlerOptions = {
   onTouchCancel?(event: TouchEvent): void;
 };
 
-type TouchHandlerState = {
+export type TouchDirection = 'horizontal' | 'vertical' | '';
+
+export type TouchHandlerState = {
   startX: number;
   startY: number;
   deltaX: number;
   deltaY: number;
   offsetX: number;
   offsetY: number;
-  direction: string;
+  direction: TouchDirection;
 };
 
 export class TouchHandler {
@@ -26,7 +28,7 @@ export class TouchHandler {
   private deltaY = 0;
   private offsetX = 0;
   private offsetY = 0;
-  private direction = '';
+  private direction: TouchDirection;
 
   constructor(el: HTMLElement, opt?: TouchHandlerOptions) {
     this.el = el;
@@ -38,7 +40,7 @@ export class TouchHandler {
     this.bindTouchEvent();
   }
 
-  private getDirection(x: number, y: number): string {
+  private getDirection(x: number, y: number): TouchDirection {
     if (x > y && x > MIN_DISTANCE) {
       return 'horizontal';
     }
@@ -51,9 +53,10 @@ export class TouchHandler {
   }
 
   private onTouchStart(event: TouchEvent): void {
-    this.resetTouchStatus();
-    this.startX = event.touches[0].clientX;
-    this.startY = event.touches[0].clientY;
+    const touch = event.touches[0];
+    this.resetTouchState();
+    this.startX = touch.clientX;
+    this.startY = touch.clientY;
     this.opt.onTouchStart && this.opt.onTouchStart(event);
   }
 
@@ -75,7 +78,7 @@ export class TouchHandler {
     this.opt.onTouchCancel && this.opt.onTouchCancel(event);
   }
 
-  private resetTouchStatus(): void {
+  private resetTouchState(): void {
     this.direction = '';
     this.deltaX = 0;
     this.deltaY = 0;

@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import { createBEM } from '../utils/bem';
 import { DeleteIcon } from './delete-icon';
 import { CollapseIcon } from './collapse-icon';
-import { PantTouch } from '../utils/touch';
+import { TouchHandler } from '../utils/touch-handler';
 import './index.scss';
 
 const bem = createBEM('pant-key');
@@ -21,37 +21,39 @@ type KeyState = {
 };
 
 export class Key extends preact.Component<KeyProps, KeyState> {
-  private ele: HTMLDivElement;
-  bindTouchEvent: Function;
-  touchStart: Function;
-  touchMove: Function;
-  direction: number;
+  private elRef = preact.createRef<HTMLDivElement>();
+  private touchHandler: TouchHandler;
 
   constructor(props: KeyProps) {
     super(props);
     this.state = {
       active: false,
     };
-    Object.assign(this, PantTouch);
   }
 
   componentDidMount(): void {
-    this.bindTouchEvent(this.ele);
+    this.touchHandler = new TouchHandler(this.elRef.current, {
+      onTouchStart: this.onTouchStart.bind(this),
+      onTouchMove: this.onTouchMove.bind(this),
+      onTouchEnd: this.onTouchEnd.bind(this),
+    });
+  }
+
+  componentWillUnmount(): void {
+    this.touchHandler.destroy();
+    this.touchHandler = null;
   }
 
   onTouchStart(event: TouchEvent): void {
     // compatible with Vue 2.6 event bubble bug
     event.stopPropagation();
-    this.touchStart(event);
     this.setState({
       active: true,
     });
   }
 
-  onTouchMove(event: TouchEvent): void {
-    this.touchMove(event);
-
-    if (this.direction) {
+  onTouchMove(): void {
+    if (this.touchHandler.state.direction) {
       this.setState({
         active: false,
       });
@@ -90,12 +92,7 @@ export class Key extends preact.Component<KeyProps, KeyState> {
     const { wider, color, large, type } = this.props;
     const { active } = this.state;
     return (
-      <div
-        ref={(el): void => {
-          this.ele = el;
-        }}
-        class={bem('wrapper', { wider: wider })}
-      >
+      <div ref={this.elRef} class={bem('wrapper', { wider: wider })}>
         <div
           role="button"
           className={bem([
