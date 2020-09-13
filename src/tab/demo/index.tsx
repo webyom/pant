@@ -1,12 +1,33 @@
 import * as preact from 'preact';
 import { toast } from '../../toast/index';
 import { Icon } from '../../icon';
+import { Loading } from '../../loading';
 import { Tabs, Tab, TabInfo } from '../../tab';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import './index.scss';
 
 const bem = createBEM('demo-tab');
+
+class LazyContent extends preact.Component<{}, { inited: boolean }> {
+  state = {
+    inited: false,
+  };
+
+  componentDidMount(): void {
+    setTimeout(() => {
+      this.setState({ inited: true });
+    }, 2000);
+  }
+
+  render(): preact.JSX.Element {
+    return this.state.inited ? (
+      <preact.Fragment>{this.props.children}</preact.Fragment>
+    ) : (
+      <Loading size="22" vertical />
+    );
+  }
+}
 
 export class TabRouteComponent extends preact.Component {
   render(): preact.JSX.Element {
@@ -128,6 +149,24 @@ export class TabRouteComponent extends preact.Component {
                 }
               >
                 content of tab 2
+              </Tab>
+            </Tabs>
+          </section>
+
+          <section>
+            <h2>Lazy Render</h2>
+            <Tabs animated>
+              <Tab title="Tab 1" lazyRender>
+                <LazyContent>content of tab 1</LazyContent>
+              </Tab>
+              <Tab title="Tab 2" lazyRender>
+                <LazyContent>content of tab 2</LazyContent>
+              </Tab>
+              <Tab title="Tab 3" lazyRender>
+                <LazyContent>content of tab 3</LazyContent>
+              </Tab>
+              <Tab title="Tab 4" lazyRender>
+                <LazyContent>content of tab 4</LazyContent>
               </Tab>
             </Tabs>
           </section>
