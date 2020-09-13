@@ -303,18 +303,17 @@ export class Tabs extends preact.Component<TabsProps, TabsState> {
     const props = this.props;
     const { animated, scrollspy } = props;
     const contents = [].concat(props.children).map((item, index) => {
-      const { children } = item.props;
       const isActive = this.state.activeIndex === index;
       if (animated) {
         return (
           <div role="tabpanel" aria-hidden={!isActive} class={bem('pane-wrapper', { inactive: !isActive })}>
-            <div class={bem('pane')}>{children}</div>
+            <div class={bem('pane')}>{preact.cloneElement(item, { isActive })}</div>
           </div>
         );
       } else {
         return (
           <div role="tabpanel" class={bem('pane')} style={{ display: scrollspy || isActive ? 'block' : 'none' }}>
-            {children}
+            {preact.cloneElement(item, { isActive: scrollspy || isActive })}
           </div>
         );
       }
