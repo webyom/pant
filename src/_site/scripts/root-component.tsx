@@ -17,6 +17,7 @@ import { FormRouteComponent } from '../../form/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LazyloadRouteComponent } from '../../lazyload/demo';
+import { ListRouteComponent } from '../../list/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
 import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
@@ -59,6 +60,7 @@ export class RootComponent extends preact.Component {
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
         <LazyloadRouteComponent path="/lazyload/" />
+        <ListRouteComponent path="/list/" />
         <LoadingRouteComponent path="/loading/" />
         <NotifyRouteComponent path="/notify/" />
         <NumberKeyboardRouteComponent path="/number-keyboard" />
