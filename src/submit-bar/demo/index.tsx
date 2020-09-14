@@ -1,5 +1,6 @@
 import * as preact from 'preact';
 import { toast } from '../../toast';
+import { Checkbox } from '../../checkbox';
 import { SubmitBar } from '../../submit-bar';
 import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
@@ -7,7 +8,11 @@ import './index.scss';
 
 const bem = createBEM('demo-submit-bar');
 
-export class SubmitBarRouteComponent extends preact.Component {
+export class SubmitBarRouteComponent extends preact.Component<{}, { checked: boolean }> {
+  state = {
+    checked: true,
+  };
+
   onSubmit(): void {
     toast('On Submit');
   }
@@ -58,10 +63,16 @@ export class SubmitBarRouteComponent extends preact.Component {
                   </a>
                 </div>
               }
-              disabled
+              disabled={!this.state.checked}
               onSubmit={this.onSubmit}
             >
-              <div>// TODO</div>
+              <Checkbox
+                shape="round"
+                checked={this.state.checked}
+                onClick={(): void => this.setState({ checked: !this.state.checked })}
+              >
+                Label
+              </Checkbox>
             </SubmitBar>
           </section>
         </div>
