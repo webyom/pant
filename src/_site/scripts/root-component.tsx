@@ -24,6 +24,7 @@ import { OverlayRouteComponent } from '../../overlay/demo';
 import { PasswordInputRouteComponent } from '../../password-input/demo';
 import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
+import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
@@ -65,6 +66,7 @@ export class RootComponent extends preact.Component {
         <PasswordInputRouteComponent path="/password-input/" />
         <PickerRouteComponent path="/picker/" />
         <PopupRouteComponent path="/popup/" />
+        <PullRefreshRouteComponent path="/pull-refresh/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
         <StickyRouteComponent path="/sticky/" />

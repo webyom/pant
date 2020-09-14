@@ -288,7 +288,7 @@ $password-input-error-info-color: $red;
 $password-input-dot-size: 10px;
 $password-input-dot-color: $black;
 
-// picker
+// Picker
 $picker-background-color: $white;
 $picker-toolbar-height: 44px;
 $picker-title-font-size: $font-size-lg;
@@ -313,6 +313,11 @@ $popup-close-icon-color: $gray-5;
 $popup-close-icon-active-color: $gray-6;
 $popup-close-icon-margin: 16px;
 $popup-close-icon-z-index: 1;
+
+// PullRefresh
+$pull-refresh-head-height: 50px;
+$pull-refresh-head-font-size: $font-size-md;
+$pull-refresh-head-text-color: $gray-6;
 
 // Skeleton
 $skeleton-row-height: 16px;

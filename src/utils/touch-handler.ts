@@ -1,7 +1,9 @@
 const MIN_DISTANCE = 10;
 
 type TouchHandlerOptions = {
+  onBeforeTouchStart?(event: TouchEvent): boolean | void;
   onTouchStart?(event: TouchEvent): void;
+  onBeforeTouchMove?(event: TouchEvent): boolean | void;
   onTouchMove?(event: TouchEvent): void;
   onTouchEnd?(event: TouchEvent): void;
   onTouchCancel?(event: TouchEvent): void;
@@ -52,30 +54,48 @@ export class TouchHandler {
     return '';
   }
 
-  private onTouchStart(event: TouchEvent): void {
+  touchStart(event: TouchEvent): void {
     const touch = event.touches[0];
     this.resetTouchState();
     this.startX = touch.clientX;
     this.startY = touch.clientY;
-    this.opt.onTouchStart && this.opt.onTouchStart(event);
   }
 
-  private onTouchMove(event: TouchEvent): void {
+  touchMove(event: TouchEvent): void {
     const touch = event.touches[0];
     this.deltaX = touch.clientX - this.startX;
     this.deltaY = touch.clientY - this.startY;
     this.offsetX = Math.abs(this.deltaX);
     this.offsetY = Math.abs(this.deltaY);
     this.direction = this.direction || this.getDirection(this.offsetX, this.offsetY);
-    this.opt.onTouchMove && this.opt.onTouchMove(event);
+  }
+
+  private onTouchStart(event: TouchEvent): void {
+    const { onBeforeTouchStart, onTouchStart } = this.opt;
+    if (onBeforeTouchStart && onBeforeTouchStart(event) === false) {
+      return;
+    }
+    this.touchStart(event);
+    onTouchStart && onTouchStart(event);
+  }
+
+  private onTouchMove(event: TouchEvent): void {
+    const { onBeforeTouchMove, onTouchMove } = this.opt;
+    if (onBeforeTouchMove && onBeforeTouchMove(event) === false) {
+      return;
+    }
+    this.touchMove(event);
+    onTouchMove && onTouchMove(event);
   }
 
   private onTouchEnd(event: TouchEvent): void {
-    this.opt.onTouchEnd && this.opt.onTouchEnd(event);
+    const { onTouchEnd } = this.opt;
+    onTouchEnd && onTouchEnd(event);
   }
 
   private onTouchCancel(event: TouchEvent): void {
-    this.opt.onTouchCancel && this.opt.onTouchCancel(event);
+    const { onTouchCancel } = this.opt;
+    onTouchCancel && onTouchCancel(event);
   }
 
   private resetTouchState(): void {

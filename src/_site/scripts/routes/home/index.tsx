@@ -106,6 +106,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/overlay/">
             Overlay <Arrow />
           </Link>
+          <Link href="/pull-refresh/">
+            PullRefresh <Arrow />
+          </Link>
           <Link href="/toast/">
             Toast <Arrow />
           </Link>
