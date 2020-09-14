@@ -5,6 +5,7 @@ import { createBEM } from '../utils/bem';
 import { getScroller, getScrollTop, ScrollElement } from '../utils/scroll';
 import { TouchHandler } from '../utils/touch-handler';
 import { Loading } from '../loading';
+import { i18n } from '../locale';
 import './index.scss';
 
 const DEFAULT_HEAD_HEIGHT = 50;
@@ -164,15 +165,15 @@ export class PullRefresh extends preact.Component<PullRefreshProps, PullRefreshS
       return props.successNode || <div class={bem('text')}>{props.successText}</div>;
     }
     if (status === 'loading') {
-      return props.loadingNode || <Loading size="16">{props.loadingText}</Loading>;
+      return props.loadingNode || <Loading size="16">{props.loadingText || i18n().loading}</Loading>;
     }
     if (status === 'loosing') {
-      return props.loosingNode || <div class={bem('text')}>{props.loosingText}</div>;
+      return props.loosingNode || <div class={bem('text')}>{props.loosingText || i18n().pullRefresh.loosing}</div>;
     }
     if (status === 'pulling') {
       return (
         (props.pullingNode && preact.cloneElement(props.pullingNode, { distance })) || (
-          <div class={bem('text')}>{props.pullingText}</div>
+          <div class={bem('text')}>{props.pullingText || i18n().pullRefresh.pulling}</div>
         )
       );
     }
@@ -207,9 +208,6 @@ export class PullRefresh extends preact.Component<PullRefreshProps, PullRefreshS
 }
 
 PullRefresh.defaultProps = {
-  pullingText: 'Pull to refresh...',
-  loosingText: 'Loose to refresh...',
-  loadingText: 'Loading...',
   successDuration: 500,
   animationDuration: 300,
   headHeight: DEFAULT_HEAD_HEIGHT,

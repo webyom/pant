@@ -4,6 +4,7 @@ import { removeUnit } from '../utils';
 import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant';
 import { createBEM } from '../utils/bem';
 import { preventDefaultAndStopPropagation } from '../utils/event';
+import { i18n } from '../locale';
 import { DEFAULT_ITEM_HEIGHT } from './constant';
 import { PickerColumn } from './picker-column';
 import { Loading } from '../loading';
@@ -214,11 +215,11 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
         <div className={bem('toolbar')}>
           {[
             <button type="button" className={bem('cancel')} onClick={this.cancel.bind(this)}>
-              {props.cancelButtonText || 'Cancel'}
+              {props.cancelButtonText || i18n().cancel}
             </button>,
             <div className={clsx(bem('title'), 'pant-ellipsis')}>{props.title}</div>,
             <button type="button" className={bem('confirm')} onClick={this.confirm.bind(this)}>
-              {props.confirmButtonText || 'Confirm'}
+              {props.confirmButtonText || i18n().confirm}
             </button>,
           ]}
         </div>

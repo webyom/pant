@@ -1,4 +1,7 @@
+import { PantLocale } from './locale';
+
 type PantConfig = {
+  locale?: PantLocale;
   isServer?: boolean;
   viewportWidth?: number;
   defaultOverlayBgColor?: string;

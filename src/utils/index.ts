@@ -71,3 +71,13 @@ let zIndex = Z_INDEX_INCREMENTAL_START;
 export function getIncrementalZIndex(base = 0): number {
   return base + zIndex++;
 }
+
+export function interpolate(text: string, data: Record<string, string | number> | Array<string | number>): string {
+  return (
+    text &&
+    text.replace(/\{(.*?)\}/g, (full: string, key: string): string => {
+      const res = data && (data as any)[key];
+      return isDef(res) ? res : full;
+    })
+  );
+}
