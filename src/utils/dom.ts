@@ -1,3 +1,5 @@
+import closestx from 'closest';
+
 export function removeNode(el: Node): void {
   const parent = el.parentNode;
 
@@ -16,4 +18,8 @@ export function isHidden(el: HTMLElement): boolean {
   const parentHidden = el.offsetParent === null && style.position !== 'fixed';
 
   return hidden || parentHidden;
+}
+
+export function closest(element: Element | EventTarget, selector: string, checkYoSelf?: boolean): Element | null {
+  return closestx(element, selector, checkYoSelf);
 }

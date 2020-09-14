@@ -178,6 +178,13 @@ export class FormRouteComponent extends preact.Component {
                 title="Switch"
                 rules={[{ pattern: 'required', message: 'Required field', trigger: ['change'] }]}
               ></Field>
+              <Field<boolean>
+                type="checkbox"
+                defaultValue={true}
+                name="checkbox"
+                title="Checkbox"
+                rules={[{ pattern: 'required', message: 'Required field', trigger: ['change'] }]}
+              ></Field>
               <Field<[]>
                 name="checkbox-group"
                 title="Checkbox Group"

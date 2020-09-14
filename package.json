@@ -86,6 +86,7 @@
     "preact": ">=10.2.1"
   },
   "dependencies": {
+    "closest": "0.0.1",
     "clsx": "^1.1.0"
   }
 }
