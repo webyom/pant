@@ -56,14 +56,26 @@ export class List extends preact.Component<ListProps, ListState> {
     this.check();
   }
 
+  componentDidUpdate(): void {
+    this.check();
+  }
+
   componentWillUnmount(): void {
     off(this.scroller, 'scroll', this.check);
     this.scroller = null;
   }
 
+  reset(callback?: () => void): void {
+    this.setState({ loading: false, loadResult: {} }, callback);
+  }
+
   check(): void {
     const { loading, loadResult } = this.state;
     if (loading || loadResult.finished || loadResult.error) {
+      return;
+    }
+
+    if (isHidden(this.containerRef.current)) {
       return;
     }
 
@@ -82,7 +94,7 @@ export class List extends preact.Component<ListProps, ListState> {
 
     const scrollerHeight = scrollerRect.bottom - scrollerRect.top;
 
-    if (!scrollerHeight || isHidden(this.containerRef.current)) {
+    if (!scrollerHeight) {
       return;
     }
 
@@ -104,7 +116,7 @@ export class List extends preact.Component<ListProps, ListState> {
     this.setState({ loading: true, loadResult: {} }, () => {
       this.props.onLoad(error).then(res => {
         this.setState({ loading: false, loadResult: res || {} }, () => {
-          this.check();
+          // this.check();
         });
       });
     });

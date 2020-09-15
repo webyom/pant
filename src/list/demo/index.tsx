@@ -84,7 +84,7 @@ export class ListRouteComponent extends preact.Component<any, { list1: number[];
                   return new Promise(resolve => {
                     setTimeout(() => {
                       this.setState({ list3: this.genList(0, 10) }, () => {
-                        this.list3Ref.current.check();
+                        this.list3Ref.current.reset();
                       });
                       resolve();
                     }, 2000);

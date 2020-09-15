@@ -96,7 +96,7 @@ export class PullRefresh extends preact.Component<PullRefreshProps, PullRefreshS
     return this.ceiling;
   }
 
-  private onTouchMove(): void {
+  private onTouchMove(event: TouchEvent): void {
     const { deltaY, direction } = this.touchHandler.state;
     if (deltaY >= 0 && direction === 'vertical') {
       preventDefault(event);
