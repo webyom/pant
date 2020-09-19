@@ -18,12 +18,12 @@ const bem = createBEM('pant-form');
 
 export class Form<T = never> extends preact.Component<FormProps<T>> {
   private bindedOnSubmit = this.onSubmit.bind(this);
-  private readonly refs: Record<string, preact.RefObject<Field<any>>> = {};
+  private readonly childRefs: Record<string, preact.RefObject<Field<any>>> = {};
 
   private onSubmit(evt: Event): void {
     const { onSubmit } = this.props;
     preventDefault(evt);
-    const res = Object.entries(this.refs)
+    const res = Object.entries(this.childRefs)
       .map(([name, ref]) => {
         return { name, ref };
       })
@@ -51,7 +51,7 @@ export class Form<T = never> extends preact.Component<FormProps<T>> {
       let ref: preact.RefObject<any> = null;
       const { name, validateTrigger: childValidateTrigger } = child.props;
       if (name) {
-        ref = this.refs[name] = this.refs[name] || child.ref || preact.createRef();
+        ref = this.childRefs[name] = this.childRefs[name] || child.ref || preact.createRef();
         return preact.cloneElement(child, { ref, validateTrigger: childValidateTrigger || validateTrigger });
       }
       return child;
