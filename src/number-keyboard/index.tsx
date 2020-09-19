@@ -150,10 +150,10 @@ export class NumberKeyboard extends preact.Component<NumberKeyboardProps, Number
     }
 
     return (
-      <div class={bem('header')}>
-        {customTitle ? customTitle : title ? <h2 class={bem('title')}>{title}</h2> : null}
+      <div className={bem('header')}>
+        {customTitle ? customTitle : title ? <h2 className={bem('title')}>{title}</h2> : null}
         {showClose && (
-          <button type="button" class={bem('close')} onClick={this.onClose}>
+          <button type="button" className={bem('close')} onClick={this.onClose}>
             {closeButtonText}
           </button>
         )}
@@ -177,7 +177,7 @@ export class NumberKeyboard extends preact.Component<NumberKeyboardProps, Number
     const { theme, showDeleteKey, deleteButtonText, closeButtonText } = this.props;
     if (theme === 'custom') {
       return (
-        <div class={bem('sidebar')}>
+        <div className={bem('sidebar')}>
           {showDeleteKey && <Key large text={deleteButtonText} type="delete" onPress={this.onPress.bind(this)}></Key>}
           <Key large text={closeButtonText} type="close" color="blue" onPress={this.onPress.bind(this)} />
         </div>
@@ -193,7 +193,7 @@ export class NumberKeyboard extends preact.Component<NumberKeyboardProps, Number
       <Transition customName={transition ? 'slide-up' : ''} stage={prevShow ? 'enter' : 'leave'}>
         <div
           style={{ zIndex: zIndex }}
-          class={clsx(
+          className={clsx(
             bem({
               unfit: !safeAreaInsetBottom,
               'with-title': Title,
@@ -204,8 +204,8 @@ export class NumberKeyboard extends preact.Component<NumberKeyboardProps, Number
           onAnimationEnd={this.onAnimationEnd}
         >
           {Title}
-          <div class={bem('body')}>
-            <div class={bem('keys')}>{this.genKeys()}</div>
+          <div className={bem('body')}>
+            <div className={bem('keys')}>{this.genKeys()}</div>
             {this.genSidebar()}
           </div>
         </div>

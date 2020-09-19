@@ -100,6 +100,7 @@ export class PasswordInputRouteComponent extends preact.Component<any, PasswordI
               focused={keyboard === 'value3'}
               onFocuse={(): void => this.onFocuse('value3')}
               mask={false}
+              pointClassName="pointclass"
             />
           </section>
         </div>

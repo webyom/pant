@@ -92,7 +92,7 @@ export class Key extends preact.Component<KeyProps, KeyState> {
     const { wider, color, large, type } = this.props;
     const { active } = this.state;
     return (
-      <div ref={this.elRef} class={bem('wrapper', { wider: wider })}>
+      <div ref={this.elRef} className={bem('wrapper', { wider: wider })}>
         <div
           role="button"
           className={bem([
