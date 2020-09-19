@@ -115,9 +115,7 @@ export class List extends preact.Component<ListProps, ListState> {
   private load(error?: boolean): void {
     this.setState({ loading: true, loadResult: {} }, () => {
       this.props.onLoad(error).then(res => {
-        this.setState({ loading: false, loadResult: res || {} }, () => {
-          // this.check();
-        });
+        this.setState({ loading: false, loadResult: res || {} });
       });
     });
   }
