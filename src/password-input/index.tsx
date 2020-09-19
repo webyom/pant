@@ -13,6 +13,7 @@ type PasswordInputProps = {
   focused?: boolean;
   mask?: boolean;
   length?: number;
+  pointClassName?: string;
   onFocuse?: () => void;
 };
 
@@ -28,6 +29,7 @@ const getPoints = (
   gutter: number | string,
   focused: boolean,
   mask: boolean,
+  pointClassName?: string,
 ): preact.JSX.Element[] => {
   const newPoints: preact.JSX.Element[] = [];
   for (let i = 0; i < length; i++) {
@@ -41,7 +43,10 @@ const getPoints = (
     }
 
     newPoints.push(
-      <li className={clsx(bem('item', { focus: showCursor }), { [BORDER_LEFT]: showBorder })} style={style}>
+      <li
+        className={clsx(bem('item', { focus: showCursor }), { [BORDER_LEFT]: showBorder }, pointClassName)}
+        style={style}
+      >
         {mask ? <i style={{ visibility: char ? 'visible' : 'hidden' }} /> : char}
         {showCursor && <div className={bem('cursor')} />}
       </li>,
@@ -62,10 +67,10 @@ export class PasswordInput extends preact.Component<PasswordInputProps, Password
   }
 
   static getDerivedStateFromProps(nextProps: PasswordInputProps, state: PasswordInputState): PasswordInputState {
-    const { value, length, gutter, focused, mask } = nextProps;
+    const { value, length, gutter, focused, mask, pointClassName } = nextProps;
     const { prevValue, prevFocused } = state;
     if (value !== prevValue || focused !== prevFocused) {
-      const newPoints = getPoints(value, length, gutter, focused, mask);
+      const newPoints = getPoints(value, length, gutter, focused, mask, pointClassName);
       return {
         prevValue: value,
         prevFocused: focused,

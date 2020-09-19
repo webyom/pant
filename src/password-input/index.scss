@@ -25,6 +25,7 @@
     width: 100%;
     height: $password-input-height;
     cursor: pointer;
+    padding: 0;
 
     &::after {
       border-radius: $password-input-border-radius;
