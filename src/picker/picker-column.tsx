@@ -5,6 +5,7 @@ import { preventDefaultAndStopPropagation } from '../utils/event';
 import { TouchHandler } from '../utils/touch-handler';
 import { range } from '../utils/number';
 import { MOMENTUM_LIMIT_TIME, DEFAULT_DURATION, MOMENTUM_LIMIT_DISTANCE } from './constant';
+import { ColumnsItemType } from './index';
 import './index.scss';
 
 function getElementTranslateY(element: HTMLUListElement): number {
@@ -14,12 +15,22 @@ function getElementTranslateY(element: HTMLUListElement): number {
 
   return Number(translateY);
 }
+
+const getIndex = (options: ColumnsItemType[], value: string): number => {
+  let index = 0;
+  options.forEach((item: ColumnsItemType, itemIndex: number) => {
+    if (item.value === value) {
+      index = itemIndex;
+    }
+  });
+  return index;
+};
 export type PickerProps = {
   visibleItemCount: number;
-  options: string[];
+  options: ColumnsItemType[];
   className?: string;
   itemHeight?: number;
-  defaultValue?: string;
+  value?: string;
   onChange?: (value: number) => void;
   swipeDuration?: number;
   injectChildren?: Function;
@@ -27,12 +38,13 @@ export type PickerProps = {
 };
 
 type PickerState = {
+  currentIndex: number;
   offset: number;
   baseOffset: number;
   duration: number;
   moving: boolean;
-  prevOptions: string[];
-  prevDefaultValue: string;
+  prevOptions: ColumnsItemType[];
+  prevValue: string;
 };
 
 const bem = createBEM('pant-picker-column');
@@ -48,12 +60,13 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   constructor(props: PickerProps) {
     super(props);
     this.state = {
+      currentIndex: 0,
       offset: 0,
       duration: 0,
       baseOffset: (this.props.itemHeight * (this.props.visibleItemCount - 1)) / 2,
       moving: false,
       prevOptions: [],
-      prevDefaultValue: '',
+      prevValue: '',
     };
     this.setIndex = this.setIndex.bind(this);
   }
@@ -75,13 +88,15 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
-    const { options, defaultValue, itemHeight } = nextProps;
-    if (options !== state.prevOptions || defaultValue !== state.prevDefaultValue) {
+    const { options, value, itemHeight } = nextProps;
+    const { prevOptions, prevValue } = state;
+    if (options !== prevOptions || value !== prevValue) {
       return {
         ...state,
-        offset: -options.indexOf(defaultValue) * itemHeight,
+        currentIndex: getIndex(options, value),
+        offset: -getIndex(options, value) * itemHeight,
         prevOptions: options,
-        prevDefaultValue: defaultValue,
+        prevValue: value,
       };
     }
   }
@@ -100,19 +115,24 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
 
   // 校正index，使其跳过不可选
   adjustIndex(index: number): number {
-    const length = this.props.options.length;
+    const { options, disabledValue } = this.props;
+    const length = options.length;
     index = range(index, 0, length);
     for (let i = index; i < length; i++) {
-      if (this.props.options[i] !== this.props.disabledValue) return i;
+      if (options[i].value !== disabledValue) return i;
     }
 
     for (let i = index - 1; i >= 0; i--) {
-      if (this.props.options[i] !== this.props.disabledValue) return i;
+      if (options[i].value !== disabledValue) return i;
     }
   }
 
   // 点击后修改offset，调整列表位置
   setIndex(index: number): void {
+    // 普通点击时，touchEnd触发在click事件之前，那时index并未改变，无需进行下面逻辑
+    if (index === this.state.currentIndex) {
+      return;
+    }
     const props = this.props;
     index = this.adjustIndex(index);
     if (index === undefined) {
@@ -131,6 +151,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
     }
     this.setState({
       offset,
+      currentIndex: index,
     });
   }
 
@@ -221,18 +242,18 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
   }
 
   genOptions(): any {
-    const { options, defaultValue, itemHeight, disabledValue } = this.props;
+    const { options, value, itemHeight, disabledValue } = this.props;
     const optionStyle = {
       height: `${itemHeight}px`,
     };
 
-    return options.map((value: string, index: number) => {
+    return options.map((option: ColumnsItemType, index: number) => {
       const data = {
         style: optionStyle,
         className: clsx(
           bem('item', {
-            disabled: value === disabledValue,
-            selected: value === defaultValue,
+            disabled: option.value === disabledValue,
+            selected: option.value === value,
           }),
         ),
         onClick: (): void => {
@@ -245,7 +266,7 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
       };
       return (
         <li {...data}>
-          <div {...childData}>{value}</div>
+          <div {...childData}>{option.label}</div>
         </li>
       );
     });
