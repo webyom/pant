@@ -209,14 +209,7 @@ export class FormRouteComponent extends preact.Component {
               >
                 <RadioGroup direction="horizontal" options={['Radio a', 'Radio b']} />
               </Field>
-              <Field<any[]>
-                name="city"
-                title="Picker"
-                placeholder="Select city"
-                valueFormatter={(res): any => {
-                  return res[0];
-                }}
-              >
+              <Field<any[]> name="city" title="Picker" placeholder="Select city">
                 <Popup round position="bottom" closeOnClickOverlay>
                   <Picker columns={columns1} />
                 </Popup>

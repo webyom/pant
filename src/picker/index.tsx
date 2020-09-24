@@ -62,12 +62,12 @@ export type PickerProps = {
   /** 是否联动 */
   cascade?: boolean;
   /** 选择取消后的回调 */
-  onCancel?: (value: string[]) => void;
+  onCancel?: (value: string[] | string) => void;
   /** 选择确定后的回调 */
-  onConfirm?: (value: string[]) => void;
+  onConfirm?: (value: string[] | string) => void;
   closePopup?: (confirm?: boolean) => void;
   /** 点击后回调 */
-  onChange?: (value: string[], index: number, thisCom?: preact.AnyComponent) => void;
+  onChange?: (value: string[] | string, index: number, thisCom?: preact.AnyComponent) => void;
 };
 
 type PickerState = {
@@ -226,7 +226,7 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
     const { formattedColumns, pickerValue } = this.state;
     const { valueKey, columns, cols, labelKey, cascade, onChange } = this.props;
 
-    const newPickerValue = [];
+    let newPickerValue: string[] | string = [];
 
     for (let i = 0; i < cols; i++) {
       if (columnIndex > i) {
@@ -246,6 +246,11 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
       pickerValue: newPickerValue,
     });
 
+    // 单列时，value返回string
+    if (cols === 1) {
+      newPickerValue = newPickerValue[0];
+    }
+
     onChange && onChange(newPickerValue, columnIndex);
   }
 
@@ -256,19 +261,33 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
     if (cascade) {
       this.onCascadeChange(selectedIndex, columnIndex);
     } else {
-      const newPickerValue = [...pickerValue];
+      let newPickerValue: string[] | string = [...pickerValue];
       newPickerValue[columnIndex] = formattedColumns[columnIndex][selectedIndex].value;
       const newFormattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
       this.setState({
         formattedColumns: newFormattedColumns,
         pickerValue: newPickerValue,
       });
+
+      // 单列时，value返回string
+      if (cols === 1) {
+        newPickerValue = newPickerValue[0];
+      }
+
       onChange && onChange(newPickerValue, selectedIndex);
     }
   }
 
-  getValue(): string[] {
-    return this.state.pickerValue;
+  getValue(): string[] | string {
+    const { cols } = this.props;
+    let newPickerValue: string[] | string = [...this.state.pickerValue];
+
+    // 单列时，value返回string
+    if (cols === 1) {
+      newPickerValue = newPickerValue[0];
+    }
+
+    return newPickerValue;
   }
 
   confirm(): void {
@@ -285,8 +304,16 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   emit(event: 'onConfirm' | 'onCancel'): void {
+    const { cols } = this.props;
+    let newPickerValue: string[] | string = [...this.state.pickerValue];
+
+    // 单列时，value返回string
+    if (cols === 1) {
+      newPickerValue = newPickerValue[0];
+    }
+
     if (this.props[event]) {
-      this.props[event](this.state.pickerValue);
+      this.props[event](newPickerValue);
     }
   }
 
