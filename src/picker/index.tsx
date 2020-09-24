@@ -9,148 +9,147 @@ import { PickerColumn } from './picker-column';
 import { Loading } from '../loading';
 import './index.scss';
 
-export type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right';
-
-export type PopupCloseIconPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-
 export type ToolbarPosition = 'top' | 'bottom';
 
 export type ColumnsItemType = {
-  values?: string[];
-  defaultValue?: string;
-  className?: string;
-  disabledValue?: string;
+  value: string;
+  label: string;
 };
 
 export type ColumnsType = {
   [key: string]: string | string[] | ColumnsType[];
-  values?: string[] | string;
+  value?: string;
+  label?: string;
   children?: ColumnsType[];
 };
 
-export type ColumnValueType = {
-  value?: string[] | string;
-  index?: number[] | number;
-};
-
 export type PickerProps = {
+  /** 可选项数据源 */
+  columns?: ColumnsType[] | ColumnsType[][];
+  /** 默认的选中项 */
+  defaultValue?: string[];
+  /** 指定选中项 */
+  value?: string[];
+  /** 展示标题栏 */
   showToolbar?: boolean;
+  /** 标题栏位置 */
   toolbarPosition?: ToolbarPosition;
-  cancelButtonText?: string;
-  onCancel?<T extends string | string[], K extends number | number[]>(value: T, index: K): void;
-  onConfirm?<T extends string | string[], K extends number | number[]>(value: T, index: K): void;
-  closePopup?(confirm?: boolean): void;
-  confirmButtonText?: string;
+  /** 标题文本 */
   title?: string;
+  /** 取消按钮文本 */
+  cancelButtonText?: string;
+  /** 确定按钮文本 */
+  confirmButtonText?: string;
+  /** 行高 */
   itemHeight?: number;
+  /** 窗口内可视行数 */
   visibleItemCount?: number;
-  columns?: ColumnsType[] | string[];
-  defaultValue?: string | string[];
-  onChange?: <T extends string | string[]>(value: T, index: number, thisCom?: preact.AnyComponent) => void;
+  /** 自定义value的key值 */
   valueKey?: string;
-  allowHtml?: boolean;
+  /** 自定义label的key值 */
+  labelKey?: string;
+  /** 滑动惯性滚动速度 */
   swipeDuration?: number;
+  /** 加载中展示 */
   loading?: boolean;
+  /** 自定义列样式 */
   pickerColumnClassName?: string;
-  disabledValue?: string | string[];
+  /** 不可选值 */
+  disabledValue?: string[];
+  /** 列数 */
+  cols?: number;
+  /** 是否联动 */
+  cascade?: boolean;
+  /** 选择取消后的回调 */
+  onCancel?: (value: string[]) => void;
+  /** 选择确定后的回调 */
+  onConfirm?: (value: string[]) => void;
+  closePopup?: (confirm?: boolean) => void;
+  /** 点击后回调 */
+  onChange?: (value: string[], index: number, thisCom?: preact.AnyComponent) => void;
 };
 
 type PickerState = {
-  formattedColumns: ColumnsItemType[];
-  dataType?: string;
+  formattedColumns: ColumnsItemType[][];
   children?: PickerColumn[];
-  prevColumns?: ColumnsType[] | string[];
-  prevDefaultValue?: string | string[];
-  prevPickerColumnClassName?: string;
-  prevDisabledValue?: string | string[];
+  prevColumns?: ColumnsType[] | ColumnsType[][];
+  prevValue?: string[];
+  pickerValue?: string[];
 };
 
 const bem = createBEM('pant-picker');
 
-// 判断columns数据类型
-const getDataType = (columns: ColumnsType[] | string[], valueKey: string): string => {
-  const firstColumn: ColumnsType | string = columns[0] || {};
-  let dataTypeString = '';
-  if ((firstColumn as ColumnsType).children) {
-    dataTypeString = 'cascade';
-  } else if (Array.isArray((firstColumn as ColumnsType)[valueKey])) {
-    dataTypeString = 'object';
-  } else {
-    dataTypeString = 'text';
-  }
-  return dataTypeString;
-};
-
-// 将传入的column转成合适数据类型
-const format = (
-  dataType: string,
-  columns: ColumnsType[] | string[],
-  defaultValue: string | string[],
-  disabledValue: string | string[],
-  pickerColumnClassName: string,
+// 生成formattedColumns
+const getFormatted = (
+  columns: ColumnsType[] | ColumnsType[][],
   valueKey: string,
-): ColumnsItemType[] => {
-  if (dataType === 'text') {
-    columns = (columns as any).map((item: ColumnsType | string) => (typeof item === 'string' ? item : item[valueKey]));
-    return [
-      {
-        values: columns as string[],
-        defaultValue: (defaultValue as string) || (columns as string[])[0],
-        disabledValue: disabledValue as string,
-        className: pickerColumnClassName,
-      },
-    ];
-  } else if (dataType === 'object') {
-    const col: ColumnsItemType[] = [];
-    (columns as ColumnsItemType[]).forEach((item: ColumnsType, index: number) => {
-      col.push({
-        values: item[valueKey] as string[],
-        defaultValue: (defaultValue || [])[index] || (item[valueKey][0] as string),
-        disabledValue: (disabledValue || [])[index],
-        className: pickerColumnClassName,
+  labelKey: string,
+  pickerValue: string[],
+  cols: number,
+  cascade: boolean,
+): ColumnsItemType[][] => {
+  const formatted: ColumnsItemType[][] = [];
+  const realValueKey = valueKey || 'value';
+  const realLableKey = labelKey || 'label';
+  let filter = [...columns];
+
+  // 多列非联动，columns类型为ColumnsType[][]
+  if (cols > 1 && !cascade) {
+    for (let i = 0; i < cols; i++) {
+      if (filter[i] && filter[i].length) {
+        const options: ColumnsItemType[] = [];
+        (filter[i] as ColumnsType[]).forEach((item: Record<string, any>) => {
+          options.push({
+            value: item[realValueKey] as string,
+            label: item[realLableKey] as string,
+          });
+        });
+        formatted.push(options);
+      } else {
+        formatted.push([]);
+      }
+    }
+    return formatted;
+  }
+
+  // 单列或多列联动，columns类型为ColumnsType[]
+  for (let i = 0; i < cols; i++) {
+    if (filter.length) {
+      const options: ColumnsItemType[] = [];
+      filter.forEach((item: Record<string, any>) => {
+        options.push({
+          value: item[realValueKey] as string,
+          label: item[realLableKey] as string,
+        });
       });
-    });
-    return col;
-  } else {
-    return formatCascade(columns, defaultValue, disabledValue, pickerColumnClassName, valueKey);
-  }
-};
+      formatted.push(options);
 
-// 级联数据类型转换
-const formatCascade = (
-  columns: ColumnsType[] | string[],
-  defaultValue: string | string[],
-  disabledValue: string | string[],
-  pickerColumnClassName: string,
-  valueKey: string,
-  newValues?: string[],
-): ColumnsItemType[] => {
-  const formatted: ColumnsItemType[] = [];
-  const realValues: string[] = newValues || (defaultValue as string[]) || [];
-  let cursor: ColumnsType = { children: columns as ColumnsType[] };
-  let i = 0;
-  while (cursor && cursor.children) {
-    const valueList: string[] = [];
-    let selectedIndex = 0;
-    cursor.children.forEach((item, index) => {
-      valueList.push(item[valueKey] as string);
-      if (realValues[i] === undefined) {
-        realValues[i] = item[valueKey] as string;
+      // 当某一列的pickerValue为空时，默认展示pickerValue为0时的数据
+      if (pickerValue[i] === undefined) {
+        filter = (filter[0] as ColumnsType).children || [];
+      } else {
+        // 当存在item.value === pickerValue[i]时，展示该数据下的children；当不存在时，filter=[]
+        filter = (filter as ColumnsType[]).filter(item => item.value === pickerValue[i]);
+        if (filter.length !== 0) {
+          filter = (filter[0] as ColumnsType).children || [];
+        }
       }
-      if (item[valueKey] === realValues[i]) {
-        selectedIndex = index;
-      }
-    });
-    formatted.push({
-      values: valueList,
-      defaultValue: realValues[i],
-      disabledValue: (disabledValue || [])[i],
-      className: pickerColumnClassName,
-    });
-    cursor = cursor.children[selectedIndex];
-    i++;
+    } else {
+      formatted.push([]);
+    }
   }
   return formatted;
+};
+
+// 将pickerValue中undefined的项设置为当前列第一个value
+const getPickerValue = (columns: ColumnsItemType[][], pickerValue: string[]): string[] => {
+  const newPickerValue = [...pickerValue];
+  columns.forEach((item: ColumnsItemType[], index: number) => {
+    if (item && item.length) {
+      newPickerValue[index] = newPickerValue[index] || item[0].value;
+    }
+  });
+  return newPickerValue;
 };
 
 export class Picker extends preact.Component<PickerProps, PickerState> {
@@ -159,12 +158,10 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
     super(props);
     this.state = {
       formattedColumns: [],
-      dataType: '',
       children: [],
       prevColumns: [],
-      prevDefaultValue: '',
-      prevPickerColumnClassName: '',
-      prevDisabledValue: '',
+      prevValue: props.value,
+      pickerValue: props.value || props.defaultValue || [],
     };
     this.injectChildren = this.injectChildren.bind(this);
   }
@@ -178,24 +175,22 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   static getDerivedStateFromProps(nextProps: PickerProps, state: PickerState): PickerState {
-    const { valueKey, columns, defaultValue, pickerColumnClassName, disabledValue } = nextProps;
-    const { prevColumns, prevDefaultValue, prevPickerColumnClassName, prevDisabledValue } = state;
-    if (
-      columns !== prevColumns ||
-      defaultValue !== prevDefaultValue ||
-      pickerColumnClassName !== prevPickerColumnClassName ||
-      prevDisabledValue !== prevDisabledValue
-    ) {
-      const dataType = getDataType(columns, valueKey);
-      const formattedColumns = format(dataType, columns, defaultValue, disabledValue, pickerColumnClassName, valueKey);
+    const { valueKey, columns, labelKey, cols, cascade, value } = nextProps;
+    const { prevColumns, prevValue, pickerValue } = state;
+    if (columns !== prevColumns || value !== prevValue) {
+      let realPickerValue = pickerValue;
+
+      if (value !== prevValue) {
+        realPickerValue = value;
+      }
+
+      const formattedColumns = getFormatted(columns, valueKey, labelKey, realPickerValue, cols, cascade);
+      const newPickerValue = getPickerValue(formattedColumns, realPickerValue);
       return {
         ...state,
-        dataType,
-        formattedColumns: formattedColumns || [],
+        pickerValue: newPickerValue,
+        formattedColumns: formattedColumns,
         prevColumns: columns,
-        prevDefaultValue: defaultValue,
-        prevPickerColumnClassName: pickerColumnClassName,
-        prevDisabledValue: disabledValue,
       };
     } else {
       return null;
@@ -227,86 +222,52 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   onCascadeChange(selectedIndex: number, columnIndex: number): void {
-    const { formattedColumns } = this.state;
-    const { valueKey, columns, defaultValue, disabledValue, pickerColumnClassName } = this.props;
-    const realValues: string[] = [];
-    let i = 0;
-    for (i; i < columnIndex; i++) {
-      realValues[i] = formattedColumns[i].defaultValue;
+    const { formattedColumns, pickerValue } = this.state;
+    const { valueKey, columns, cols, labelKey, cascade, onChange } = this.props;
+
+    const newPickerValue = [];
+
+    for (let i = 0; i < cols; i++) {
+      if (columnIndex > i) {
+        newPickerValue[i] = pickerValue[i];
+      } else if (columnIndex === i) {
+        newPickerValue[i] = formattedColumns[columnIndex][selectedIndex].value;
+      }
     }
-    realValues[i] = formattedColumns[i].values[selectedIndex];
+    const newFormattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
+
+    for (let i = columnIndex + 1; i < cols; i++) {
+      newPickerValue[i] = newFormattedColumns[i][0] && newFormattedColumns[i][0].value;
+    }
+
     this.setState({
-      formattedColumns: formatCascade(
-        columns,
-        defaultValue,
-        disabledValue,
-        pickerColumnClassName,
-        valueKey,
-        realValues,
-      ),
+      formattedColumns: newFormattedColumns,
+      pickerValue: newPickerValue,
     });
+
+    onChange && onChange(newPickerValue, columnIndex);
   }
 
   onChange(selectedIndex: number, columnIndex: number): void {
-    const props = this.props;
-    const { dataType, formattedColumns } = this.state;
-    if (dataType === 'text') {
-      this.setState({
-        formattedColumns: [
-          {
-            ...formattedColumns[0],
-            defaultValue: formattedColumns[0].values[selectedIndex],
-          },
-        ],
-      });
-      props.onChange && props.onChange(formattedColumns[0].values[selectedIndex], selectedIndex);
-    } else if (dataType === 'object') {
-      const newF: ColumnsItemType[] = [];
-      let selectedValue = '';
-      formattedColumns.forEach((item, index) => {
-        newF[index] = item;
-        if (index === columnIndex) {
-          newF[index].defaultValue = item.values[selectedIndex];
-          selectedValue = item.values[selectedIndex];
-        }
-      });
-      this.setState(
-        {
-          formattedColumns: newF,
-        },
-        () => {
-          props.onChange && props.onChange(selectedValue, selectedIndex, this);
-        },
-      );
-    } else {
+    const { cascade, columns, valueKey, labelKey, cols, onChange } = this.props;
+    const { formattedColumns, pickerValue } = this.state;
+
+    if (cascade) {
       this.onCascadeChange(selectedIndex, columnIndex);
-    }
-  }
-
-  // 获取value和index，用于确定和取消按钮传参
-  getColumnValue(): ColumnValueType {
-    const { dataType, formattedColumns } = this.state;
-    if (dataType === 'text') {
-      return {
-        value: formattedColumns[0].defaultValue,
-        index: formattedColumns[0].values.indexOf(formattedColumns[0].defaultValue),
-      };
     } else {
-      const valuesList: string[] = [];
-      const indexList: number[] = [];
-      formattedColumns.forEach((item: ColumnsItemType) => {
-        valuesList.push(item.defaultValue);
-        indexList.push(item.values.indexOf(item.defaultValue));
+      const newPickerValue = [...pickerValue];
+      newPickerValue[columnIndex] = formattedColumns[columnIndex][selectedIndex].value;
+      const newFormattedColumns = getFormatted(columns, valueKey, labelKey, newPickerValue, cols, cascade);
+      this.setState({
+        formattedColumns: newFormattedColumns,
+        pickerValue: newPickerValue,
       });
-      return {
-        value: valuesList,
-        index: indexList,
-      };
+      onChange && onChange(newPickerValue, selectedIndex);
     }
   }
 
-  getValue(): ColumnValueType {
-    return this.getColumnValue();
+  getValue(): string[] {
+    return this.state.pickerValue;
   }
 
   confirm(): void {
@@ -323,9 +284,8 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   emit(event: 'onConfirm' | 'onCancel'): void {
-    const { value, index } = this.getColumnValue();
     if (this.props[event]) {
-      this.props[event](value, index);
+      this.props[event](this.state.pickerValue);
     }
   }
 
@@ -350,16 +310,17 @@ export class Picker extends preact.Component<PickerProps, PickerState> {
   }
 
   genColumnItems(): preact.JSX.Element[] {
-    const props = this.props;
-    return this.state.formattedColumns.map((item, columnIndex) => (
+    const { pickerColumnClassName, swipeDuration, disabledValue, visibleItemCount } = this.props;
+    const { pickerValue, formattedColumns } = this.state;
+    return formattedColumns.map((item, columnIndex) => (
       <PickerColumn
-        defaultValue={item.defaultValue}
-        disabledValue={item.disabledValue}
-        className={item.className}
+        value={pickerValue[columnIndex] || (item[0] && item[0].value)}
+        disabledValue={disabledValue && disabledValue[columnIndex]}
+        className={pickerColumnClassName}
         itemHeight={this.itemPxHeight()}
-        swipeDuration={this.props.swipeDuration}
-        visibleItemCount={props.visibleItemCount}
-        options={item.values}
+        swipeDuration={swipeDuration}
+        visibleItemCount={visibleItemCount}
+        options={item}
         onChange={(selectedIndex: number): void => {
           this.onChange(selectedIndex, columnIndex);
         }}
@@ -387,7 +348,10 @@ Picker.defaultProps = {
   itemHeight: 44,
   visibleItemCount: 6,
   defaultIndex: 0,
-  valueKey: 'values',
+  valueKey: 'value',
+  labelKey: 'label',
   swipeDuration: 1000,
   loading: false,
+  cols: 1,
+  cascade: false,
 };

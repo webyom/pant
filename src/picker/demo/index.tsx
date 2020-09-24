@@ -4,8 +4,7 @@ import { createBEM } from '../../utils/bem';
 import { NavBar } from '../../_site/scripts/components/nav-bar';
 import { Popup } from '../../popup';
 import { toast } from '../../toast';
-import { Button } from '../../button';
-import { columns1, columns2, columns3 } from './constant';
+import { columns1, columns2, columns3, columns4, columns5 } from './constant';
 import './index.scss';
 
 const bem = createBEM('demo-picker');
@@ -14,16 +13,24 @@ type PickerState = {
   dynamicColumns: any[];
   cityValue: string;
   showPicker: boolean;
-  defaultValue: string;
+  pickerValue: string[];
+  loading: boolean;
 };
 
+export type ColumnsType = {
+  [key: string]: string | string[] | ColumnsType[];
+  value?: string;
+  label?: string;
+  children?: ColumnsType[];
+};
 export class PickerRouteComponent extends preact.Component<any, PickerState> {
   private ele: any;
   state: PickerState = {
-    dynamicColumns: columns1,
+    dynamicColumns: columns4,
     cityValue: '',
     showPicker: false,
-    defaultValue: '',
+    pickerValue: [],
+    loading: false,
   };
 
   onClick(): void {
@@ -38,17 +45,17 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     });
   }
 
-  onConfirm1<T extends string | any[], K extends number | number[]>(value: T, index: K): void {
+  onConfirm1(value: string[]): void {
     toast({
-      message: `Value: ${value}, Index：${index}`,
+      message: `Value: ${value}`,
     });
   }
 
-  onConfirm2(value: string): void {
+  onConfirm2(value: string[]): void {
     this.setState({
-      cityValue: value,
+      cityValue: value[0],
       showPicker: false,
-      defaultValue: value,
+      pickerValue: value,
     });
   }
 
@@ -58,10 +65,44 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
     });
   }
 
-  onChangeColumns1(): void {
-    this.setState({
-      dynamicColumns: columns1,
-    });
+  onChangeColumns(value: string[], index: number): void {
+    const { dynamicColumns } = this.state;
+    if (index === 0) {
+      dynamicColumns.forEach(item => {
+        if (item.value === value[0] && !item.children) {
+          this.setState({
+            loading: true,
+          });
+          item.children = columns5[value[0]];
+          item.children[0].children = columns5[item.children[0].value];
+        }
+      });
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          dynamicColumns: [...dynamicColumns],
+        });
+      }, 500);
+    } else if (index === 1) {
+      dynamicColumns.forEach(item => {
+        if (item.value === value[0] && item.children) {
+          item.children.forEach((subItem: any) => {
+            if (subItem.value === value[1] && !subItem.children) {
+              this.setState({
+                loading: true,
+              });
+              subItem.children = columns5[value[1]];
+            }
+          });
+        }
+      });
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          dynamicColumns: [...dynamicColumns],
+        });
+      }, 500);
+    }
   }
 
   onChangeColumns3(): void {
@@ -89,7 +130,8 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 title="标题"
                 cancelButtonText="取消"
                 confirmButtonText="确定"
-                defaultValue={'温州'}
+                defaultValue={['绍兴']}
+                value={['湖州']}
                 columns={columns1}
                 onChange={this.onChange1}
               />
@@ -106,6 +148,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 columns={columns2}
                 onConfirm={this.onConfirm1}
                 disabledValue={['周二', '下午']}
+                cols={2}
               />
             </div>
           </section>
@@ -113,7 +156,7 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
           <section>
             <h2>Cascade</h2>
             <div className={bem('card')}>
-              <Picker title="Title" columns={columns3} onConfirm={this.onConfirm1} />
+              <Picker title="Title" columns={columns3} onConfirm={this.onConfirm1} cols={3} cascade={true} />
             </div>
           </section>
 
@@ -125,7 +168,8 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 columns={columns1}
-                disabledValue="温州"
+                disabledValue={['温州']}
+                onConfirm={this.onConfirm1}
               />
             </div>
           </section>
@@ -138,22 +182,19 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
                 cancelButtonText="取消"
                 confirmButtonText="确定"
                 columns={this.state.dynamicColumns}
+                cols={3}
+                cascade={true}
+                loading={this.state.loading}
+                onChange={this.onChangeColumns.bind(this)}
+                onConfirm={this.onConfirm1}
               />
-            </div>
-            <div className={bem('set-columns-btn')}>
-              <Button type="primary" onClick={this.onChangeColumns1.bind(this)}>
-                columns1
-              </Button>
-              <Button type="primary" onClick={this.onChangeColumns3.bind(this)}>
-                columns3
-              </Button>
             </div>
           </section>
 
           <section>
             <h2>Loading</h2>
             <div className={bem('card')}>
-              <Picker title="Title" loading={true} columns={this.state.dynamicColumns} />
+              <Picker title="Title" loading={true} columns={columns1} />
             </div>
           </section>
 
@@ -169,7 +210,6 @@ export class PickerRouteComponent extends preact.Component<any, PickerState> {
             <Picker
               title="Title"
               columns={columns1}
-              defaultValue={this.state.defaultValue}
               onCancel={this.onCancel.bind(this)}
               onConfirm={this.onConfirm2.bind(this)}
             />
