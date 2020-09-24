@@ -214,7 +214,7 @@ export class FormRouteComponent extends preact.Component {
                 title="Picker"
                 placeholder="Select city"
                 valueFormatter={(res): any => {
-                  return res.value;
+                  return res[0];
                 }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
@@ -231,9 +231,9 @@ export class FormRouteComponent extends preact.Component {
                 }}
                 valueFormatter={(res): any => {
                   return {
-                    province: res.value[0],
-                    city: res.value[1],
-                    district: res.value[2],
+                    province: res[0],
+                    city: res[1],
+                    district: res[2],
                   };
                 }}
                 displayValueFormatter={(value): string => {
@@ -251,7 +251,7 @@ export class FormRouteComponent extends preact.Component {
                 }}
               >
                 <Popup round position="bottom" closeOnClickOverlay>
-                  <Picker columns={columns3} />
+                  <Picker columns={columns3} cols={3} cascade={true} />
                 </Popup>
               </Field>
               <div className={bem('submit')}>
