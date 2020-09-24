@@ -4,6 +4,7 @@ import { Button } from '../button';
 import { Overlay } from '../overlay';
 import { Transition } from '../transition';
 import { addUnit, getIncrementalZIndex } from '../utils';
+import { i18n } from '../locale';
 import { createBEM } from '../utils/bem';
 import { BORDER_TOP, BORDER_LEFT } from '../utils/constant';
 import { preventDefaultAndStopPropagation } from '../utils/event';
@@ -54,7 +55,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           size="large"
           className={bem('cancel')}
           loading={props.cancelLoading}
-          text={props.cancelButtonText || 'Cancel'}
+          text={props.cancelButtonText || i18n().cancel}
           customStyle={{ color: props.cancelButtonColor }}
           onClick={props.onCancelClick}
         />
@@ -64,7 +65,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           size="large"
           className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
           loading={props.confirmLoading}
-          text={props.confirmButtonText || 'Confirm'}
+          text={props.confirmButtonText || i18n().confirm}
           customStyle={{ color: props.confirmButtonColor }}
           onClick={props.onConfirmClick}
         />

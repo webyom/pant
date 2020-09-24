@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.20](https://github.com/webyom/pant/compare/v0.3.19...v0.3.20) (2020-09-19)
+
+
+### Features
+
+* **list:** list component ([ba4e049](https://github.com/webyom/pant/commit/ba4e049936c282b9cba725b5c08e050415775e0e))
+* i18n ([e0af5fd](https://github.com/webyom/pant/commit/e0af5fd51856386c4e6baea29efdfd1b467eaa07))
+* **pullrefresh:** pullRefresh component ([8110db0](https://github.com/webyom/pant/commit/8110db054a5dc01371bc2f5b508ca9995670be0a))
+* **tab:** animated ([ee63e32](https://github.com/webyom/pant/commit/ee63e32981742b55371ab878ca627114c6316cb2))
+* **tab:** lazyRender ([76afc2d](https://github.com/webyom/pant/commit/76afc2d4074b226977e0cbb040eaf8dc2784a0b5))
+* **tab:** scrollspy ([a0ac750](https://github.com/webyom/pant/commit/a0ac75001a2e475c3f7239d5558ca4667a17d614))
+* **tab:** swipeable ([fc48e51](https://github.com/webyom/pant/commit/fc48e51c1f900de56aa2fe514b8a0784a2133e27))
+
+
+### Bug Fixes
+
+* 修复passwordInput样式问题,新增pointClassName参数,用来定制化point样式 ([187d1fc](https://github.com/webyom/pant/commit/187d1fc2940e9cc88cc886db81dcd05a0c5be132))
+* **list:** check in componentDidUpdate ([445ea25](https://github.com/webyom/pant/commit/445ea25c7bfdef40567083d977e98f8f4874f6f8))
+
+### [0.3.19](https://github.com/webyom/pant/compare/v0.3.18...v0.3.19) (2020-09-11)
+
 ### [0.3.18](https://github.com/webyom/pant/compare/v0.3.17...v0.3.18) (2020-09-10)
 
 

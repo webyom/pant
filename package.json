@@ -1,6 +1,6 @@
 {
   "name": "pant",
-  "version": "0.3.18",
+  "version": "0.3.20",
   "description": "Mobile UI Components built on Preact, Ported from Vant",
   "keywords": [
     "preact",
@@ -86,6 +86,7 @@
     "preact": ">=10.2.1"
   },
   "dependencies": {
+    "closest": "0.0.1",
     "clsx": "^1.1.0"
   }
 }

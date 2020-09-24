@@ -1,0 +1,18 @@
+@import '../../styles/var.scss';
+
+.demo-pull-refresh {
+  padding: $padding-md 0;
+  .pant-pull-refresh {
+    min-height: calc(100vh - 116px);
+    p {
+      margin: 0;
+      padding: 20px;
+    }
+    .doge {
+      width: 140px;
+      height: 72px;
+      margin-top: 8px;
+      border-radius: 4px;
+    }
+  }
+}

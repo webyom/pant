@@ -1,6 +1,7 @@
 import * as preact from 'preact';
 import { Icon } from '../icon';
 import { Button, ButtonType } from '../button';
+import { i18n } from '../locale';
 import { createBEM } from '../utils/bem';
 import './index.scss';
 
@@ -72,7 +73,7 @@ export const SubmitBar: preact.FunctionalComponent<SubmitBarProps> = props => {
           type={props.buttonType}
           loading={props.loading}
           disabled={props.disabled}
-          text={props.loading ? '' : props.buttonText}
+          text={props.loading ? '' : props.buttonText || i18n().submit}
           onClick={props.onSubmit}
         />
       </div>

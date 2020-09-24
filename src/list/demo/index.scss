@@ -1,0 +1,10 @@
+@import '../../styles/var.scss';
+
+.demo-list {
+  padding: 0 0 $padding-md 0;
+  background-color: $gray-1;
+  min-height: calc(100vh - 56px);
+  .pant-cell {
+    text-align: center;
+  }
+}

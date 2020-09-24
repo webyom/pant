@@ -1,5 +1,6 @@
 import * as preact from 'preact';
 import { isDef } from '../utils';
+import { closest } from '../utils/dom';
 import { createBEM } from '../utils/bem';
 import { Icon } from '../icon';
 import { Cell, CellProps } from '../cell';
@@ -71,6 +72,7 @@ export type FieldProps<T> = Omit<CellProps, 'onClick'> & {
   onClosePopup?(field: Field<T>, confirm?: boolean): void;
   onInputKeyDown?(evt: Event): void;
   onInputChange?(evt: Event): string | void;
+  onClick?: (evt: Event) => void;
 };
 
 type FieldState<T> = {
@@ -108,6 +110,7 @@ const NO_MATCHED_RULE_FLAG = '__NO_MATCHED_RULE_FLAG__';
 export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState<T>> {
   private isPopup = false;
   private readonly inputRef = preact.createRef();
+  private readonly bodyRef = preact.createRef<HTMLDivElement>();
 
   constructor(props: preact.RenderableProps<FieldProps<T>>) {
     super(props);
@@ -253,11 +256,17 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     });
   }
 
-  private openPopup(): void {
+  openPopup(): void {
+    if (!this.isPopup) {
+      return;
+    }
     this.setState({ showPopup: true });
   }
 
-  private closePopup(confirm?: boolean): void {
+  closePopup(confirm?: boolean): void {
+    if (!this.isPopup) {
+      return;
+    }
     const { onClosePopup } = this.props;
     if (confirm) {
       this.setState({ showPopup: false, popupValue: this.formatReturnValue(this.inputRef.current.getValue()) }, () => {
@@ -276,7 +285,12 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
   private onPopupControlClick(evt: Event): void {
     if (this.isPopup && !this.props.disabled) {
       const target = evt.target as HTMLElement;
-      if (target.className.indexOf('pant-field__control') !== -1) {
+      const field = closest(target, '.pant-field', true);
+      if (
+        field &&
+        field.querySelector('.pant-field__body') === this.bodyRef.current &&
+        !closest(target, '.pant-popup, .pant-overlay', true)
+      ) {
         this.openPopup();
       }
     }
@@ -406,7 +420,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     });
   }
 
-  genInput(): preact.JSX.Element {
+  private genInput(): preact.JSX.Element {
     const { props } = this;
     const { type, name, inputAlign, children } = props;
     const { showPopup, popupValue, isInputType, value } = this.state;
@@ -428,7 +442,6 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
               class={bem('control', [inputAlign, 'custom'])}
               value={this.formatDisplayValue(popupValue)}
               placeholder={props.placeholder}
-              onClick={this.onPopupControlClick}
               readOnly
             />
             {childrenWithProps}
@@ -487,7 +500,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
-  genRightIcon(): preact.JSX.Element {
+  private genRightIcon(): preact.JSX.Element {
     const { rightIcon } = this.props;
     if (typeof rightIcon === 'string') {
       return <Icon name={rightIcon} />;
@@ -496,7 +509,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
-  genWordLimit(): preact.JSX.Element {
+  private genWordLimit(): preact.JSX.Element {
     const { showWordLimit, maxlength } = this.props;
     const { isInputType, value } = this.state;
     if (isInputType && showWordLimit && maxlength) {
@@ -511,7 +524,7 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
     }
   }
 
-  genMessage(): preact.JSX.Element {
+  private genMessage(): preact.JSX.Element {
     const { errorMessage, errorMessageAlign } = this.props;
     const { validateMessage } = this.state;
     const message = validateMessage || errorMessage;
@@ -522,6 +535,10 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
 
   render(): preact.JSX.Element {
     const { props } = this;
+    const { disabled } = props;
+    const input = this.genInput();
+    const onClick =
+      typeof props.onClick === 'function' ? props.onClick : this.isPopup ? this.onPopupControlClick : null;
     return (
       <Cell
         label={props.label}
@@ -532,14 +549,15 @@ export class Field<T = never> extends preact.Component<FieldProps<T>, FieldState
         required={props.required}
         className={bem({
           error: this.showError,
-          disabled: props.disabled,
+          disabled: disabled,
           'min-height': props.type === 'textarea' && !props.autosize,
         })}
         titleClassName={bem('title')}
         valueClassName={bem('value')}
+        onClick={(!disabled && onClick) || null}
       >
-        <div className={bem('body')}>
-          {this.genInput()}
+        <div ref={this.bodyRef} className={bem('body')}>
+          {input}
           {this.showClear && <Icon name="clear" className={bem('clear')} onTouchStart={this.clearInput} />}
           {this.genRightIcon()}
           {props.button && <div class={bem('button')}>{props.button}</div>}

@@ -72,6 +72,12 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/form/">
             Form <Arrow />
           </Link>
+          <Link href="/number-keyboard/">
+            NumberKeyboard <Arrow />
+          </Link>
+          <Link href="/password-input/">
+            PasswordInput <Arrow />
+          </Link>
           <Link href="/picker/">
             Picker <Arrow />
           </Link>
@@ -106,6 +112,9 @@ export class HomeRouteComponent extends preact.Component {
           <Link href="/overlay/">
             Overlay <Arrow />
           </Link>
+          <Link href="/pull-refresh/">
+            PullRefresh <Arrow />
+          </Link>
           <Link href="/toast/">
             Toast <Arrow />
           </Link>
@@ -115,6 +124,9 @@ export class HomeRouteComponent extends preact.Component {
           <h3>Display Components</h3>
           <Link href="/lazyload/">
             Lazyload <Arrow />
+          </Link>
+          <Link href="/list/">
+            List <Arrow />
           </Link>
           <Link href="/skeleton/">
             Skeleton <Arrow />

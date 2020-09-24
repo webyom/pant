@@ -17,13 +17,15 @@ import { FormRouteComponent } from '../../form/demo';
 import { ImgRouteComponent } from '../../img/demo';
 import { LayoutRouteComponent } from '../../col/demo';
 import { LazyloadRouteComponent } from '../../lazyload/demo';
+import { ListRouteComponent } from '../../list/demo';
 import { LoadingRouteComponent } from '../../loading/demo';
 import { NotifyRouteComponent } from '../../notify/demo';
-import { OverlayRouteComponent } from '../../overlay/demo';
-import { PickerRouteComponent } from '../../picker/demo';
-import { PasswordInputRouteComponent } from '../../password-input/demo';
 import { NumberKeyboardRouteComponent } from '../../number-keyboard/demo';
+import { OverlayRouteComponent } from '../../overlay/demo';
+import { PasswordInputRouteComponent } from '../../password-input/demo';
+import { PickerRouteComponent } from '../../picker/demo';
 import { PopupRouteComponent } from '../../popup/demo';
+import { PullRefreshRouteComponent } from '../../pull-refresh/demo';
 import { RadioRouteComponent } from '../../radio-group/demo';
 import { SkeletonRouteComponent } from '../../skeleton/demo';
 import { StickyRouteComponent } from '../../sticky/demo';
@@ -58,13 +60,17 @@ export class RootComponent extends preact.Component {
         <ImgRouteComponent path="/img/" />
         <LayoutRouteComponent path="/layout/" />
         <LazyloadRouteComponent path="/lazyload/" />
+        <ListRouteComponent path="/list/" />
         <LoadingRouteComponent path="/loading/" />
         <NotifyRouteComponent path="/notify/" />
+        <NumberKeyboardRouteComponent path="/number-keyboard" />
         <OverlayRouteComponent path="/overlay/" />
+        <PasswordInputRouteComponent path="/password-input/" />
         <PickerRouteComponent path="/picker/" />
         <PasswordInputRouteComponent path="/password-input/" />
         <NumberKeyboardRouteComponent path="/number-keyboard" />
         <PopupRouteComponent path="/popup/" />
+        <PullRefreshRouteComponent path="/pull-refresh/" />
         <RadioRouteComponent path="/radio/" />
         <SkeletonRouteComponent path="/skeleton/" />
         <StickyRouteComponent path="/sticky/" />
