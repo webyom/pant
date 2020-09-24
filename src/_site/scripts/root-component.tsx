@@ -67,8 +67,6 @@ export class RootComponent extends preact.Component {
         <OverlayRouteComponent path="/overlay/" />
         <PasswordInputRouteComponent path="/password-input/" />
         <PickerRouteComponent path="/picker/" />
-        <PasswordInputRouteComponent path="/password-input/" />
-        <NumberKeyboardRouteComponent path="/number-keyboard" />
         <PopupRouteComponent path="/popup/" />
         <PullRefreshRouteComponent path="/pull-refresh/" />
         <RadioRouteComponent path="/radio/" />
