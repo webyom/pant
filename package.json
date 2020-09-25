@@ -1,6 +1,6 @@
 {
   "name": "pant",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Mobile UI Components built on Preact, Ported from Vant",
   "keywords": [
     "preact",
