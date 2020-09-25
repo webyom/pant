@@ -129,11 +129,12 @@ export class PickerColumn extends preact.Component<PickerProps, PickerState> {
 
   // 点击后修改offset，调整列表位置
   setIndex(index: number): void {
+    const props = this.props;
     // 普通点击时，touchEnd触发在click事件之前，那时index并未改变，无需进行下面逻辑
-    if (index === this.state.currentIndex) {
+    if (index === this.state.currentIndex && this.state.offset === -index * props.itemHeight) {
       return;
     }
-    const props = this.props;
+
     index = this.adjustIndex(index);
     if (index === undefined) {
       return;
