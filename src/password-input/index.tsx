@@ -2,6 +2,7 @@ import * as preact from 'preact';
 import clsx from 'clsx';
 import { addUnit } from '../utils';
 import { createBEM } from '../utils/bem';
+import { TouchHandler } from '../utils/touch-handler';
 import { BORDER_SURROUND, BORDER_LEFT } from '../utils/constant';
 import './index.scss';
 
@@ -56,6 +57,8 @@ const getPoints = (
 };
 
 export class PasswordInput extends preact.Component<PasswordInputProps, PasswordInputState> {
+  private listEle: HTMLUListElement;
+  private touchHandler: TouchHandler;
   constructor(props: PasswordInputProps) {
     super(props);
     this.state = {
@@ -64,6 +67,17 @@ export class PasswordInput extends preact.Component<PasswordInputProps, Password
       points: getPoints(props.value, props.length, props.gutter, props.focused, props.mask),
     };
     this.onTouchStart = this.onTouchStart.bind(this);
+  }
+
+  componentDidMount(): void {
+    this.touchHandler = new TouchHandler(this.listEle, {
+      onTouchStart: this.onTouchStart.bind(this),
+    });
+  }
+
+  componentWillUnmount(): void {
+    this.touchHandler.destroy();
+    this.touchHandler = null;
   }
 
   static getDerivedStateFromProps(nextProps: PasswordInputProps, state: PasswordInputState): PasswordInputState {
@@ -90,7 +104,12 @@ export class PasswordInput extends preact.Component<PasswordInputProps, Password
     const { gutter } = this.props;
     return (
       <div className={bem()}>
-        <ul onTouchStart={this.onTouchStart} className={clsx(bem('security'), { [BORDER_SURROUND]: !gutter })}>
+        <ul
+          ref={(el): void => {
+            this.listEle = el;
+          }}
+          className={clsx(bem('security'), { [BORDER_SURROUND]: !gutter })}
+        >
           {this.state.points}
         </ul>
       </div>
