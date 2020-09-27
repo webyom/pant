@@ -1,3 +1,3 @@
-# Button
+# Switch
 
 Coming soon...
