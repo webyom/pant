@@ -1,0 +1,16 @@
+section.content {
+  padding-right: 380px;
+}
+
+.markdown-section iframe.demos-frame {
+  width: 360px;
+  min-width: 360px;
+  height: 600px;
+  position: fixed;
+  right: 20px;
+  top: 80px;
+  margin: 0;
+  border: none;
+  border-radius: 10px;
+  box-shadow: #ebedf0 0 4px 12px;
+}
