@@ -17,8 +17,8 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: '',
+      name: 'Pant',
+      repo: 'https://github.com/webyom/pant',
       basePath: location.pathname,
       loadSidebar: true,
       alias: {
@@ -35,7 +35,12 @@
     }
 
     window.$componentRoute = function(path) {
-      location.hash = '#/components/' + path.replace(/^\/+/, '').replace(/\/+$/, '');
+      path = path.replace(/^\/+/, '').replace(/\/+$/, '');
+      if (path) {
+        location.hash = '#/components/' + path;
+      } else {
+        location.hash = '#/';
+      }
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
