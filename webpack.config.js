@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 function getPublicPath() {
-  return process.env.NODE_ENV === 'production' ? 'https://webyom.github.io/pant/' : '/';
+  return process.env.NODE_ENV === 'production' ? 'https://webyom.github.io/pant/demos/' : '/demos/';
 }
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
   output: {
     publicPath: getPublicPath(),
     filename: '[name].[hash:8].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs/demos'),
   },
   module: {
     rules: [
@@ -50,7 +50,7 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'docs'),
     historyApiFallback: true,
   },
   plugins: [

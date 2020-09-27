@@ -23,20 +23,32 @@ function Arrow(): preact.JSX.Element {
 }
 
 export class HomeRouteComponent extends preact.Component {
+  componentDidMount(): void {
+    window.addEventListener('hashchange', () => {
+      const parentRoute = (parent as any).$componentRoute;
+      if (parentRoute) {
+        parentRoute(location.hash.replace(/^#/, ''));
+      }
+    });
+  }
+
   render(): preact.JSX.Element {
     return (
       <div className={bem()}>
         <h1>
           <img src={logoImg} />
           <span>Pant</span>
-          <a class="github" href="https://github.com/webyom/pant">
+          <a class="github" href="https://github.com/webyom/pant" target="_blank">
             <img src={githubLogo} />
           </a>
         </h1>
         <h2>
           Mobile UI Components built on Preact
           <br />
-          Ported from <a href="https://github.com/youzan/vant">Vant</a>
+          Ported from{' '}
+          <a href="https://github.com/youzan/vant" target="_blank">
+            Vant
+          </a>
         </h2>
 
         <section>

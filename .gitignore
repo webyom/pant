@@ -2,6 +2,7 @@
 /.tsc-check/
 /lib/
 /es/
+/docs/demos/
 /yarn.lock
 *~
 

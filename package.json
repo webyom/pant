@@ -28,7 +28,7 @@
     "build:clean": "rm -rf lib/_site es/_site",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
     "start": "webpack-dev-server",
-    "deploy": "NODE_ENV=production webpack && gh-pages -d dist",
+    "deploy": "NODE_ENV=production webpack && gh-pages -d docs",
     "scss": "gulp scss && node-sass src --output lib && node-sass src --output es",
     "tsc-check": "tsc --outDir .tsc-check/",
     "eslint": "eslint --ext ts,tsx src",
