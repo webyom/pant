@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import { route } from 'preact-router';
 import { createBEM } from '../../../../utils/bem';
 import githubLogo from '../../../assets/github.svg';
 import './index.scss';
@@ -7,7 +8,13 @@ const bem = createBEM('nav-bar');
 
 function ArrowBack(): preact.JSX.Element {
   return (
-    <svg className={bem('back')} viewBox="0 0 1000 1000" onClick={(): void => history.back()}>
+    <svg
+      className={bem('back')}
+      viewBox="0 0 1000 1000"
+      onClick={(): void => {
+        route('/');
+      }}
+    >
       <path
         fill="#969799"
         fill-rule="evenodd"

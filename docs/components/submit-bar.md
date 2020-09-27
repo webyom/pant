@@ -1,3 +1,3 @@
-# Button
+# SubmitBar
 
 Coming soon...

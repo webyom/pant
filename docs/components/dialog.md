@@ -1,3 +1,3 @@
-# Button
+# Dialog
 
 Coming soon...
