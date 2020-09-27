@@ -28,7 +28,7 @@
         function(hook) {
           hook.afterEach(function(html) {
             var com = location.hash.split('/components/')[1];
-            return html + '<iframe class="demos-frame" src="/demos/#/' + (com ? com : '') + '"></iframe>';
+            return html + '<iframe class="demos-frame" src="' + location.pathname + 'demos/#/' + (com ? com : '') + '"></iframe>';
           });
         }
       ]
