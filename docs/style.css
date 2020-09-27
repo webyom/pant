@@ -2,7 +2,7 @@ section.content {
   padding-right: 380px;
 }
 
-.markdown-section iframe.demos-frame {
+.demos-frame {
   width: 360px;
   min-width: 360px;
   height: 600px;
