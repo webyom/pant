@@ -15,6 +15,7 @@
     <!-- <a href="#/zh-cn/">中文</a> -->
   </nav>
   <div id="app"></div>
+  <iframe class="demos-frame" src="./demos/#/"></iframe>
   <script>
     window.$docsify = {
       name: 'Pant',
@@ -28,7 +29,7 @@
         function(hook) {
           hook.afterEach(function(html) {
             var com = location.hash.split('/components/')[1];
-            return html + '<iframe class="demos-frame" src="' + location.pathname + 'demos/#/' + (com ? com : '') + '"></iframe>';
+            document.querySelector('.demos-frame').src = location.pathname + 'demos/#/' + (com ? com : '');
           });
         }
       ]
