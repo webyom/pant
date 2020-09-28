@@ -29,14 +29,14 @@
         function(hook) {
           hook.afterEach(function(html) {
             var com = location.hash.split('/components/')[1];
-            document.querySelector('.demos-frame').src = location.pathname + 'demos/#/' + (com ? com : '');
+            document.querySelector('.demos-frame').contentWindow.location.replace(location.pathname + 'demos/#/' + (com ? com + '/' : ''));
           });
         }
       ]
     }
 
     window.$componentRoute = function(path) {
-      path = path.replace(/^\/+/, '').replace(/\/+$/, '');
+      path = path.split('?')[0].replace(/^#?\/+/, '').replace(/\/+$/, '');
       if (path) {
         location.hash = '#/components/' + path;
       } else {

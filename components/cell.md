@@ -106,8 +106,8 @@ import { Cell } from 'pant/es/cell';
 | title | Title | _ComponentChildren_ | - |
 | label | Description below the title | _ComponentChildren_ | - |
 | size | Size，can be set to `large` | _string_ | - |
-| icon | Left Icon | _string_ _\|_ _VNode_ | - |
-| rightIcon | Right Icon | _string_ _\|_ _VNode_ | - |
+| icon | Left Icon | _string \| VNode_ | - |
+| rightIcon | Right Icon | _string \| VNode_ | - |
 | border | Whether to show inner border | _boolean_ | `true` |
 | center | Whether to center content vertically | _boolean_ | `false` |
 | required | Whether to show required mark | _boolean_ | `false` |
