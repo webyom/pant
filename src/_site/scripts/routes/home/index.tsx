@@ -23,15 +23,6 @@ function Arrow(): preact.JSX.Element {
 }
 
 export class HomeRouteComponent extends preact.Component {
-  componentDidMount(): void {
-    window.addEventListener('hashchange', () => {
-      const parentRoute = (parent as any).$componentRoute;
-      if (parentRoute) {
-        parentRoute(location.hash.replace(/^#/, ''));
-      }
-    });
-  }
-
   render(): preact.JSX.Element {
     return (
       <div className={bem()}>

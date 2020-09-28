@@ -38,7 +38,22 @@ import { ToastRouteComponent } from '../../toast/demo';
 import { NotFoundRouteComponent } from './routes/404';
 
 export class RootComponent extends preact.Component {
-  onRouteChange(): void {
+  componentDidMount(): void {
+    window.addEventListener('hashchange', this.onHashChange);
+  }
+
+  componentWillUnmount(): void {
+    window.removeEventListener('hashchange', this.onHashChange);
+  }
+
+  private onHashChange(): void {
+    const parentRoute = (parent as any).$componentRoute;
+    if (parentRoute) {
+      parentRoute(location.hash);
+    }
+  }
+
+  private onRouteChange(): void {
     closeAllactionSheets();
     closeAllDialogs();
     clearAllNotifies();

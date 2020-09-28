@@ -17,7 +17,15 @@ npm i pant -S
 yarn add pant
 ```
 
-### Import on demand
+### Import base style
+
+Import base style in your bootstrap file.
+
+```js
+import 'pant/es/styles/base.css';
+```
+
+### Import component on demand
 
 ```js
 import { Button } from 'pant/es/button';
