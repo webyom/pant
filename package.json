@@ -25,7 +25,7 @@
     "test:coverage": "jest --coverage",
     "build:lib": "tsc -d -m commonjs --outDir lib --sourceMap false --inlineSources false",
     "build:es": "tsc -d -m esNext --outDir es --sourceMap false --inlineSources false",
-    "build:clean": "rm -rf lib/_site es/_site",
+    "build:clean": "rm -rf lib/demos/ es/demos/ lib/*/demo/ es/*/demo/",
     "build": "rm -rf lib es && npm run build:lib && npm run build:es && npm run scss && npm run build:clean",
     "start": "webpack-dev-server",
     "deploy": "NODE_ENV=production webpack && gh-pages -t -d docs",

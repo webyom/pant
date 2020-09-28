@@ -4,7 +4,7 @@ import { Tabs, Tab } from '../../tab';
 import { PullRefresh } from '../../pull-refresh';
 import { List, ListLoadResult } from '../../list';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
 
 const bem = createBEM('demo-list');

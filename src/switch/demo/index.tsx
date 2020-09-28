@@ -4,7 +4,7 @@ import { CellGroup } from '../../cell-group';
 import { Cell } from '../../cell';
 import { Switch, SwitchProps } from '../../switch';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
 
 const bem = createBEM('demo-switch');

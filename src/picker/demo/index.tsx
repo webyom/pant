@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { Picker } from '../../picker';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Popup } from '../../popup';
 import { toast } from '../../toast';
 import { columns1, columns2, columns3, columns4, columns5 } from './constant';

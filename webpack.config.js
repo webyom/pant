@@ -9,7 +9,7 @@ function getPublicPath() {
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
-    app: './src/_site/scripts/main.ts',
+    app: './src/demos/scripts/main.ts',
   },
   output: {
     publicPath: getPublicPath(),
@@ -56,7 +56,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'src/_site/index.ejs',
+      template: 'src/demos/index.ejs',
       minify: true,
     }),
   ],

@@ -3,7 +3,7 @@ import { toast } from '../../toast';
 import { Checkbox } from '../../checkbox';
 import { SubmitBar } from '../../submit-bar';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
 
 const bem = createBEM('demo-submit-bar');

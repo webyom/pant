@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import { toast } from '../../toast';
 import { Button } from '../../button';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import './index.scss';
 
 const bem = createBEM('demo-button');

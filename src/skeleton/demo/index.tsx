@@ -1,8 +1,8 @@
 import * as preact from 'preact';
 import { Skeleton } from '../../skeleton';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
-import logoImg from '../../_site/assets/logo.png';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
+import logoImg from '../../demos/assets/logo.png';
 import './index.scss';
 
 type SkeletonRouteComponentState = {

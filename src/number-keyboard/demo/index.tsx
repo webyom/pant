@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { NumberKeyboard } from '../index';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { Cell } from '../../cell';
 import { CellGroup } from '../../cell-group';
 import { toast } from '../../toast';

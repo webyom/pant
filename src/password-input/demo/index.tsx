@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { PasswordInput } from '../index';
 import { createBEM } from '../../utils/bem';
-import { NavBar } from '../../_site/scripts/components/nav-bar';
+import { NavBar } from '../../demos/scripts/components/nav-bar';
 import { NumberKeyboard } from '../../number-keyboard';
 import './index.scss';
 
