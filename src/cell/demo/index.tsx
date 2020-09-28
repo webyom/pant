@@ -28,10 +28,10 @@ export class CellRouteComponent extends preact.Component {
           <section>
             <h2>Size</h2>
             <CellGroup border>
-              <Cell title="Cell title" large>
+              <Cell title="Cell title" size="large">
                 Content
               </Cell>
-              <Cell title="Cell title" label="Description" large>
+              <Cell title="Cell title" label="Description" size="large">
                 Content
               </Cell>
             </CellGroup>
@@ -86,10 +86,10 @@ export class CellRouteComponent extends preact.Component {
 
           <section>
             <h2>Group Title</h2>
-            <CellGroup title="Group1" border>
+            <CellGroup title="Group 1" border>
               <Cell title="Cell title">Content</Cell>
             </CellGroup>
-            <CellGroup title="Group2" border>
+            <CellGroup title="Group 2" border>
               <Cell title="Cell title">Content</Cell>
             </CellGroup>
           </section>

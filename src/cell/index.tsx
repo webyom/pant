@@ -10,7 +10,7 @@ export type CellProps = {
   label?: preact.ComponentChildren;
   icon?: string | preact.VNode;
   rightIcon?: string | preact.VNode;
-  large?: boolean;
+  size?: 'large';
   border?: boolean;
   center?: boolean;
   required?: boolean;
@@ -73,7 +73,7 @@ export const Cell: preact.FunctionalComponent<CellProps> = props => {
 
   const classes: Record<string, string | boolean> = {
     clickable,
-    large: props.large,
+    large: props.size === 'large',
     center: props.center,
     required: props.required,
     borderless: !props.border,

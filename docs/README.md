@@ -6,3 +6,19 @@
 Mobile UI Components built on Preact
 
 Ported from [Vant](https://github.com/youzan/vant)
+
+### Install
+
+```bash
+# Using npm
+npm i pant -S
+
+# Using yarn
+yarn add pant
+```
+
+### Import on demand
+
+```js
+import { Button } from 'pant/es/button';
+```
