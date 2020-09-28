@@ -104,12 +104,9 @@ export class ButtonRouteComponent extends preact.Component {
           </section>
 
           <section>
-            <h2>Route</h2>
-            <Button type="primary" url="https://github.com/webyom/pant">
-              URL
-            </Button>
-            <Button type="primary" url="/">
-              Preact Router
+            <h2>URL</h2>
+            <Button type="primary" url="https://github.com/webyom/pant" targetBlank>
+              Pant
             </Button>
           </section>
 

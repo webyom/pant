@@ -24,6 +24,7 @@ export type ButtonProps = {
   loading?: boolean;
   hairline?: boolean;
   disabled?: boolean;
+  targetBlank?: boolean;
   nativeType?: string;
   loadingSize?: number | string;
   loadingType?: LoadingType;
@@ -109,7 +110,13 @@ export const Button: preact.FunctionalComponent<ButtonProps> = props => {
 
   if (url) {
     return (
-      <a href={url} style={style} className={clsx(classes)} disabled={disabled}>
+      <a
+        href={url}
+        style={style}
+        className={clsx(classes)}
+        disabled={disabled}
+        target={props.targetBlank ? '_blank' : undefined}
+      >
         {Content()}
       </a>
     );

@@ -79,11 +79,12 @@ import { Button } from 'pant/es/button';
 <Button type="primary" block>Block Element</Button>
 ```
 
-### Route
+### URL
 
 ```jsx
-<Button type="primary" url="/vant/mobile.html">URL</Button>
-<Button type="primary" to="index">Vue Router</Button>
+<Button type="primary" url="https://github.com/webyom/pant" targetBlank>
+  Pant
+</Button>
 ```
 
 ### Custom Color
@@ -115,10 +116,12 @@ import { Button } from 'pant/es/button';
 | square | Whether to be square button | _boolean_ | `false` |
 | disabled | Whether to disable button | _boolean_ | `false` |
 | loading | Whether show loading status | _boolean_ | `false` |
+| hairline | Hairline style | _boolean_ | `false` |
 | loadingText | Loading text | _string_ | - |
 | loadingType | Loading type, can be set to `spinner` | _string_ | `circular` |
 | loadingSize | Loading icon size | _string_ | `20px` |
 | url | Link URL | _string_ | - |
+| targetBlank | Open link URL in new window | _boolean_ | `false` |
 
 ### Events
 
