@@ -22,7 +22,7 @@ yarn add pant
 Import base style in your bootstrap file.
 
 ```js
-import 'pant/es/styles/base.css';
+import 'pant/es/styles/base.scss';
 ```
 
 ### Import component on demand
