@@ -103,7 +103,7 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
       style = childrenStyle;
     }
     if (active) {
-      style = { ...style, animationDuration: `${duration}ms`, WebkitAnimationDuration: `${duration}ms` };
+      style = { ...style, animationDuration: `${duration}s`, WebkitAnimationDuration: `${duration}s` };
     }
 
     return (
@@ -122,5 +122,5 @@ export class Transition extends preact.Component<TransitionProps, TransitionStat
 
 Transition.defaultProps = {
   name: 'fade',
-  duration: '300',
+  duration: '0.3',
 };

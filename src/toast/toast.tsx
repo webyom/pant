@@ -63,9 +63,7 @@ export const Toast: preact.FunctionalComponent<ToastProps> = props => {
 
   return (
     <preact.Fragment>
-      {overlay ? (
-        <Overlay zIndex={incZIndex} customStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} />
-      ) : null}
+      {overlay ? <Overlay zIndex={incZIndex} style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }} show={show} /> : null}
       <Transition
         name="fade"
         stage={show ? 'enter' : 'leave'}

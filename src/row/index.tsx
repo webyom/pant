@@ -3,7 +3,7 @@ import { createBEM } from '../utils/bem';
 import './index.scss';
 
 export type RowProps = {
-  type?: string;
+  type?: 'flex';
   align?: string;
   justify?: string;
   gutter?: number | string;

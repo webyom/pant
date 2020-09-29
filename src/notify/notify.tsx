@@ -12,7 +12,7 @@ export type NotifyProps = PopupProps & {
   type?: NotifyType;
   color?: string;
   background?: string;
-  customStyle?: Record<string, string | number>;
+  style?: Record<string, string | number>;
   onClick?(event: Event): void;
 };
 
@@ -20,7 +20,7 @@ const bem = createBEM('pant-notify');
 
 export const Notify: preact.FunctionalComponent<NotifyProps> = props => {
   const style = {
-    ...props.customStyle,
+    ...props.style,
     color: props.color,
     background: props.background,
   };
@@ -28,7 +28,7 @@ export const Notify: preact.FunctionalComponent<NotifyProps> = props => {
   return (
     <Popup
       show={props.show}
-      customStyle={{ backgroundColor: 'transparent' }}
+      style={{ backgroundColor: 'transparent' }}
       zIndex={props.zIndex || getIncrementalZIndex(Z_INDEX_NOTIFY_BASE)}
       overlay={false}
       duration={0.2}

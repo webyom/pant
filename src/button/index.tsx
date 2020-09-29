@@ -30,7 +30,7 @@ export type ButtonProps = {
   loadingType?: LoadingType;
   loadingText?: string;
   className?: string;
-  customStyle?: Record<string, string | number>;
+  style?: Record<string, string | number>;
   onClick?(event: Event): void;
 };
 
@@ -57,7 +57,7 @@ export const Button: preact.FunctionalComponent<ButtonProps> = props => {
     }
   }
 
-  style = { ...style, ...props.customStyle };
+  style = { ...style, ...props.style };
 
   function onClick(event: Event): void {
     if (!loading && !disabled && props.onClick) {

@@ -25,7 +25,7 @@ export class StickyRouteComponent extends preact.Component {
           <section>
             <h2>Offset Top</h2>
             <Sticky offsetTop="50">
-              <Button type="info" customStyle={{ marginLeft: '100px' }}>
+              <Button type="info" style={{ marginLeft: '100px' }}>
                 Offset Top
               </Button>
             </Sticky>
@@ -35,7 +35,7 @@ export class StickyRouteComponent extends preact.Component {
             <h2>Set Container</h2>
             <div ref={this.containerRef} className="sticky-container">
               <Sticky offsetTop="50" container={this.containerRef}>
-                <Button type="warning" customStyle={{ marginLeft: '210px' }}>
+                <Button type="warning" style={{ marginLeft: '210px' }}>
                   Set Container
                 </Button>
               </Sticky>

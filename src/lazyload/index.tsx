@@ -10,7 +10,7 @@ export type LazyloadProps = {
   preloadOffset?: number;
   inline?: boolean;
   className?: string;
-  customStyle?: Record<string, string | number>;
+  style?: Record<string, string | number>;
   children?: preact.ComponentChildren;
   scroller?: HTMLElement | Window;
 };
@@ -70,7 +70,7 @@ export class Lazyload extends preact.Component<LazyloadProps, LazyloadState> {
     }
 
     const style: Record<string, string> = {
-      ...props.customStyle,
+      ...props.style,
       width: addUnit(props.width),
       height: addUnit(props.height),
     };

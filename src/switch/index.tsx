@@ -14,7 +14,7 @@ export type SwitchProps = {
   disabled?: boolean;
   activeColor?: string;
   inactiveColor?: string;
-  customStyle?: Record<string, string | number>;
+  style?: Record<string, string | number>;
   onClick?(event: Event, props: SwitchProps): void;
 };
 
@@ -24,7 +24,7 @@ export const Switch: preact.FunctionalComponent<SwitchProps> = props => {
   const { on, loading, disabled } = props;
 
   const style = {
-    ...props.customStyle,
+    ...props.style,
     fontSize: addUnit(props.size),
     backgroundColor: on ? props.activeColor : props.inactiveColor,
   };

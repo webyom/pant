@@ -53,7 +53,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             </CellGroup>
             <Popup
               show={this.state.show1}
-              customStyle={{ padding: '30px 50px' }}
+              style={{ padding: '30px 50px' }}
               onClickClose={(): void => {
                 this.setState({ show1: false });
               }}
@@ -97,7 +97,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show2}
               position="top"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               onClickClose={(): void => {
                 this.setState({ show2: false });
               }}
@@ -105,7 +105,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show3}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               onClickClose={(): void => {
                 this.setState({ show3: false });
               }}
@@ -113,7 +113,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show4}
               position="left"
-              customStyle={{ width: '30%', height: '100%' }}
+              style={{ width: '30%', height: '100%' }}
               onClickClose={(): void => {
                 this.setState({ show4: false });
               }}
@@ -121,7 +121,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show5}
               position="right"
-              customStyle={{ width: '30%', height: '100%' }}
+              style={{ width: '30%', height: '100%' }}
               onClickClose={(): void => {
                 this.setState({ show5: false });
               }}
@@ -156,7 +156,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show6}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               closeable
               onClickClose={(): void => {
                 this.setState({ show6: false });
@@ -165,7 +165,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show7}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               closeable
               closeIcon="close"
               onClickClose={(): void => {
@@ -175,7 +175,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show8}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               closeable
               closeIconPosition="top-left"
               onClickClose={(): void => {
@@ -198,7 +198,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show9}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               round
               onClickClose={(): void => {
                 this.setState({ show9: false });
@@ -220,7 +220,7 @@ export class PopupRouteComponent extends preact.Component<any, PopupRouteCompone
             <Popup
               show={this.state.show10}
               position="bottom"
-              customStyle={{ height: '30%' }}
+              style={{ height: '30%' }}
               fadeLeave
               round
               onClickClose={(): void => {

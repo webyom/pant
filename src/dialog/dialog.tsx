@@ -56,7 +56,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           className={bem('cancel')}
           loading={props.cancelLoading}
           text={props.cancelButtonText || i18n().cancel}
-          customStyle={{ color: props.cancelButtonColor }}
+          style={{ color: props.cancelButtonColor }}
           onClick={props.onCancelClick}
         />
       )}
@@ -66,7 +66,7 @@ function genButtons(props: DialogProps): preact.JSX.Element {
           className={clsx(bem('confirm'), { [BORDER_LEFT]: multiple })}
           loading={props.confirmLoading}
           text={props.confirmButtonText || i18n().confirm}
-          customStyle={{ color: props.confirmButtonColor }}
+          style={{ color: props.confirmButtonColor }}
           onClick={props.onConfirmClick}
         />
       )}

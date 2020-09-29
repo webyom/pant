@@ -12,7 +12,7 @@ export type OverlayProps = {
   zIndex?: number | string;
   duration?: number;
   className?: any;
-  customStyle?: Record<string, string | number>;
+  style?: Record<string, string | number>;
   onClick?(event: Event): void;
 } & TransitionEvents;
 
@@ -21,7 +21,7 @@ const bem = createBEM('pant-overlay');
 export const Overlay: preact.FunctionalComponent<OverlayProps> = props => {
   const style: Record<string, any> = {
     backgroundColor: pantConfig('defaultOverlayBgColor'),
-    ...props.customStyle,
+    ...props.style,
     zIndex: props.zIndex,
   };
 

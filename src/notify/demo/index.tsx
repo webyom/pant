@@ -103,7 +103,7 @@ export class NotifyRouteComponent extends preact.Component {
               onClick={(): void => {
                 notify({
                   message: 'Custom Style',
-                  customStyle: { margin: '10px', borderRadius: '3px' },
+                  style: { margin: '10px', borderRadius: '3px' },
                 });
               }}
             >

@@ -108,6 +108,7 @@ import { Button } from 'pant/es/button';
 | size | Can be set to `large` `small` `mini` | _string_ | `normal` |
 | text | Button text | _string_ | - |
 | color | Color, support linear-gradient | _string_ | - |
+| style | Custom style | _Record<string, string \| number>_ | - |
 | icon | Left Icon | _string_ | - |
 | nativeType | Native Type Attribute | _string_ | `''` |
 | plain | Whether to be plain button | _boolean_ | `false` |
