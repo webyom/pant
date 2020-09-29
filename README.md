@@ -69,6 +69,12 @@ import { Button } from 'pant/es/button';
   - [Card](https://webyom.github.io/pant/#/components/card)
   - [SubmitBar](https://webyom.github.io/pant/#/components/submit-bar)
 
-### Full Docs and Demos
+### Preview
+
+You can scan the following QR code to access the demo on mobile
+
+<img src="https://webyom.github.io/pant/assets/qr-code.png" width="220" height="220" />
+
+### Docs
 
 https://webyom.github.io/pant/
