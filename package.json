@@ -64,7 +64,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.4.0",
     "lint-staged": "^10.2.11",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "preact": "^10.3.2",
     "preact-router": "^3.2.1",
     "prettier": "^1.19.1",
